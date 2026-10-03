@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#142e52">
+<title>ITK LYTE Management</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#182b45}
+.app{max-width:720px;margin:auto;padding-bottom:35px}
+.hero{margin:22px 18px 28px;background:#142e52;border:1px solid #fff;border-radius:22px;box-shadow:0 10px 0 #79a8e9;padding:28px 30px 30px;color:#fff;position:relative}
+.hero:after{content:"";position:absolute;inset:13px;border:1px solid #b9c8d9;border-radius:18px;pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.greet{font-size:26px;margin:0 0 28px;font-weight:500}.label{font-size:17px;margin-bottom:18px}.balance{font-size:30px;font-weight:800;letter-spacing:.3px}.eye{float:right;font-size:25px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 22px 30px}
+.folder{border:0;border-radius:18px;min-height:145px;background:#f6f7fa;padding:22px 12px;text-align:center;color:#172c49;box-shadow:0 2px 10px #00000008;font-size:17px;font-weight:800}
+.folder .icon{font-size:38px;display:block;margin-bottom:15px}.folder.admin{background:#f3f7ff}.folder.dept{background:#f7f1ff}
+h2{font-size:22px;margin:0 22px 15px}.businesses{margin:0 22px}
+.biz{display:flex;align-items:center;gap:14px;padding:15px 5px;border-bottom:1px solid #e8ebef}
+.bizicon{width:52px;height:52px;border-radius:50%;background:#e8f5ff;display:grid;place-items:center;font-size:24px}
+.bizname{font-weight:700;font-size:17px}.bizmeta{font-size:12px;color:#7c8795;margin-top:5px}.pill{margin-left:auto;font-size:12px;background:#e9fbd5;color:#32912a;border-radius:18px;padding:7px 12px}
+.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:flex-end;z-index:10}.sheet{background:#fff;width:100%;max-width:720px;margin:auto;border-radius:24px 24px 0 0;padding:22px;max-height:82vh;overflow:auto}.sheet h3{margin-top:0;font-size:22px}.close{float:right;background:#eee;border:0;border-radius:50%;width:35px;height:35px;font-size:18px}
+.item{padding:14px 0;border-bottom:1px solid #eee}.item b{display:block;margin-bottom:5px}.muted{color:#7c8795;font-size:13px}
+input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:5px 0 10px}button.primary{background:#142e52;color:#fff;border:0;border-radius:11px;padding:12px 16px;font-weight:700;width:100%}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="hero">
+<h1 class="greet">Hi Frank</h1>
+<div class="label">ITK LYTE Position</div>
+<div class="balance" id="balance">GHS 0.00 <span class="eye">◉</span></div>
+</section>
+
+<div class="grid">
+<button class="folder admin" onclick="openPanel('admin')"><span class="icon">⚙</span>Admin</button>
+<button class="folder dept" onclick="openPanel('departments')"><span class="icon">▦</span>Departments</button>
+</div>
+
+<h2>Businesses</h2>
+<div class="businesses" id="businesses"></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closePanel()">
+<div class="sheet"><button class="close" onclick="closePanel()">×</button><div id="panel"></div></div>
+</div>
+
+<script>
+const key='itkLyteV2';
+let data=JSON.parse(localStorage.getItem(key)||'{"tx":[],"businesses":[]}');
+
+const defaultBusinesses=[
+{name:'susuBank',dept:'Zeek Capital',type:'Finance',icon:'₵'},
+{name:'susuFund',dept:'Zeek Capital',type:'Investment',icon:'◆'},
+{name:'LoanVault',dept:'Zeek Capital',type:'Finance',icon:'▣'},
+{name:'Fast Food',dept:'Zeeda Feeda',type:'Food',icon:'🍴'},
+{name:'Cocoa Farm',dept:'Zeeda Feeda',type:'Agriculture',icon:'🌱'},
+{name:'Boutique',dept:'Zytix Lifestyle',type:'Lifestyle',icon:'◆'},
+{name:'Events & Promotion',dept:'Zytix Lifestyle',type:'Entertainment',icon:'★'},
+{name:'Construction',dept:'Zeene Shelters',type:'Construction',icon:'⌂'},
+{name:'Real Estate',dept:'Zeene Shelters',type:'Shelter',icon:'▥'}
+];
+if(!data.businesses.length){data.businesses=defaultBusinesses;localStorage.setItem(key,JSON.stringify(data))}
+
+function money(n){return 'GHS '+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+function render(){
+ const inc=data.tx.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);
+ const exp=data.tx.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ balance.textContent=money(inc-exp);
+ businesses.innerHTML=data.businesses.map((b,i)=>`<div class="biz" onclick="openBusiness(${i})"><div class="bizicon">${b.icon||'◆'}</div><div><div class="bizname">${b.name}</div><div class="bizmeta">${b.dept} • ${b.type}</div></div><span class="pill">Open</span></div>`).join('');
+}
+function openPanel(type){
+ let html='';
+ if(type==='admin'){
+ html=`<h3>Admin</h3>
+ <div class="item"><b>Central Administration</b><span class="muted">Company control, HR, Finance, Marketing and Technology.</span></div>
+ <div class="item"><b>Finance</b><span class="muted">Record income and expenses for ITK LYTE and its businesses.</span></div>
+ <div class="item"><b>Business Register</b><span class="muted">Create and manage businesses owned or controlled by ITK LYTE.</span></div>
+ <h3 style="margin-top:24px">Add Transaction</h3>
+ <select id="tt"><option value="income">Income</option><option value="expense">Expense</option></select>
+ <input id="ta" type="number" placeholder="Amount (GHS)">
+ <input id="tn" placeholder="Business / description">
+ <button class="primary" onclick="addTx()">Save Transaction</button>`;
+ } else {
+ html=`<h3>Departments</h3>
+ <div class="item"><b>Zeek Capital</b><span class="muted">Finance • susuBank • susuFund • LoanVault</span></div>
+ <div class="item"><b>Zeeda Feeda</b><span class="muted">Food • Beverages • Agriculture</span></div>
+ <div class="item"><b>Zytix Lifestyle</b><span class="muted">Lifestyle • Entertainment • Media • Events</span></div>
+ <div class="item"><b>Zeene Shelters</b><span class="muted">Construction • Real Estate • Renovation</span></div>
+ <h3 style="margin-top:24px">Create Business</h3>
+ <input id="bn" placeholder="Business name">
+ <select id="bd"><option>Zeek Capital</option><option>Zeeda Feeda</option><option>Zytix Lifestyle</option><option>Zeene Shelters</option></select>
+ <input id="bt" placeholder="Business type">
+ <button class="primary" onclick="addBusiness()">Add Business</button>`;
+ }
+ panel.innerHTML=html;overlay.style.display='flex';
+}
+function openBusiness(i){
+ const b=data.businesses[i];
+ panel.innerHTML=`<h3>${b.name}</h3><div class="item"><b>Department</b><span class="muted">${b.dept}</span></div><div class="item"><b>Category</b><span class="muted">${b.type}</span></div><p class="muted">This business is managed under ${b.dept}.</p><button class="primary" onclick="closePanel()">Close</button>`;
+ overlay.style.display='flex';
+}
+function closePanel(){overlay.style.display='none'}
+function addTx(){let a=Number(ta.value);if(!a)return;data.tx.push({type:tt.value,amount:a,note:tn.value,date:new Date().toLocaleDateString()});localStorage.setItem(key,JSON.stringify(data));render();closePanel()}
+function addBusiness(){if(!bn.value)return;data.businesses.push({name:bn.value,dept:bd.value,type:bt.value||'Business',icon:'◆'});localStorage.setItem(key,JSON.stringify(data));render();closePanel()}
+render();
+</script>
+</body>
+</html>
