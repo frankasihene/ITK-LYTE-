@@ -1,0 +1,9 @@
+{
+  "name": "ITK LYTE Management",
+  "short_name": "ITK LYTE",
+  "start_url": "./",
+  "display": "standalone",
+  "theme_color": "#111111",
+  "background_color": "#f4f4f4",
+  "icons": []
+}

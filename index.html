@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111111">
+<title>ITK LYTE Management</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f4f4;color:#171717}
+header{background:#111;color:#fff;padding:20px 18px;position:sticky;top:0;z-index:5}
+.brand{font-size:21px;font-weight:800}.sub{font-size:12px;color:#bbb;margin-top:4px}
+main{padding:16px;max-width:700px;margin:auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px #00000010;margin-bottom:12px}
+.big{font-size:25px;font-weight:800;margin-top:7px}.muted{color:#777;font-size:12px}
+button{border:0;border-radius:11px;padding:11px 14px;background:#111;color:#fff;font-weight:700;cursor:pointer}
+button.alt{background:#e9e9e9;color:#111}.row{display:flex;gap:8px;flex-wrap:wrap}.dept{min-height:110px}
+h2{font-size:18px;margin:4px 0 12px}.section{margin-top:20px}
+input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:5px 0 10px;background:#fff}
+.tx{display:flex;justify-content:space-between;border-top:1px solid #eee;padding:11px 0}.income{color:#087f3f}.expense{color:#b42318}
+nav{display:flex;gap:7px;overflow:auto;margin-top:14px}nav button{white-space:nowrap}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header><div class="brand">ITK LYTE</div><div class="sub">Management & Control System</div><nav>
+<button onclick="show('dashboard')">Dashboard</button><button onclick="show('finance')">Finance</button><button onclick="show('departments')">Departments</button><button onclick="show('projects')">Projects</button>
+</nav></header>
+<main>
+<section id="dashboard">
+<h2>Company Overview</h2>
+<div class="grid">
+<div class="card"><div class="muted">Total Income</div><div class="big" id="income">GHS 0</div></div>
+<div class="card"><div class="muted">Total Expenses</div><div class="big" id="expense">GHS 0</div></div>
+<div class="card"><div class="muted">Net Position</div><div class="big" id="net">GHS 0</div></div>
+<div class="card"><div class="muted">Transactions</div><div class="big" id="count">0</div></div>
+</div>
+<div class="section"><h2>Departments</h2><div class="grid">
+<div class="card dept"><b>Zeek Capital</b><p class="muted">Finance, susuBank & susuFund</p><button onclick="show('finance')">Open</button></div>
+<div class="card dept"><b>Zeeda Feeda</b><p class="muted">Food & Agriculture</p><button onclick="show('departments')">Open</button></div>
+<div class="card dept"><b>Zytix Lifestyle</b><p class="muted">Lifestyle & Entertainment</p><button onclick="show('departments')">Open</button></div>
+<div class="card dept"><b>Zeene Shelters</b><p class="muted">Construction & Real Estate</p><button onclick="show('projects')">Open</button></div>
+</div></div>
+</section>
+
+<section id="finance" class="hidden">
+<h2>Finance</h2>
+<div class="card">
+<b>Add Transaction</b>
+<select id="type"><option value="income">Income</option><option value="expense">Expense</option></select>
+<input id="amount" type="number" placeholder="Amount (GHS)">
+<input id="note" placeholder="Description">
+<select id="department"><option>Central Admin</option><option>Zeek Capital</option><option>Zeeda Feeda</option><option>Zytix Lifestyle</option><option>Zeene Shelters</option></select>
+<button onclick="addTx()">Save Transaction</button>
+</div>
+<div class="card"><b>Recent Transactions</b><div id="transactions"></div></div>
+</section>
+
+<section id="departments" class="hidden">
+<h2>Departments</h2>
+<div class="card"><b>Zeek Capital</b><p>Finance • susuBank • susuFund • LoanVault</p></div>
+<div class="card"><b>Zeeda Feeda</b><p>Fast food • Beverages • Cocoa & farming</p></div>
+<div class="card"><b>Zytix Lifestyle</b><p>Events • Marketing • Media • Production</p></div>
+<div class="card"><b>Zeene Shelters</b><p>Construction • Real estate • Renovation • Civil works</p></div>
+</section>
+
+<section id="projects" class="hidden">
+<h2>Projects & Assets</h2>
+<div class="card">
+<input id="project" placeholder="Project / asset name">
+<input id="projectAmount" type="number" placeholder="Budget / value (GHS)">
+<select id="projectDept"><option>Zeene Shelters</option><option>Zeeda Feeda</option><option>Zytix Lifestyle</option><option>Zeek Capital</option></select>
+<button onclick="addProject()">Add Project</button>
+</div>
+<div id="projectList"></div>
+</section>
+</main>
+<script>
+const key='itkDataV1';
+let data=JSON.parse(localStorage.getItem(key)||'{"tx":[],"projects":[]}');
+function save(){localStorage.setItem(key,JSON.stringify(data));render()}
+function money(n){return 'GHS '+Number(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+function render(){
+ let inc=data.tx.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);
+ let exp=data.tx.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ income.textContent=money(inc);expense.textContent=money(exp);net.textContent=money(inc-exp);count.textContent=data.tx.length;
+ transactions.innerHTML=data.tx.length?data.tx.slice().reverse().map(x=>`<div class="tx"><span><b>${x.note||'Transaction'}</b><br><small>${x.department} • ${x.date}</small></span><span class="${x.type}">${x.type==='income'?'+':'-'}${money(x.amount)}</span></div>`).join(''):'<p class="muted">No transactions yet.</p>';
+ projectList.innerHTML=data.projects.length?data.projects.slice().reverse().map(x=>`<div class="card"><b>${x.name}</b><p class="muted">${x.department}</p><strong>${money(x.amount)}</strong></div>`).join(''):'<div class="card muted">No projects yet.</div>';
+}
+function addTx(){let a=Number(amount.value);if(!a)return;data.tx.push({type:type.value,amount:a,note:note.value,department:department.value,date:new Date().toLocaleDateString()});amount.value='';note.value='';save()}
+function addProject(){let a=Number(projectAmount.value);if(!project.value||!a)return;data.projects.push({name:project.value,amount:a,department:projectDept.value});project.value='';projectAmount.value='';save()}
+function show(id){['dashboard','finance','departments','projects'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));render()}
+render();
+</script>
+</body></html>
