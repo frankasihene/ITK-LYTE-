@@ -1,79 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>ITK LYTE OS V5</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config={theme:{extend:{fontFamily:{sans:['Space Grotesk'],mono:['JetBrains Mono']},colors:{ink:'#080808',panel:'#121212',panel2:'#191919',line:'#2A2A2A',red:'#FF0A0A',red2:'#9E0000'}}}}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{ink:'#080808',panel:'#111',panel2:'#181818',line:'#262626',red:'#FF0A0A'},fontFamily:{sans:['Space Grotesk'],mono:['JetBrains Mono']}}}}</script>
 <style>
-*{-webkit-tap-highlight-color:transparent}
-body{background:#080808;color:#fff;font-family:'Space Grotesk',sans-serif;overscroll-behavior:none}
+*{ -webkit-tap-highlight-color:transparent } body{background:#080808;color:#eee;font-family:'Space Grotesk';overscroll-behavior:none}
 .hide::-webkit-scrollbar{display:none}.hide{scrollbar-width:none}
-.glass{backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
-.nav-active{opacity:1!important}.nav-active div:first-child{background:#FF0A0A!important;border-color:#FF0A0A!important}
-.card:active{transform:scale(0.98)}.card{transition:transform.12s}
+.glass{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.page{display:none}.page.active{display:block;animation:fade.25s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.navbtn{opacity:.4}.navbtn.on{opacity:1}.navbtn.on.dot{background:#FF0A0A;border-color:#FF0A0A}
+input,select{outline:none}.press:active{transform:scale(.98)}
 </style>
 </head>
-<body class="max-w-[430px] mx-auto min-h-screen relative bg-ink">
+<body class="max-w-[430px] mx-auto min-h-screen bg-ink relative pb-28">
+
 <!-- HEADER -->
-<div class="sticky top-0 z-30 bg-ink/80 glass border-b border-line">
-  <div class="px-5 pt-6 pb-4 flex justify-between items-center">
-    <div class="flex gap-3 items-center">
-      <div class="w-10 h-10 bg-white text-black font-bold rounded-[10px] flex items-center justify-center tracking-tighter">LYTE</div>
-      <div>
-        <div class="font-bold text-[13px] tracking-[0.2em]">ITK LYTE</div>
-        <div class="font-mono text-[9px] text-zinc-500 tracking-widest mt-0.5">PRIVATE OS // V5 • CEO VIEW</div>
-      </div>
-    </div>
-    <div class="w-9 h-9 bg-panel border border-line rounded-full flex items-center justify-center text-[12px]">CEO</div>
-  </div>
-  <div class="px-5 pb-3 flex gap-2 overflow-x-auto hide" id="deptNav">
-    <button data-dept="all" class="deptBtn shrink-0 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest border bg-white text-black border-white">ALL DEPTS</button>
-    <button data-dept="zeek" class="deptBtn shrink-0 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest border bg-panel2 border-line text-zinc-400">ZEEK CAPITAL</button>
-    <button data-dept="zeeda" class="deptBtn shrink-0 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest border bg-panel2 border-line text-zinc-400">ZEEDA FEEDA</button>
-    <button data-dept="zytix" class="deptBtn shrink-0 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest border bg-panel2 border-line text-zinc-400">ZYTIX</button>
-    <button data-dept="zeene" class="deptBtn shrink-0 px-4 py-2 rounded-full text-[11px] font-bold tracking-widest border bg-panel2 border-line text-zinc-400">ZEENE</button>
-  </div>
+<header class="sticky top-0 z-30 bg-ink/85 glass border-b border-line">
+<div class="px-5 pt-5 pb-3 flex justify-between items-center">
+<div class="flex gap-3 items-center">
+<div class="w-10 h-10 bg-white text-black font-bold rounded-xl flex items-center justify-center text-sm tracking-tighter">LYTE</div>
+<div><div class="font-bold tracking-[0.2em] text-[13px]">ITK LYTE</div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel">CEO VIEW • FULL ACCESS</div></div>
+</div>
+<button onclick="toggleRole()" class="font-mono text-[9px] bg-panel border border-line px-3 py-2 rounded-full">SWITCH ROLE</button>
+</div>
+<div class="px-5 pb-3 flex gap-2 overflow-x-auto hide" id="deptNav">
+<button onclick="filterDept('all',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-white text-black">ALL</button>
+<button onclick="filterDept('zeek',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400">ZEEK CAPITAL</button>
+<button onclick="filterDept('zeeda',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400">ZEEDA FEEDA</button>
+<button onclick="filterDept('zytix',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400">ZYTIX</button>
+<button onclick="filterDept('zeene',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400">ZEENE</button>
+<button onclick="filterDept('central',this)" class="dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400">CENTRAL</button>
+</div>
+</header>
+
+<!-- HOME -->
+<div id="p-home" class="page active">
+<div class="px-5 pt-5">
+<div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500 tracking-widest">QUICK ACTIONS</span><span class="font-mono text-[10px] text-red">● LIVE</span></div>
+<div class="grid grid-cols-3 gap-2">
+<button onclick="openSheet('income')" class="press bg-red rounded-2xl py-4 font-bold text-[10px] tracking-widest shadow-[0_0_25px_rgba(255,10,10,.35)]">+<br>INCOME</button>
+<button onclick="openSheet('expense')" class="press bg-panel border border-line rounded-2xl py-4 font-bold text-[10px] tracking-widest"><span class="text-red">−</span><br>EXPENSE</button>
+<button onclick="openSheet('transfer')" class="press bg-panel border border-line rounded-2xl py-4 font-bold text-[10px] tracking-widest">⇄<br>TRANSFER</button>
+<button onclick="openSheet('investment')" class="press bg-panel border border-line rounded-2xl py-4 font-bold text-[10px] tracking-widest">↗<br>INVEST</button>
+<button onclick="openSheet('asset')" class="press bg-panel border border-line rounded-2xl py-4 font-bold text-[10px] tracking-widest">◫<br>ASSET</button>
+<button onclick="openSheet('project')" class="press bg-panel border border-line rounded-2xl py-4 font-bold text-[10px] tracking-widest">◩<br>PROJECT</button>
+</div>
 </div>
 
-<!-- HOME SCREEN -->
-<div id="screen-home" class="pb-28">
-  <div class="px-5 pt-5">
-    <div class="flex justify-between mb-3"><span class="font-mono text-[10px] tracking-[0.2em] text-zinc-500">QUICK ACTIONS</span><span class="font-mono text-[10px] text-red">● LIVE SYNC</span></div>
-    <div class="grid grid-cols-3 gap-2.5">
-      <button onclick="openSheet('income')" class="card bg-red text-white rounded-[16px] py-4 flex flex-col items-center gap-1 shadow-[0_0_30px_rgba(255,10,10,0.3)]"><span class="text-[20px] leading-none">+</span><span class="text-[10px] font-bold tracking-widest">INCOME</span></button>
-      <button onclick="openSheet('expense')" class="card bg-panel border border-line rounded-[16px] py-4 flex flex-col items-center gap-1"><span class="text-[20px] leading-none text-red">−</span><span class="text-[10px] font-bold tracking-widest">EXPENSE</span></button>
-      <button onclick="openSheet('transfer')" class="card bg-panel border border-line rounded-[16px] py-4 flex flex-col items-center gap-1"><span class="text-[16px]">⇄</span><span class="text-[10px] font-bold tracking-widest">TRANSFER</span></button>
-      <button onclick="openSheet('invest')" class="card bg-panel border border-line rounded-[16px] py-4 flex flex-col items-center gap-1"><span class="text-[14px]">↗</span><span class="text-[10px] font-bold tracking-widest">INVEST</span></button>
-      <button onclick="openSheet('asset')" class="card bg-panel border border-line rounded-[16px] py-4 flex flex-col items-center gap-1"><span class="text-[14px]">◫</span><span class="text-[10px] font-bold tracking-widest">ASSET</span></button>
-      <button onclick="openSheet('project')" class="card bg-panel border border-line rounded-[16px] py-4 flex flex-col items-center gap-1"><span class="text-[14px]">◩</span><span class="text-[10px] font-bold tracking-widest">PROJECT</span></button>
-    </div>
-  </div>
-
-  <div class="px-5 pt-5">
-    <div class="bg-panel border border-line rounded-[22px] p-5 relative overflow-hidden">
-      <div class="absolute -right-10 -top-10 w-40 h-40 bg-red/20 blur-[30px] rounded-full"></div>
-      <div class="flex justify-between relative"><span class="font-mono text-[10px] tracking-[0.2em] text-zinc-500">CONSOLIDATED POSITION</span><span class="font-mono text-[9px] text-zinc-500">GHS • REAL-TIME</span></div>
-      <div class="mt-5 relative"><div class="font-mono text-[10px] text-zinc-500">NET POSITION</div><div class="text-[36px] font-bold tracking-tighter leading-none mt-1">GHS 2,847,290<span class="text-zinc-600 text-[18px]">.00</span></div><div class="mt-3 inline-flex items-center gap-2 bg-ink border border-line rounded-full px-3 py-1.5"><div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div><span class="font-mono text-[10px]">+12.4% THIS MONTH • 4 DEPTS</span></div></div>
-      <div class="grid grid-cols-3 gap-2 mt-6">
-        <div class="bg-ink border border-line rounded-[14px] p-3"><div class="font-mono text-[8px] text-zinc-500">CASH</div><div class="font-bold text-[13px] mt-1">GHS 482k</div></div>
-        <div class="bg-ink border border-line rounded-[14px] p-3"><div class="font-mono text-[8px] text-zinc-500">REVENUE</div><div class="font-bold text-[13px] mt-1">GHS 1.2M</div></div>
-        <div class="bg-ink border border-line rounded-[14px] p-3"><div class="font-mono text-[8px] text-zinc-500">EXPENSE</div><div class="font-bold text-[13px] mt-1">GHS 398k</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="px-5 pt-5 space-y-3" id="deptCards">
-    <div class="flex justify-between"><span class="font-mono text-[10px] tracking-[0.2em] text-zinc-500">DEPARTMENTS</span><span class="font-mono text-[9px] text-zinc-600">CEO VIEW</span></div>
-    <div data-card="zeek" class="deptCard bg-panel border border-line rounded-[20px] p-4"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-9 h-9 rounded-[10px] bg-white text-black flex items-center justify-center font-bold text-[11px]">ZK</div><div><div class="font-bold text-[12px] tracking-widest">ZEEK CAPITAL</div><div class="font-mono text-[9px] text-zinc-500">FINANCE & INVESTMENT</div></div></div><div class="font-mono text-[10px] bg-ink border border-line px-2.5 py-1 rounded-full">GHS 1.1M</div></div></div>
-    <div data-card="zeeda" class="deptCard bg-panel border border-line rounded-[20px] p-4"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-9 h-9 rounded-[10px] bg-[#1a1a1a] border border-line flex items-center justify-center font-bold text-[11px]">ZF</div><div><div class="font-bold text-[12px] tracking-widest">ZEEDA FEEDA</div><div class="font-mono text-[9px] text-zinc-500">FOOD & AGRICULTURE</div></div></div><div class="font-mono text-[10px] bg-ink border border-line px-2.5 py-1 rounded-full">GHS 384k</div></div></div>
-    <div data-card="zytix" class="deptCard bg-panel border border-line rounded-[20px] p-4"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-9 h-9 rounded-[10px] bg-red text-white flex items-center justify-center font-bold text-[11px]">ZL</div><div><div class="font-bold text-[12px] tracking-widest">ZYTIX LIFESTYLE</div><div class="font-mono text-[9px] text-zinc-500">EVENTS & MEDIA</div></div></div><div class="font-mono text-[10px] bg-ink border border-line px-2.5 py-1 rounded-full">GHS 612k</div></div></div>
-    <div data-card="zeene" class="deptCard bg-panel border border-line rounded-[20px] p-4"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-9 h-9 rounded-[10px] bg-[#1a1a1a] border border-line flex items-center justify-center font-bold text-[11px]">ZS</div><div><div class="font-bold text-[12px] tracking-widest">ZEENE SHELTERS</div><div class="font-mono text-[9px] text-zinc-500">REAL ESTATE</div></div></div><div class="font-mono text-[10px] bg-ink border border-line px-2.5 py-1 rounded-full">GHS 751k</div></div><div class="mt-3 bg-ink border border-line rounded-[14px] p-3 flex justify-between items-center"><div><div class="font-mono text-[8px] text-zinc-500">ASSET • DANYAME PLOT</div><div class="font-bold text-[11px] mt-1">ITK 70% | Partner 30%</div><div class="mt-2 w-[120px] bg-[#222] h-1 rounded-full overflow-hidden"><div class="h-full bg-white w-[70%]"></div></div></div><div class="text-right"><div class="font-mono text-[8px] text-zinc-500">VALUE</div><div class="font-bold text-[13px]">GHS 1.8M</div></div></div></div>
-  </div>
+<div class="px-5 pt-5">
+<div class="bg-panel border border-line rounded-3xl p-5 relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-red/20 blur-[30px] rounded-full"></div>
+<div class="font-mono text-[10px] text-zinc-500 tracking-widest">NET POSITION</div>
+<div class="text-[34px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div>
+<div class="grid grid-cols-3 gap-2 mt-5" id="finGrid"></div>
+</div>
 </div>
 
-<div id="screen-assets" class="hidden pb-28 px-5 pt-5">
+<div class="px-5 pt-5"><div class="font-mono text-[10px] text-zinc-500 tracking-widest mb-3">DEPARTMENTS</div><div id="deptCards" class="space-y-3"></div></div>
+
+<div class="px-5 pt-5">
+<div class="bg-panel border border-line rounded-3xl p-4">
+<div class="flex justify-between items-center mb-3">
+<span class="font-mono text-[10px] text-zinc-500 tracking-widest">TRANSACTIONS</span>
+<input id="txSearch" oninput="renderTx()" placeholder="Search..." class="bg-ink border border-line rounded-full px-3 py-1.5 text-[11px] w-28"/>
+</div>
+<div class="flex gap-2 mb-4 overflow-x-auto hide" id="txFilters">
+<button onclick="setTxFilter('all',this)" class="tfilter shrink-0 text-[10px] font-mono bg-white text-black px-3 py-1 rounded-full">ALL</button>
+<button onclick="setTxFilter('income',this)" class="tfilter shrink-0 text-[10px] font-mono bg-ink border border-line px-3 py-1 rounded-full">INCOME</button>
+<button onclick="setTxFilter('expense',this)" class="tfilter shrink-0 text-[10px] font-mono bg-ink border border-line px-3 py-1 rounded-full">EXPENSE</button>
+<button onclick="setTxFilter('transfer',this)" class="tfilter shrink-0 text-[10px] font-mono bg-ink border border-line px-3 py-1 rounded-full">TRANSFER</button>
+</div>
+<div id="txList" class="space-y-3"></div>
+</div>
+</div>
+</div>
+
+<!-- WALLET -->
+<div id="p-wallet" class="page px-5 pt-5">
+<div class="font-bold text-lg tracking-widest">WALLET</div>
+<div class="font-mono text-[10px] text-zinc-500 mt-1">CASH FLOW PER DEPARTMENT</div>
+<div id="walletList" class="space-y-3 mt-4"></div>
+</div>
+
+<!-- ASSETS -->
+<div id="p-assets" class="page px-5 pt-5">
+<div class="flex justify-between items-end"><div><div class="font-bold text-lg tracking-widest">ASSETS</div><div class="font-mono text-[10px] text-zinc-500">OWNERSHIP TRACKED</div></div><button onclick="openSheet('asset')" class="bg-red px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div>
+<div class="bg-panel border border-line rounded-3xl p-5 mt-4"><div class="font-mono text-[10px] text-zinc-500">TOTAL VALUE</div><div class="text-[26px] font-bold" id="assetTotal">GHS 0</div></div>
+<div id="assetList" class="space-y-3 mt-4"></div>
+</div>
+
+<!-- PROJECTS -->
+<div id="p-projects" class="page px-5 pt-5">
+<div class="flex justify-between items-end"><div class="font-bold text-lg tracking-widest">PROJECTS</div><button onclick="openSheet('project')" class="bg-red px-4 py-2 rounded-full text-[11px] font-bold">+ NEW</button></div>
+<div id="projList" class="space-y-3 mt-4"></div>
+</div>
+
+<!-- TEAM -->
+<div id="p-team" class="page px-5 pt-5">
+<div class="font-bold text-lg tracking-widest">CENTRAL ADMIN</div>
+<div class="font-mono text-[10px] text-zinc-500 mt-1">CEO • HR • FINANCE • MARKETING • TECH</div>
+<div id="teamList" class="grid grid-cols-2 gap-2 mt-4"></div>
+<div class="font-bold text-lg tracking-widest mt-6">DEPT LEADS</div>
+<div id="leadList" class="space-y-2 mt-3"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-ink/90 glass border-t border-line px-6 py-3 flex justify-between z-40">
+<button onclick="go('home',this)" class="navbtn on flex flex-col items-center gap-1"><div class="dot w-6 h-6 bg-white rounded-md border border-white"></div><span class="font-mono text-[8px]">HOME</span></button>
+<button onclick="go('wallet',this)" class="navbtn flex flex-col items-center gap-1"><div class="dot w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">WALLET</span></button>
+<button onclick="go('assets',this)" class="navbtn flex flex-col items-center gap-1"><div class="dot w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">ASSETS</span></button>
+<button onclick="go('projects',this)" class="navbtn flex flex-col items-center gap-1"><div class="dot w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">PROJECTS</span></button>
+<button onclick="go('team',this)" class="navbtn flex flex-col items-center gap-1"><div class="dot w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">TEAM</span></button>
+</nav>
+
+<!-- SHEET -->
+<div id="sheet" class="fixed inset-0 z-50 hidden">
+<div class="absolute inset-0 bg-black/80" onclick="closeSheet()"></div>
+<div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-line rounded-t-[28px] p-6 pb-10 max-h-[90vh] overflow-y-auto hide">
+<div class="w-10 h-1 bg-zinc-700 rounded-full mx-auto mb-5"></div>
+<div class="font-bold tracking-widest" id="sheetTitle">ADD INCOME</div>
+<div class="mt-4"><div class="font-mono text-[10px] text-zinc-500">AMOUNT GHS</div><input id="f-amt" type="number" placeholder="0.00" class="mt-2 w-full bg-ink border border-line rounded-2xl px-4 py-4 text-[22px] font-bold"/></div>
+<div class="mt-3"><div class="font-mono text-[10px] text-zinc-500">DEPARTMENT</div><select id="f-dept" class="mt-2 w-full bg-ink border border-line rounded-xl px-4 py-3 text-[13px] font-bold"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix">ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL ADMIN</option></select></div>
+<div class="mt-3"><div class="font-mono text-[10px] text-zinc-500">NOTE</div><input id="f-note" placeholder="e.g. Dividend, Cement..." class="mt-2 w-full bg-ink border border-line rounded-xl px-4 py-3 text-[13px]"/></div>
+<div class="mt-4" id="ownerBox"><div class="flex justify-between font-mono text-[10px]"><span class="text-zinc-500">OWNERSHIP</span><span class="text-red">ITK <span id="itkP">70</span>% | PTR <span id="ptrP">30</span>%</span></div><input type="range" id="f-own" min="5" max="100" value="70" class="w-full mt-2 accent-[#FF0A0A]" oninput="updOwn(this.value)"/><input id="f-partner" placeholder="Partner name (optional)" class="mt-2 w-full bg-ink border border-line rounded-xl px-4 py-3 text-[12px]"/></div>
+<button onclick="saveTx()" class="mt-6 w-full bg-red rounded-2xl py-4 font-bold tracking-widest text-[12px] shadow-[0_0_25px_rgba(255,10,10,.4)]">CONFIRM</button>
+</div>
+</div>
+
+<script>
+// STATE
+let DB = JSON.parse(localStorage.getItem('itk_v5')||'null') || {
+role:'ceo', curDept:'all', txFilter:'all', sheetType:'income',
+depts:{zeek:{name:'ZEEK CAPITAL',sub:'FINANCE & INVESTMENT',color:'bg-white text-black',bal:1120000},zeeda:{name:'ZEEDA FEEDA',sub:'FOOD & AGRICULTURE',color:'bg-panel2 border border-line',bal:384000},zytix:{name:'ZYTIX LIFESTYLE',sub:'EVENTS & MEDIA',color:'bg-red text-white',bal:612000},zeene:{name:'ZEENE SHELTERS',sub:'REAL ESTATE & CONSTRUCTION',color:'bg-panel2 border border-line',bal:751200},central:{name:'CENTRAL ADMIN',sub:'CEO • HR • FIN • MKT • TECH',color:'bg-panel2 border border-line',bal:120000}},
+tx:[
+{id:1,type:'income',dept:'zeek',amt:12400,note:'Zeek Dividend Payout',date:'02 OCT 09:42'},
+{id:2,type:'expense',dept:'zeene',amt:8200,note:'Cement - Site A',date:'01 OCT 16:20'},
+{id:3,type:'transfer',dept:'zytix',amt:50000,note:'CENTRAL → ZYTIX',date:'01 OCT 14:00'}
+],
+assets:[
+{id:1,name:'Danyame Plot - Kumasi',dept:'zeene',value:1800000,itk:70,partner:'K. Mensah 30%'},
+{id:2,name:'Adum Retail Kiosk',dept:'zeene',value:240000,itk:30,partner:'Market Coop 70%'},
+{id:3,name:'Zeek Investment Fund',dept:'zeek',value:890000,itk:100,partner:'-'}
+],
+projects:[
+{id:1,name:'Kumasi Food Rave',dept:'zytix',budget:120000,spent:45000,status:'ACTIVE'},
+{id:2,name:'Danyame Duplex Build',dept:'zeene',budget:850000,spent:320000,status:'ACTIVE'},
+{id:3,name:'Zeeda Farm Expansion',dept:'zeeda',budget:200000,spent:80000,status:'ON TRACK'}
+]
+};
+function save(){localStorage.setItem('itk_v5',JSON.stringify(DB))}
+function fmt(n){return 'GHS '+Number(n).toLocaleString()}
+function go(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on');window.scrollTo(0,0)}
+function toggleRole(){DB.role=DB.role==='ceo'?'zeeda':'ceo';document.getElementById('roleLabel').innerText=DB.role==='ceo'?'CEO VIEW • FULL ACCESS':'DEPT VIEW • ZEEDA FEEDA ONLY';save();renderAll()}
+function filterDept(d,el){DB.curDept=d;document.querySelectorAll('.dnav').forEach(b=>b.className='dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-panel2 border border-line text-zinc-400');el.className='dnav shrink-0 px-4 py-2 rounded-full text-[11px] font-bold bg-white text-black';renderAll()}
+function setTxFilter(f,el){DB.txFilter=f;document.querySelectorAll('.tfilter').forEach(b=>b.className='tfilter shrink-0 text-[10px] font-mono bg-ink border border-line px-3 py-1 rounded-full');el.className='tfilter shrink-0 text-[10px] font-mono bg-white text-black px-3 py-1 rounded-full';renderTx()}
+
+// RENDER
+function renderAll(){renderFin();renderDepts();renderTx();renderWallet();renderAssets();renderProjects();renderTeam()}
+function renderFin(){
+let rev=DB.tx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amt,0);
+let exp=DB.tx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amt,0);
+let inv=DB.assets.reduce((s,a)=>s+a.value*(a.itk/100),0);
+let cash=Object.values(DB.depts).reduce((s,d)=>s+d.bal,0);
+let liab=210000; let net=cash+inv-liab;
+document.getElementById('netPos').innerText=fmt(net);
+document.getElementById('finGrid').innerHTML=`
+<div class="bg-ink border border-line rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">CASH</div><div class="font-bold text-[12px] mt-1">${fmt(cash).replace('GHS ','')}</div></div>
+<div class="bg-ink border border-line rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">REVENUE</div><div class="font-bold text-[12px] mt-1">${fmt(rev).replace('GHS ','')}</div></div>
+<div class="bg-ink border border-line rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">EXPENSE</div><div class="font-bold text-[12px] mt-1">${fmt(exp).replace('GHS ','')}</div></div>
+<div class="bg-ink border border-line rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">INVEST</div><div class="font-bold text-[12px] mt-1">${fmt(inv).replace('GHS ','').slice(0,7)}</div></div>
+<div class="bg-ink border border-line rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">LIAB</div><div class="font-bold text-[12px] mt-1">210k</div></div>
+<div class="bg-ink border border-red/40 rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">PROJECTS</div><div class="font-bold text-[12px] mt-1">${DB.projects.length} ACTIVE</div></div>`;
+}
+function renderDepts(){
+let html=''; for(let k in DB.depts){ if(DB.role!=='ceo' && k!==DB.role) continue; if(DB.curDept!=='all' && k!==DB.curDept) continue;
+let d=DB.depts[k]; html+=`<div class="bg-panel border border-line rounded-2xl p-4 press" onclick="filterDept('${k}',document.querySelectorAll('.dnav')[0])"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-9 h-9 rounded-[10px] ${d.color} flex items-center justify-center font-bold text-[11px]">${k.slice(0,2).toUpperCase()}</div><div><div class="font-bold text-[12px] tracking-widest">${d.name}</div><div class="font-mono text-[9px] text-zinc-500">${d.sub}</div></div></div><div class="font-mono text-[10px] bg-ink border border-line px-2.5 py-1 rounded-full">${fmt(d.bal)}</div></div></div>`}
+document.getElementById('deptCards').innerHTML=html||'<div class="text-zinc-500 font-mono text-[11px]">No access</div>';
+}
+function renderTx(){
+let q=(document.getElementById('txSearch').value||'').toLowerCase();
+let list=DB.tx.filter(t=>(DB.txFilter==='all'||t.type===DB.txFilter)&&(t.note.toLowerCase().includes(q)||t.dept.includes(q)));
+if(DB.role!=='ceo') list=list.filter(t=>t.dept===DB.role);
+document.getElementById('txList').innerHTML=list.map(t=>`
+<div class="flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-8 h-8 rounded-full flex items-center justify-center text-[12px] ${t.type==='income'?'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20':t.type==='expense'?'bg-red/10 text-red border border-red/20':'bg-zinc-800 text-zinc-300 border border-line'}">${t.type==='income'?'+':t.type==='expense'?'−':'⇄'}</div><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[10px] text-zinc-500">${t.dept.toUpperCase()} • ${t.date}</div></div></div><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':t.type==='expense'?'text-red':''}">${t.type==='income'?'+':t.type==='expense'?'−':''}${Number(t.amt).toLocaleString()}</div></div>`).join('')||'<div class="font-mono text-[11px] text-zinc-600">No transactions</div>';
+}
+function renderWallet(){
+document.getElementById('walletList').innerHTML=Object.entries(DB.depts).map(([k,d])=>{if(DB.role!=='ceo'&&k!==DB.role)return '';return `<div class="bg-panel border border-line rounded-2xl p-4 flex justify-between items-center"><div><div class="font-bold text-[12px]">${d.name}</div><div class="font-mono text-[9px] text-zinc-500">BALANCE</div></div><div class="font-bold">${fmt(d.bal)}</div></div>`}).join('');
+}
+function renderAssets(){
+let total=DB.assets.reduce((s,a)=>s+a.value,0);
+document.getElementById('assetTotal').innerText=fmt(total);
+let list=DB.assets; if(DB.role!=='ceo') list=list.filter(a=>a.dept===DB.role);
+document.getElementById('assetList').innerHTML=list.map(a=>`
+<div class="bg-panel border border-line rounded-2xl p-4"><div class="flex justify-between"><div class="font-bold text-[12px]">${a.name}</div><div class="font-mono text-[10px] bg-ink border border-line px-2 py-1 rounded-full">${fmt(a.value)}</div></div><div class="mt-3"><div class="flex justify-between font-mono text-[9px] text-zinc-500 mb-1"><span>ITK OWNERSHIP</span><span class="text-red">${a.itk}%</span></div><div class="h-1.5 bg-ink border border-line rounded-full overflow-hidden"><div class="h-full bg-red" style="width:${a.itk}%"></div></div><div class="font-mono text-[9px] text-zinc-500 mt-2">Partner: ${a.partner} • ${a.dept.toUpperCase()}</div></div><button onclick="delAsset(${a.id})" class="mt-3 font-mono text-[9px] text-zinc-600">DELETE</button></div>`).join('');
+}
+function renderProjects(){
+let list=DB.projects; if(DB.role!=='ceo') list=list.filter(p=>p.dept===DB.role);
+document.getElementById('projList').innerHTML=list.map(p=>{let pct=Math.round(p.spent/p.budget*100);return `<div class="bg-panel border border-line rounded-2xl p-4"><div class="flex justify-between"><div class="font-bold text-[13px]">${p.name}</div><span class="font-mono text-[9px] bg-ink border border-line px-2 py-1 rounded-full">${p.status}</span></div><div class="font-mono text-[10px] text-zinc-500 mt-2">${fmt(p.spent)} / ${fmt(p.budget)} • ${p.dept.toUpperCase()}</div><div class="mt-2 h-1.5 bg-ink border border-line rounded-full overflow-hidden"><div class="h-full bg-red" style="width:${pct}%"></div></div></div>`}).join('');
+}
+function renderTeam(){
+let central=[['CEO','Chief Executive'],['HR','Human Resources'],['FIN','Finance'],['MKT','Marketing'],['TECH','Technology']];
+document.getElementById('teamList').innerHTML=central.map(c=>`<div class="bg-panel border border-line rounded-2xl p-4 text-center"><div class="w-10 h-10 mx-auto bg-white text-black rounded-xl flex items-center justify-center font-bold text-[11px]">${c[0]}</div><div class="font-bold text-[11px] mt-2">${c[0]}</div><div class="font-mono text-[9px] text-zinc-500">${c[1]}</div></div>`).join('');
+document.getElementById('leadList').innerHTML=Object.entries(DB.depts).filter(([k])=>k!=='central').map(([k,d])=>`<div class="bg-panel border border-line rounded-xl p-3 flex justify-between"><span class="font-bold text-[12px]">${d.name}</span><span class="font-mono text-[10px] text-zinc-500">LEAD • ACTIVE</span></div>`).join('');
+}
+
+// SHEET LOGIC
+let curType='income';
+function openSheet(t){curType=t;document.getElementById('sheetTitle').innerText='ADD '+t.toUpperCase();document.getElementById('ownerBox').style.display=(t==='asset'||t==='investment')?'block':'block';document.getElementById('sheet').classList.remove('hidden')}
+function closeSheet(){document.getElementById('sheet').classList.add('hidden')}
+function updOwn(v){document.getElementById('itkP').innerText=v;document.getElementById('ptrP').innerText=100-v}
+function saveTx(){
+let amt=parseFloat(document.getElementById('f-amt').value)||0; if(!amt) return alert('Enter amount');
+let dept=document.getElementById('f-dept').value; let note=document.getElementById('f-note').value||curType.toUpperCase();
+let itk=parseInt(document.getElementById('f-own').value); let partner=document.getElementById('f-partner').value||'Partner';
+let date=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}).toUpperCase()+' '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+if(curType==='asset'){DB.assets.push({id:Date.now(),name:note,dept,value:amt,itk,partner:partner+' '+(100-itk)+'%'});}
+else if(curType==='project'){DB.projects.push({id:Date.now(),name:note,dept,budget:amt,spent:0,status:'ACTIVE'});}
+else{DB.tx.unshift({id:Date.now(),type:curType==='investment'?'transfer':curType,dept,amt,note,date}); if(curType==='income')DB.depts[dept].bal+=amt; if(curType==='expense')DB.depts[dept].bal-=amt;}
+save();closeSheet();document.getElementById('f-amt').value='';document.getElementById('f-note').value='';renderAll();
+}
+function delAsset(id){DB.assets=DB.assets.filter(a=>a.id!==id);save();renderAssets();renderFin()}
+renderAll();
+</script>
+</body>
+  </html>
