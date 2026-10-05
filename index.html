@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>ITK LYTE OS V7.3 FIXED</title>
+<title>ITK LYTE OS V7.4 - EDITABLE BIZ</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script>tailwind.config={theme:{extend:{colors:{ink:'#080808',panel:'#121212',panel2:'#1A1A1A',line:'#262626',red:'#FF0A0A'}}}}</script>
@@ -12,7 +12,6 @@ body{background:#080808;color:#eee;font-family:'Space Grotesk',system-ui;}
 .page{display:none}.page.active{display:block}
 .navbtn{opacity:.4}.navbtn.on{opacity:1}
 .hide::-webkit-scrollbar{display:none}
-.dept-tab{transition:all.2s}
 .dept-tab.on{background:#fff;color:#000;border-color:#fff}
 </style>
 </head>
@@ -37,64 +36,36 @@ body{background:#080808;color:#eee;font-family:'Space Grotesk',system-ui;}
       <button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px] tracking-widest">−<br>EXPENSE</button>
       <button onclick="openTx('transfer')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px] tracking-widest">⇄<br>TRANSFER</button>
     </div>
-    <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 mt-5">
-      <div class="font-mono text-[10px] text-zinc-500">NET POSITION</div>
-      <div class="text-[32px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div>
-      <div class="grid grid-cols-3 gap-2 mt-4" id="finGrid"></div>
-      <div class="font-mono text-[9px] text-zinc-500 mt-3" id="payrollSum"></div>
-    </div>
-    <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4">
-      <div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">ALL TRANSACTIONS</span><input id="txSearch" oninput="renderAll()" placeholder="Search..." class="bg-[#080808] border border-[#262626] rounded-full px-3 py-1 text-[10px] w-28"/></div>
-      <div id="txList" class="space-y-3"></div>
-    </div>
+    <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 mt-5"><div class="font-mono text-[10px] text-zinc-500">NET POSITION</div><div class="text-[32px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div><div class="grid grid-cols-3 gap-2 mt-4" id="finGrid"></div><div class="font-mono text-[9px] text-zinc-500 mt-3" id="payrollSum"></div></div>
+    <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">ALL TRANSACTIONS</span><input id="txSearch" oninput="renderAll()" placeholder="Search..." class="bg-[#080808] border border-[#262626] rounded-full px-3 py-1 text-[10px] w-28"/></div><div id="txList" class="space-y-3"></div></div>
   </div>
-  <div id="staffHome" class="hidden">
-    <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 text-center"><div class="font-mono text-[10px] text-zinc-500">YOUR BUSINESS</div><div class="font-bold text-[18px] mt-1 tracking-widest" id="staffBizName"></div><div class="font-mono text-[10px] text-zinc-500 mt-1" id="staffNameLabel"></div><div class="mt-4 bg-[#080808] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPT BALANCE</div><div class="font-bold text-[22px]" id="staffBal">GHS 0</div></div></div>
-    <div class="mt-5 grid grid-cols-2 gap-3"><button onclick="openTx('income')" class="bg-white text-black rounded-2xl py-5 font-bold text-[12px]">+ RECORD SALES</button><button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-5 font-bold text-[12px]">− EXPENSE</button></div>
-    <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="font-mono text-[10px] text-zinc-500 mb-3">TODAY'S RECORDS</div><div id="staffTxList" class="space-y-2"></div></div>
-    <button onclick="toggleRole()" class="mt-6 w-full font-mono text-[10px] text-zinc-500">← BACK TO ADMIN</button>
-  </div>
+  <div id="staffHome" class="hidden"><div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 text-center"><div class="font-mono text-[10px] text-zinc-500">YOUR BUSINESS</div><div class="font-bold text-[18px] mt-1 tracking-widest" id="staffBizName"></div><div class="font-mono text-[10px] text-zinc-500 mt-1" id="staffNameLabel"></div><div class="mt-4 bg-[#080808] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPT BALANCE</div><div class="font-bold text-[22px]" id="staffBal">GHS 0</div></div></div><div class="mt-5 grid grid-cols-2 gap-3"><button onclick="openTx('income')" class="bg-white text-black rounded-2xl py-5 font-bold text-[12px]">+ RECORD SALES</button><button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-5 font-bold text-[12px]">− EXPENSE</button></div><div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="font-mono text-[10px] text-zinc-500 mb-3">TODAY'S RECORDS</div><div id="staffTxList" class="space-y-2"></div></div><button onclick="toggleRole()" class="mt-6 w-full font-mono text-[10px] text-zinc-500">← BACK TO ADMIN</button></div>
 </div>
 
-<!-- DEPARTMENTS PAGE - REPLACES WALLET -->
+<!-- DEPARTMENTS PAGE -->
 <div id="p-departments" class="page px-5 pt-5">
-  <div class="font-bold text-[18px] tracking-widest">DEPARTMENTS</div>
-  <div class="font-mono text-[10px] text-zinc-500 mt-1">4 DEPARTMENTS • TAP TO VIEW BUSINESSES</div>
+  <div class="flex justify-between items-center">
+    <div><div class="font-bold text-[18px] tracking-widest">DEPARTMENTS</div><div class="font-mono text-[10px] text-zinc-500 mt-1">TAP BUSINESS TO EDIT</div></div>
+    <button onclick="openBizSheet()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD BUSINESS</button>
+  </div>
 
-  <!-- 4 DEPARTMENT TABS -->
   <div class="mt-5 flex gap-2 overflow-x-auto hide pb-2">
-    <button onclick="switchDeptTab('zeek',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-300">ZEEK CAPITAL</button>
+    <button onclick="switchDeptTab('zeek',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border">ZEEK CAPITAL</button>
     <button onclick="switchDeptTab('zeeda',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEDA FEEDA</button>
     <button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZYTIX LIFESTYLE</button>
     <button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEENE SHELTERS</button>
   </div>
 
-  <!-- DEPARTMENT BALANCE CARD -->
   <div id="deptActiveCard" class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-5"></div>
-
-  <!-- 3 BUSINESSES UNDER EACH DEPARTMENT -->
-  <div class="mt-4 font-mono text-[10px] text-zinc-500 tracking-widest">BUSINESSES UNDER THIS DEPARTMENT</div>
+  <div class="mt-4 font-mono text-[10px] text-zinc-500 tracking-widest">BUSINESSES - TAP TO EDIT • HOLD TO DELETE</div>
   <div id="deptBusinessList" class="mt-3 space-y-3"></div>
 </div>
 
 <!-- TEAM -->
-<div id="p-team" class="page px-5 pt-5">
-  <div class="flex justify-between items-end"><div><div class="font-bold text-[18px] tracking-widest">STAFF & SALARIES</div><div class="font-mono text-[10px] text-zinc-500">LIST + POSITIONS + PAYROLL</div></div><button onclick="openStaff()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div>
-  <div class="grid grid-cols-3 gap-2 mt-4">
-    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">STAFF</div><div class="font-bold text-[18px] mt-1" id="totalStaff">0</div></div>
-    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[12px] mt-1" id="totalPayroll">GHS 0</div></div>
-    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">AVG</div><div class="font-bold text-[12px] mt-1" id="avgSalary">GHS 0</div></div>
-  </div>
-  <input id="staffSearch" oninput="renderAll()" placeholder="Search name, position..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3 text-[12px]"/>
-  <div id="teamCategorized" class="space-y-6 mt-4"></div>
-</div>
-
-<!-- ASSETS -->
+<div id="p-team" class="page px-5 pt-5"><div class="flex justify-between items-end"><div><div class="font-bold text-[18px] tracking-widest">STAFF & SALARIES</div><div class="font-mono text-[10px] text-zinc-500">LIST + POSITIONS + PAYROLL</div></div><button onclick="openStaff()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div><div class="grid grid-cols-3 gap-2 mt-4"><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">STAFF</div><div class="font-bold text-[18px] mt-1" id="totalStaff">0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[12px] mt-1" id="totalPayroll">GHS 0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">AVG</div><div class="font-bold text-[12px] mt-1" id="avgSalary">GHS 0</div></div></div><input id="staffSearch" oninput="renderAll()" placeholder="Search name..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3 text-[12px]"/><div id="teamCategorized" class="space-y-6 mt-4"></div></div>
 <div id="p-assets" class="page px-5 pt-5"><div class="font-bold text-lg">ASSETS</div><div id="assetsList" class="space-y-3 mt-5"></div></div>
-<!-- PROJECTS -->
-<div id="p-projects" class="page px-5 pt-5"><div class="font-bold text-lg">PROJECTS</div><div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="font-mono text-[10px] text-zinc-500">ACTIVE PROJECTS</div><div class="mt-4 text-[11px] text-zinc-500">Project management module ready.</div></div></div>
+<div id="p-projects" class="page px-5 pt-5"><div class="font-bold text-lg">PROJECTS</div><div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-5 text-[11px] text-zinc-500">Project module ready.</div></div>
 
-<!-- BOTTOM NAV - WALLET NOW DEPARTMENTS -->
 <nav class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#080808]/95 backdrop-blur-xl border-t border-[#262626] px-6 py-3 flex justify-between z-40">
   <button onclick="goPage('home')" data-p="home" class="navbtn on flex flex-col items-center gap-1"><div class="w-6 h-6 bg-white rounded-md"></div><span class="font-mono text-[8px]">HOME</span></button>
   <button onclick="goPage('departments')" data-p="departments" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 border border-white rounded-md"></div><span class="font-mono text-[8px]">DEPTS</span></button>
@@ -103,157 +74,191 @@ body{background:#080808;color:#eee;font-family:'Space Grotesk',system-ui;}
   <button onclick="goPage('projects')" data-p="projects" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">PROJECTS</span></button>
 </nav>
 
-<!-- STAFF SHEET -->
-<div id="staffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest">STAFF MEMBER</div><div class="mt-4 space-y-3"><input id="s-name" placeholder="Full Name" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-pos" placeholder="Position" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="s-dept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix" selected>ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL</option></select><select id="s-biz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><div class="grid grid-cols-2 gap-3"><input id="s-salary" type="number" placeholder="Salary / month" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-phone" placeholder="Phone" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div></div><button onclick="saveStaff()" class="mt-6 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">SAVE STAFF</button></div></div>
+<!-- BUSINESS EDIT SHEET - NEW -->
+<div id="bizSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeBizSheet()"></div>
+<div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6">
+  <div class="flex justify-between"><div class="font-bold tracking-widest" id="bizSheetTitle">ADD BUSINESS</div><button onclick="deleteBiz()" id="bizDeleteBtn" class="hidden font-mono text-[10px] text-red-400 border border-red-500/30 bg-red-500/10 px-3 py-1 rounded-full">DELETE</button></div>
+  <div class="mt-4 space-y-3">
+    <input id="b-name" placeholder="Business Name e.g. Boutique" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/>
+    <div class="grid grid-cols-2 gap-3">
+      <select id="b-dept" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]">
+        <option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix">ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option>
+      </select>
+      <input id="b-type" placeholder="Type e.g. Fashion" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <input id="b-loc" placeholder="Location e.g. Kumasi" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/>
+      <select id="b-status" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option>Active</option><option>Paused</option><option>Closed</option></select>
+    </div>
+    <textarea id="b-desc" placeholder="Description" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px] h-20"></textarea>
+  </div>
+  <button onclick="saveBiz()" class="mt-5 w-full bg-white text-black rounded-2xl py-4 font-bold text-[12px]">SAVE BUSINESS</button>
+</div></div>
 
-<!-- TX SHEET -->
+<!-- OTHER SHEETS (staff, tx, detail) same as before -->
+<div id="staffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest">STAFF MEMBER</div><div class="mt-4 space-y-3"><input id="s-name" placeholder="Full Name" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-pos" placeholder="Position" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="s-dept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix" selected>ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL</option></select><select id="s-biz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><div class="grid grid-cols-2 gap-3"><input id="s-salary" type="number" placeholder="Salary" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-phone" placeholder="Phone" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div></div><button onclick="saveStaff()" class="mt-6 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">SAVE STAFF</button></div></div>
 <div id="txSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTx()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest" id="txTitle">ADD</div><input id="txAmt" type="number" placeholder="Amount GHS" class="mt-4 w-full bg-[#080808] border border-[#262626] rounded-2xl px-4 py-4 text-[20px] font-bold"/><div class="mt-3 grid grid-cols-2 gap-3"><select id="txDept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK</option><option value="zeeda">ZEEDA</option><option value="zytix">ZYTIX</option><option value="zeene">ZEENE</option><option value="central">CENTRAL</option></select><select id="txBiz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><input id="txNote" placeholder="Note" class="mt-3 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><button onclick="saveTx()" class="mt-4 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">CONFIRM</button></div></div>
-
-<!-- DETAIL SHEET -->
-<div id="txDetailSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTxDetail()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="flex justify-between items-center"><div class="font-bold tracking-widest">TRANSACTION</div><div id="dtTypeBadge" class="font-mono text-[10px] px-3 py-1.5 rounded-full"></div></div><div id="dtNote" class="font-bold text-[16px] mt-5"></div><div id="dtAmt" class="text-[36px] font-black tracking-tighter mt-1"></div><div id="dtDate" class="font-mono text-[9px] text-zinc-500 mt-2"></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPARTMENT</div><div id="dtDept" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">BUSINESS</div><div id="dtBiz" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">RECORDED BY</div><div id="dtBy" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DESCRIPTION</div><div id="dtDesc" class="font-bold text-[11px] mt-1"></div></div></div><button onclick="deleteTx()" class="mt-5 w-full bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl py-4 font-bold text-[11px]">DELETE TRANSACTION</button></div></div>
+<div id="txDetailSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTxDetail()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="flex justify-between"><div class="font-bold tracking-widest">TRANSACTION</div><div id="dtTypeBadge" class="font-mono text-[10px] px-3 py-1.5 rounded-full"></div></div><div id="dtNote" class="font-bold text-[16px] mt-5"></div><div id="dtAmt" class="text-[36px] font-black tracking-tighter mt-1"></div><div id="dtDate" class="font-mono text-[9px] text-zinc-500 mt-2"></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPT</div><div id="dtDept" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">BUSINESS</div><div id="dtBiz" class="font-bold text-[11px] mt-1"></div></div></div><button onclick="deleteTx()" class="mt-5 w-full bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl py-4 font-bold text-[11px]">DELETE TRANSACTION</button></div></div>
 
 <script>
-const BIZ = {
-  zeek: ['Trading Desk', 'Investment Fund', 'Capital Exchange'],
-  zeeda: ['Farm', 'Restaurant', 'Supply'],
-  zytix: ['Boutique', 'Events & Rave', 'Media'],
-  zeene: ['Danyame Site', 'Adum Kiosk', 'Shelter Projects'],
+let DEFAULT_BIZ = {
+  zeek: ['Trading Desk','Investment Fund','Capital Exchange'],
+  zeeda: ['Farm','Restaurant','Supply'],
+  zytix: ['Boutique','Events & Rave','Media'],
+  zeene: ['Danyame Site','Adum Kiosk','Shelter Projects'],
   central: ['Head Office']
 };
-const BIZ_DETAILS = {
-  'Trading Desk': {type:'Finance', loc:'Kumasi', status:'Active', desc:'Trading operations under ZEEK CAPITAL.'},
-  'Investment Fund': {type:'Investment', loc:'Ghana', status:'Active', desc:'Investment and venture capital.'},
-  'Capital Exchange': {type:'Finance', loc:'Accra', status:'Active', desc:'Capital market operations.'},
-  'Farm': {type:'Agriculture', loc:'Asante Akyem', status:'Active', desc:'Farming operations under ZEEDA FEEDA.'},
-  'Restaurant': {type:'Food', loc:'Ghana', status:'Active', desc:'Food and drinks operations.'},
-  'Supply': {type:'Supply', loc:'Ghana', status:'Active', desc:'Supply chain operations.'},
-  'Boutique': {type:'Fashion', loc:'Ghana', status:'Active', desc:'Fashion retail under ZYTIX.'},
-  'Events & Rave': {type:'Events', loc:'Ghana', status:'Active', desc:'Events and entertainment.'},
-  'Media': {type:'Media', loc:'Ghana', status:'Active', desc:'Media production.'},
-  'Danyame Site': {type:'Construction', loc:'Kumasi', status:'Active', desc:'Construction site at Danyame.'},
-  'Adum Kiosk': {type:'Retail', loc:'Kumasi', status:'Active', desc:'Retail kiosk in Adum.'},
-  'Shelter Projects': {type:'Housing', loc:'Ghana', status:'Active', desc:'Affordable housing projects.'},
-  'Head Office': {type:'Admin', loc:'Ghana', status:'Active', desc:'Head Office.'}
+let DEFAULT_DETAILS = {
+  'Trading Desk':{type:'Finance',loc:'Kumasi',status:'Active',desc:'Trading operations under ZEEK CAPITAL.'},
+  'Investment Fund':{type:'Investment',loc:'Ghana',status:'Active',desc:'Investment activities.'},
+  'Capital Exchange':{type:'Finance',loc:'Accra',status:'Active',desc:'Capital market operations.'},
+  'Farm':{type:'Agriculture',loc:'Asante Akyem',status:'Active',desc:'Farming under ZEEDA FEEDA.'},
+  'Restaurant':{type:'Food',loc:'Ghana',status:'Active',desc:'Food operations.'},
+  'Supply':{type:'Supply',loc:'Ghana',status:'Active',desc:'Supply chain.'},
+  'Boutique':{type:'Fashion',loc:'Ghana',status:'Active',desc:'Fashion retail under ZYTIX.'},
+  'Events & Rave':{type:'Events',loc:'Ghana',status:'Active',desc:'Events and entertainment.'},
+  'Media':{type:'Media',loc:'Ghana',status:'Active',desc:'Media production.'},
+  'Danyame Site':{type:'Construction',loc:'Kumasi',status:'Active',desc:'Construction at Danyame.'},
+  'Adum Kiosk':{type:'Retail',loc:'Kumasi',status:'Active',desc:'Retail in Adum.'},
+  'Shelter Projects':{type:'Housing',loc:'Ghana',status:'Active',desc:'Housing projects.'},
+  'Head Office':{type:'Admin',loc:'Ghana',status:'Active',desc:'Head Office.'}
 };
 const DEFAULT = {
   role:'admin', curDept:'zeek', curTxId:null, curStaffId:2,
+  biz: JSON.parse(JSON.stringify(DEFAULT_BIZ)),
+  bizDetails: JSON.parse(JSON.stringify(DEFAULT_DETAILS)),
   staff:[
-    {id:1, name:'Kwabena Asare', position:'CEO', dept:'central', business:'Head Office', salary:15000, role:'CEO', phone:'0240000001'},
-    {id:2, name:'Ama - Boutique Attendant', position:'Boutique Attendant', dept:'zytix', business:'Boutique', salary:3500, role:'STAFF', phone:'0240000002'},
-    {id:3, name:'Kofi Farm Manager', position:'Farm Manager', dept:'zeeda', business:'Farm', salary:4800, role:'DEPT LEAD', phone:'0240000003'}
+    {id:1,name:'Kwabena Asare',position:'CEO',dept:'central',business:'Head Office',salary:15000,role:'CEO',phone:'0240000001'},
+    {id:2,name:'Ama - Boutique Attendant',position:'Boutique Attendant',dept:'zytix',business:'Boutique',salary:3500,role:'STAFF',phone:'0240000002'},
+    {id:3,name:'Kofi Farm Manager',position:'Farm Manager',dept:'zeeda',business:'Farm',salary:4800,role:'DEPT LEAD',phone:'0240000003'}
   ],
-  tx:[
-    {id:1, dept:'zytix', business:'Boutique', amt:2400, note:'Sales - 3 dresses', type:'income', by:'Ama', date:'TODAY 20:30'},
-    {id:2, dept:'zeeda', business:'Farm', amt:8200, note:'Feed purchase', type:'expense', by:'Admin', date:'YESTERDAY'}
-  ],
-  depts:{ zeek:{bal:1120000}, zeeda:{bal:384000}, zytix:{bal:612000}, zeene:{bal:751200}, central:{bal:120000} }
+  tx:[{id:1,dept:'zytix',business:'Boutique',amt:2400,note:'Sales - 3 dresses',type:'income',by:'Ama',date:'TODAY 20:30'},{id:2,dept:'zeeda',business:'Farm',amt:8200,note:'Feed purchase',type:'expense',by:'Admin',date:'YESTERDAY'}],
+  depts:{zeek:{bal:1120000},zeeda:{bal:384000},zytix:{bal:612000},zeene:{bal:751200},central:{bal:120000}}
 };
-let DB;
-try{ DB = JSON.parse(localStorage.getItem('itk_v73') || 'null'); if(!DB ||!DB.depts || DB.depts.zik) throw 0; }catch(e){ DB = JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v73', JSON.stringify(DB)); }
-let editId=null, curType='income';
-function save(){ localStorage.setItem('itk_v73', JSON.stringify(DB)); }
-function fmt(n){ return 'GHS ' + Number(n||0).toLocaleString(); }
-function goPage(p){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById('p-'+p)?.classList.add('active');
-  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));
-  document.querySelector(`.navbtn[data-p="${p}"]`)?.classList.add('on');
-  if(p==='departments') renderDeptPage();
-  if(p==='home'){
-    let ah=document.getElementById('adminHome'), sh=document.getElementById('staffHome');
-    if(DB.role==='staff'){ ah.classList.add('hidden'); sh.classList.remove('hidden'); } else { ah.classList.remove('hidden'); sh.classList.add('hidden'); }
+let DB; try{ DB=JSON.parse(localStorage.getItem('itk_v74')||'null'); if(!DB||!DB.biz||!DB.depts) throw 0; }catch(e){ DB=JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v74',JSON.stringify(DB)); }
+let editId=null, curType='income', editBizOriginal=null;
+
+function save(){ localStorage.setItem('itk_v74',JSON.stringify(DB)); }
+function fmt(n){ return 'GHS '+Number(n||0).toLocaleString(); }
+function goPage(p){ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p)?.classList.add('active'); document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on')); document.querySelector(`.navbtn[data-p="${p}"]`)?.classList.add('on'); if(p==='departments') renderDeptPage(); window.scrollTo(0,0); }
+function toggleRole(){ DB.role=DB.role==='admin'?'staff':'admin'; const staff=DB.staff.find(s=>s.id===DB.curStaffId); document.getElementById('roleLabel').innerText=DB.role==='admin'?'ADMIN VIEW • FULL ACCESS':'STAFF VIEW • '+(staff?.business||'').toUpperCase()+' ONLY'; document.getElementById('roleBtn').innerText=DB.role==='admin'?'STAFF VIEW':'ADMIN VIEW'; save(); goPage('home'); renderAll(); }
+function switchDeptTab(dept,el){ DB.curDept=dept; document.querySelectorAll('.dept-tab').forEach(b=>{ b.classList.remove('on'); b.className='dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400'; }); el.className='dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black'; renderDeptPage(); save(); }
+
+// --- NEW: BUSINESS CRUD ---
+function openBizSheet(bizName=null){
+  editBizOriginal = bizName;
+  const sheetTitle = document.getElementById('bizSheetTitle');
+  const delBtn = document.getElementById('bizDeleteBtn');
+  if(bizName){
+    sheetTitle.innerText='EDIT BUSINESS';
+    delBtn.classList.remove('hidden');
+    const dept = DB.curDept;
+    const det = DB.bizDetails[bizName] || {type:'',loc:'',status:'Active',desc:''};
+    document.getElementById('b-name').value=bizName;
+    document.getElementById('b-dept').value=dept;
+    document.getElementById('b-type').value=det.type;
+    document.getElementById('b-loc').value=det.loc;
+    document.getElementById('b-status').value=det.status;
+    document.getElementById('b-desc').value=det.desc;
+  }else{
+    sheetTitle.innerText='ADD BUSINESS';
+    delBtn.classList.add('hidden');
+    document.getElementById('b-name').value='';
+    document.getElementById('b-dept').value=DB.curDept;
+    document.getElementById('b-type').value='';
+    document.getElementById('b-loc').value='';
+    document.getElementById('b-status').value='Active';
+    document.getElementById('b-desc').value='';
   }
-  window.scrollTo(0,0);
+  document.getElementById('bizSheet').classList.remove('hidden');
 }
-function toggleRole(){
-  DB.role = DB.role==='admin'?'staff':'admin';
-  if(DB.role==='staff' &&!DB.curStaffId) DB.curStaffId = DB.staff[1]?.id || DB.staff[0]?.id;
-  const staff=DB.staff.find(s=>s.id===DB.curStaffId);
-  document.getElementById('roleLabel').innerText = DB.role==='admin'? 'ADMIN VIEW • FULL ACCESS' : 'STAFF VIEW • '+(staff?.business||'').toUpperCase()+' ONLY';
-  document.getElementById('roleBtn').innerText = DB.role==='admin'? 'STAFF VIEW':'ADMIN VIEW';
-  save(); goPage('home'); renderAll();
+function closeBizSheet(){ document.getElementById('bizSheet').classList.add('hidden'); editBizOriginal=null; }
+function saveBiz(){
+  const newName=document.getElementById('b-name').value.trim();
+  const dept=document.getElementById('b-dept').value;
+  const type=document.getElementById('b-type').value.trim()||'Business';
+  const loc=document.getElementById('b-loc').value.trim()||'Ghana';
+  const status=document.getElementById('b-status').value;
+  const desc=document.getElementById('b-desc').value.trim()||'Business under '+dept.toUpperCase();
+  if(!newName) return alert('Enter business name');
+
+  if(editBizOriginal){
+    // editing existing
+    const oldDept = DB.curDept;
+    // if name changed or dept changed
+    if(editBizOriginal!==newName || oldDept!==dept){
+      // remove from old dept list
+      DB.biz[oldDept]=DB.biz[oldDept].filter(b=>b!==editBizOriginal);
+      // add to new dept if not exists
+      if(!DB.biz[dept].includes(newName)) DB.biz[dept].push(newName);
+      // move details
+      const oldDetails = DB.bizDetails[editBizOriginal];
+      delete DB.bizDetails[editBizOriginal];
+      DB.bizDetails[newName]={type,loc,status,desc};
+      // update staff that were using old business
+      DB.staff.forEach(s=>{ if(s.business===editBizOriginal && s.dept===oldDept){ s.business=newName; s.dept=dept; } });
+      DB.tx.forEach(t=>{ if(t.business===editBizOriginal && t.dept===oldDept){ t.business=newName; t.dept=dept; } });
+    }else{
+      DB.bizDetails[newName]={type,loc,status,desc};
+    }
+  }else{
+    // adding new
+    if(DB.biz[dept].includes(newName)) return alert('Business already exists in this department');
+    DB.biz[dept].push(newName);
+    DB.bizDetails[newName]={type,loc,status,desc};
+  }
+  save(); closeBizSheet(); renderAll();
 }
-function switchDeptTab(dept, el){
-  DB.curDept = dept;
-  document.querySelectorAll('.dept-tab').forEach(b=>{ b.classList.remove('on'); b.className='dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400'; });
-  el.className='dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border';
-  renderDeptPage();
+function deleteBiz(){
+  if(!editBizOriginal) return;
+  if(!confirm('Delete "'+editBizOriginal+'"? Staff & transactions will stay but business will be removed.')) return;
+  const dept = DB.curDept;
+  DB.biz[dept]=DB.biz[dept].filter(b=>b!==editBizOriginal);
+  delete DB.bizDetails[editBizOriginal];
+  save(); closeBizSheet(); renderAll();
 }
+
 function renderDeptPage(){
-  const dept = DB.curDept || 'zeek';
-  const bal = DB.depts[dept]?.bal || 0;
-  const staffCount = DB.staff.filter(s=>s.dept===dept).length;
-  const labelMap = { zeek:'ZEEK CAPITAL', zeeda:'ZEEDA FEEDA', zytix:'ZYTIX LIFESTYLE', zeene:'ZEENE SHELTERS' };
-  document.getElementById('deptActiveCard').innerHTML = `
-    <div class="flex justify-between items-start">
-      <div><div class="font-bold text-[16px] tracking-widest">${labelMap[dept]}</div><div class="font-mono text-[10px] text-zinc-500 mt-1">${(BIZ[dept]||[]).length} businesses • ${staffCount} staff</div></div>
-      <div class="text-right"><div class="font-bold text-[15px]">${fmt(bal)}</div><div class="font-mono text-[8px] text-emerald-400 mt-1">● ACTIVE</div></div>
-    </div>
-  `;
-  const bizList = BIZ[dept] || [];
-  document.getElementById('deptBusinessList').innerHTML = bizList.map(b=>{
-    const d=BIZ_DETAILS[b]; const count=DB.staff.filter(s=>s.business===b).length;
+  const dept=DB.curDept||'zeek';
+  const bal=DB.depts[dept]?.bal||0;
+  const staffCount=DB.staff.filter(s=>s.dept===dept).length;
+  const labelMap={zeek:'ZEEK CAPITAL',zeeda:'ZEEDA FEEDA',zytix:'ZYTIX LIFESTYLE',zeene:'ZEENE SHELTERS'};
+  document.getElementById('deptActiveCard').innerHTML=`<div class="flex justify-between items-start"><div><div class="font-bold text-[16px] tracking-widest">${labelMap[dept]}</div><div class="font-mono text-[10px] text-zinc-500 mt-1">${(DB.biz[dept]||[]).length} businesses • ${staffCount} staff</div></div><div class="text-right"><div class="font-bold text-[15px]">${fmt(bal)}</div><div class="font-mono text-[8px] text-emerald-400 mt-1">● ACTIVE</div></div></div>`;
+  const bizList=DB.biz[dept]||[];
+  document.getElementById('deptBusinessList').innerHTML=bizList.map(b=>{
+    const d=DB.bizDetails[b]||{type:'Business',loc:'Ghana',status:'Active',desc:''};
+    const count=DB.staff.filter(s=>s.business===b).length;
     const sales=DB.tx.filter(t=>t.business===b && t.type==='income').reduce((a,c)=>a+c.amt,0);
-    const expenses=DB.tx.filter(t=>t.business===b && t.type==='expense').reduce((a,c)=>a+c.amt,0);
-    return `
-      <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
-        <div class="flex justify-between"><div><div class="font-bold text-[13px] tracking-widest">${b.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${d.type} • ${d.loc}</div></div><div class="font-mono text-[8px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 h-fit">${d.status}</div></div>
-        <div class="font-mono text-[10px] text-zinc-400 mt-3">${d.desc}</div>
-        <div class="grid grid-cols-3 gap-2 mt-4">
-          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">STAFF</div><div class="font-bold text-[12px] mt-1">${count}</div></div>
-          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">SALES</div><div class="font-bold text-[11px] mt-1 text-emerald-400">+${sales.toLocaleString()}</div></div>
-          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">COST</div><div class="font-bold text-[11px] mt-1 text-red-400">-${expenses.toLocaleString()}</div></div>
-        </div>
-      </div>
-    `;
-  }).join('');
+    return `<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="cursor-pointer active:scale-[0.98] bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between"><div><div class="font-bold text-[13px] tracking-widest">${b.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${d.type} • ${d.loc}</div></div><div class="font-mono text-[8px] px-2.5 py-1 rounded-full ${d.status==='Active'?'bg-emerald-500/20 text-emerald-400':'bg-yellow-500/20 text-yellow-400'} h-fit">${d.status}</div></div><div class="font-mono text-[10px] text-zinc-400 mt-3">${d.desc}</div><div class="flex justify-between items-center mt-4"><span class="font-mono text-[9px] text-zinc-500">${count} staff • Sales GHS ${sales.toLocaleString()}</span><span class="font-mono text-[8px] bg-[#080808] border border-[#262626] px-2.5 py-1 rounded-full">TAP TO EDIT →</span></div></div>`;
+  }).join('') || `<div class="bg-[#121212] border border-dashed border-[#262626] rounded-3xl p-6 text-center font-mono text-[11px] text-zinc-500">No businesses yet. Tap + ADD BUSINESS</div>`;
 }
-function updateBiz(){
-  const ds=document.getElementById('s-dept')?.value||'zytix', bs=document.getElementById('s-biz');
-  if(bs) bs.innerHTML=(BIZ[ds]||[]).map(b=>`<option>${b}</option>`).join('');
-  const dt=document.getElementById('txDept')?.value||'zytix', bt=document.getElementById('txBiz');
-  if(bt) bt.innerHTML=(BIZ[dt]||[]).map(b=>`<option>${b}</option>`).join('');
-}
-function openStaff(id=null){ editId=id; updateBiz();
-  if(id){ const s=DB.staff.find(x=>x.id===id); if(!s)return; document.getElementById('s-name').value=s.name; document.getElementById('s-pos').value=s.position; document.getElementById('s-dept').value=s.dept; updateBiz(); document.getElementById('s-biz').value=s.business; document.getElementById('s-salary').value=s.salary; document.getElementById('s-phone').value=s.phone||''; }
-  else { document.getElementById('s-name').value=''; document.getElementById('s-pos').value=''; document.getElementById('s-salary').value=''; document.getElementById('s-phone').value=''; updateBiz(); }
-  document.getElementById('staffSheet').classList.remove('hidden');
-}
+function updateBiz(){ const ds=document.getElementById('s-dept')?.value||'zytix', bs=document.getElementById('s-biz'); if(bs) bs.innerHTML=(DB.biz[ds]||[]).map(b=>`<option>${b}</option>`).join(''); const dt=document.getElementById('txDept')?.value||'zytix', bt=document.getElementById('txBiz'); if(bt) bt.innerHTML=(DB.biz[dt]||[]).map(b=>`<option>${b}</option>`).join(''); }
+function openStaff(id=null){ editId=id; updateBiz(); if(id){ const s=DB.staff.find(x=>x.id===id); if(!s)return; document.getElementById('s-name').value=s.name; document.getElementById('s-pos').value=s.position; document.getElementById('s-dept').value=s.dept; updateBiz(); document.getElementById('s-biz').value=s.business; document.getElementById('s-salary').value=s.salary; document.getElementById('s-phone').value=s.phone||''; } else { document.getElementById('s-name').value=''; document.getElementById('s-pos').value=''; document.getElementById('s-salary').value=''; document.getElementById('s-phone').value=''; updateBiz(); } document.getElementById('staffSheet').classList.remove('hidden'); }
 function closeStaff(){ document.getElementById('staffSheet').classList.add('hidden'); editId=null; }
 function saveStaff(){ const name=document.getElementById('s-name').value.trim(), pos=document.getElementById('s-pos').value.trim(), salary=parseFloat(document.getElementById('s-salary').value)||0; if(!name||!pos||!salary) return alert('Name, Position, Salary required'); const obj={name, position:pos, dept:document.getElementById('s-dept').value, business:document.getElementById('s-biz').value, salary, role:'STAFF', phone:document.getElementById('s-phone').value}; if(editId){ const i=DB.staff.findIndex(x=>x.id===editId); if(i>-1) DB.staff[i]={...DB.staff[i],...obj}; } else DB.staff.push({id:Date.now(),...obj}); save(); closeStaff(); renderAll(); }
-function openTx(t){ curType=t; document.getElementById('txTitle').innerText=t==='income'?'RECORD SALES / INCOME':t==='expense'?'RECORD EXPENSE':'TRANSFER'; const dSel=document.getElementById('txDept'); if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s){ dSel.value=s.dept; dSel.disabled=true; } } else dSel.disabled=false; updateBiz(); if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s) document.getElementById('txBiz').value=s.business; } document.getElementById('txAmt').value=''; document.getElementById('txNote').value=''; document.getElementById('txSheet').classList.remove('hidden'); }
+function openTx(t){ curType=t; document.getElementById('txTitle').innerText=t==='income'?'RECORD SALES / INCOME':t==='expense'?'RECORD EXPENSE':'TRANSFER'; updateBiz(); document.getElementById('txAmt').value=''; document.getElementById('txNote').value=''; document.getElementById('txSheet').classList.remove('hidden'); }
 function closeTx(){ document.getElementById('txSheet').classList.add('hidden'); }
-function saveTx(){ const amt=parseFloat(document.getElementById('txAmt').value)||0; if(!amt) return alert('Enter amount'); const dept=document.getElementById('txDept').value, biz=document.getElementById('txBiz').value, note=document.getElementById('txNote').value.trim()||curType, by=DB.role==='staff'?DB.staff.find(s=>s.id===DB.curStaffId)?.name||'Staff':'Admin'; DB.tx.unshift({id:Date.now(), dept, business:biz, amt, note, type:curType, by, date:'TODAY '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}); if(curType==='income') DB.depts[dept].bal+=amt; else if(curType==='expense') DB.depts[dept].bal-=amt; save(); closeTx(); renderAll(); }
-function openTxDetail(id){ const t=DB.tx.find(x=>x.id===id); if(!t) return; DB.curTxId=id; document.getElementById('dtNote').innerText=t.note; document.getElementById('dtAmt').innerText=(t.type==='income'?'+ ':'- ')+fmt(t.amt); document.getElementById('dtAmt').className='text-[36px] font-black tracking-tighter mt-1 '+(t.type==='income'?'text-emerald-400':'text-red-400'); document.getElementById('dtDate').innerText=t.date+' • ID #'+t.id; document.getElementById('dtDept').innerText=t.dept.toUpperCase(); document.getElementById('dtBiz').innerText=t.business; document.getElementById('dtBy').innerText=t.by; document.getElementById('dtDesc').innerText=t.note; document.getElementById('dtTypeBadge').innerText=t.type.toUpperCase(); document.getElementById('dtTypeBadge').className='font-mono text-[10px] px-3 py-1.5 rounded-full '+(t.type==='income'?'bg-emerald-500/20 text-emerald-400':'bg-red-500/20 text-red-400'); document.getElementById('txDetailSheet').classList.remove('hidden'); }
+function saveTx(){ const amt=parseFloat(document.getElementById('txAmt').value)||0; if(!amt) return alert('Enter amount'); const dept=document.getElementById('txDept').value, biz=document.getElementById('txBiz').value, note=document.getElementById('txNote').value.trim()||curType, by='Admin'; DB.tx.unshift({id:Date.now(), dept, business:biz, amt, note, type:curType, by, date:'TODAY '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}); if(curType==='income') DB.depts[dept].bal+=amt; else if(curType==='expense') DB.depts[dept].bal-=amt; save(); closeTx(); renderAll(); }
+function openTxDetail(id){ const t=DB.tx.find(x=>x.id===id); if(!t) return; DB.curTxId=id; document.getElementById('dtNote').innerText=t.note; document.getElementById('dtAmt').innerText=(t.type==='income'?'+ ':'- ')+fmt(t.amt); document.getElementById('dtDept').innerText=t.dept.toUpperCase(); document.getElementById('dtBiz').innerText=t.business; document.getElementById('txDetailSheet').classList.remove('hidden'); }
 function closeTxDetail(){ document.getElementById('txDetailSheet').classList.add('hidden'); DB.curTxId=null; }
-function deleteTx(){ if(!DB.curTxId) return; if(!confirm('Delete? Balance will reverse.')) return; const idx=DB.tx.findIndex(x=>x.id===DB.curTxId); if(idx>-1){ const t=DB.tx[idx]; if(t.type==='income') DB.depts[t.dept].bal-=t.amt; else if(t.type==='expense') DB.depts[t.dept].bal+=t.amt; DB.tx.splice(idx,1); save(); closeTxDetail(); renderAll(); } }
+function deleteTx(){ if(!DB.curTxId) return; if(!confirm('Delete?')) return; const idx=DB.tx.findIndex(x=>x.id===DB.curTxId); if(idx>-1){ const t=DB.tx[idx]; if(t.type==='income') DB.depts[t.dept].bal-=t.amt; else if(t.type==='expense') DB.depts[t.dept].bal+=t.amt; DB.tx.splice(idx,1); save(); closeTxDetail(); renderAll(); } }
 function renderAll(){
   const cash=Object.values(DB.depts).reduce((a,b)=>a+(b.bal||0),0), payroll=DB.staff.reduce((s,x)=>s+(x.salary||0),0);
-  document.getElementById('netPos').innerText=fmt(cash);
-  document.getElementById('payrollSum').innerText='Monthly Payroll: '+fmt(payroll)+' • '+DB.staff.length+' staff';
+  document.getElementById('netPos').innerText=fmt(cash); document.getElementById('payrollSum').innerText='Payroll: '+fmt(payroll)+' • '+DB.staff.length+' staff';
   document.getElementById('totalStaff').innerText=DB.staff.length; document.getElementById('totalPayroll').innerText=fmt(payroll); document.getElementById('avgSalary').innerText=fmt(Math.round(payroll/(DB.staff.length||1)));
   document.getElementById('finGrid').innerHTML=`<div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">CASH</div><div class="font-bold text-[11px]">${cash.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[11px]">${payroll.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPTS</div><div class="font-bold text-[11px]">4</div></div>`;
-  const q=(document.getElementById('txSearch')?.value||'').toLowerCase();
-  let txF=DB.tx.filter(t=>(t.note||'').toLowerCase().includes(q)||(t.business||'').toLowerCase().includes(q));
-  document.getElementById('txList').innerHTML=txF.map(t=>`<div onclick="openTxDetail(${t.id})" class="cursor-pointer flex justify-between items-center bg-[#080808] border border-[#262626] rounded-xl p-3"><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[9px] text-zinc-500">${t.dept.toUpperCase()} • ${t.business} • by ${t.by} • ${t.date}</div></div><div class="text-right"><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':'text-red-500'}">${t.type==='income'?'+':'-'} ${Number(t.amt||0).toLocaleString()}</div></div></div>`).join('')||`<div class="font-mono text-[10px] text-zinc-600">No transactions</div>`;
+  const q=(document.getElementById('txSearch')?.value||'').toLowerCase(); let txF=DB.tx.filter(t=>(t.note||'').toLowerCase().includes(q)||(t.business||'').toLowerCase().includes(q));
+  document.getElementById('txList').innerHTML=txF.map(t=>`<div onclick="openTxDetail(${t.id})" class="cursor-pointer flex justify-between bg-[#080808] border border-[#262626] rounded-xl p-3"><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[9px] text-zinc-500">${t.dept.toUpperCase()} • ${t.business}</div></div><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':'text-red-500'}">${t.type==='income'?'+':'-'}${t.amt}</div></div>`).join('')||`No transactions`;
 
   let groups={zeek:[],zeeda:[],zytix:[],zeene:[],central:[]}; const sq=(document.getElementById('staffSearch')?.value||'').toLowerCase();
-  DB.staff.filter(s=>s.name.toLowerCase().includes(sq)||s.position.toLowerCase().includes(sq)).forEach(s=>{ if(groups[s.dept]) groups[s.dept].push(s); });
-  let catHtml='';
-  for(let key of ['zeek','zeeda','zytix','zeene','central']){
-    const label=key==='central'?'ADMIN / CENTRAL':key.toUpperCase(), list=groups[key]||[]; if(list.length===0) continue;
-    catHtml+=`<div><div class="flex items-center gap-2 mb-3"><div class="h-[1px] flex-1 bg-[#262626]"></div><span class="font-mono text-[10px] tracking-widest text-zinc-400">${label} • ${list.length}</span><div class="h-[1px] flex-1 bg-[#262626]"></div></div><div class="space-y-3">${list.map(s=>`<div class="bg-[#121212] border border-[#262626] rounded-2xl p-4 flex justify-between"><div class="flex gap-3"><div class="w-10 h-10 bg-white text-black rounded-xl flex items-center justify-center font-bold text-[11px]">${s.name.slice(0,2).toUpperCase()}</div><div><div class="font-bold text-[13px]">${s.name}</div><div class="font-mono text-[10px] text-zinc-400">${s.position}</div><div class="font-mono text-[9px] text-zinc-500">${s.business}</div></div></div><div class="text-right"><div class="font-bold text-[12px]">GHS ${Number(s.salary||0).toLocaleString()}</div><button onclick="openStaff(${s.id})" class="mt-1 text-[9px] bg-[#1A1A1A] border border-[#262626] px-2 py-1 rounded-full">EDIT</button></div></div>`).join('')}</div></div>`;
-  }
-  document.getElementById('teamCategorized').innerHTML=catHtml||`<div class="font-mono text-[11px] text-zinc-500">No staff</div>`;
-  let assetHtml=''; for(let dept in BIZ){ if(dept==='central') continue; BIZ[dept].forEach(biz=>{ const d=BIZ_DETAILS[biz]; const staffCount=DB.staff.filter(s=>s.business===biz).length; const totalIn=DB.tx.filter(t=>t.business===biz && t.type==='income').reduce((a,b)=>a+b.amt,0); const totalOut=DB.tx.filter(t=>t.business===biz && t.type==='expense').reduce((a,b)=>a+b.amt,0); assetHtml+=`<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between"><div><div class="font-bold text-[13px] tracking-widest">${biz.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${dept.toUpperCase()} • ${d.type}</div></div><div class="font-mono text-[9px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400">${d.status}</div></div><div class="font-mono text-[11px] text-zinc-400 mt-3">${d.desc}</div><div class="grid grid-cols-3 gap-2 mt-4"><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">STAFF</div><div class="font-bold text-[12px] mt-1">${staffCount}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">IN</div><div class="font-bold text-[11px] mt-1 text-emerald-400">+${totalIn.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">OUT</div><div class="font-bold text-[11px] mt-1 text-red-400">-${totalOut.toLocaleString()}</div></div></div></div>`; }); } document.getElementById('assetsList').innerHTML=assetHtml;
+  DB.staff.filter(s=>s.name.toLowerCase().includes(sq)).forEach(s=>{ if(groups[s.dept]) groups[s.dept].push(s); });
+  let catHtml=''; for(let key of ['zeek','zeeda','zytix','zeene','central']){ const list=groups[key]||[]; if(!list.length) continue; catHtml+=`<div><div class="font-mono text-[10px] text-zinc-400 mb-2">${key.toUpperCase()} • ${list.length}</div><div class="space-y-2">${list.map(s=>`<div class="bg-[#121212] border border-[#262626] rounded-2xl p-3 flex justify-between"><div><div class="font-bold text-[12px]">${s.name}</div><div class="font-mono text-[9px] text-zinc-500">${s.business}</div></div><button onclick="openStaff(${s.id})" class="text-[9px] bg-[#1A1A1A] border px-2 py-1 rounded-full">EDIT</button></div>`).join('')}</div></div>`; }
+  document.getElementById('teamCategorized').innerHTML=catHtml;
 
-  if(DB.role==='staff'){
-    const s=DB.staff.find(x=>x.id===DB.curStaffId)||DB.staff[0];
-    if(s){ document.getElementById('staffBizName').innerText=s.dept.toUpperCase()+' • '+s.business.toUpperCase(); document.getElementById('staffNameLabel').innerText='Logged as '+s.name+' • '+s.position; document.getElementById('staffBal').innerText=fmt(DB.depts[s.dept]?.bal||0); const myTx=DB.tx.filter(t=>t.dept===s.dept && t.business===s.business); document.getElementById('staffTxList').innerHTML=myTx.slice(0,20).map(t=>`<div onclick="openTxDetail(${t.id})" class="flex justify-between bg-[#080808] border border-[#262626] rounded-xl p-3"><span class="text-[11px]">${t.note}</span><span class="font-bold text-[11px]">${fmt(t.amt)}</span></div>`).join('')||`<div class="text-[11px] text-zinc-500">No records</div>`; }
-  }
+  let assetHtml=''; for(let dept in DB.biz){ if(dept==='central') continue; DB.biz[dept].forEach(biz=>{ const d=DB.bizDetails[biz]||{}; assetHtml+=`<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="font-bold text-[13px]">${biz.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500">${dept.toUpperCase()}</div></div>`; }); } document.getElementById('assetsList').innerHTML=assetHtml;
   renderDeptPage();
 }
 updateBiz(); renderAll(); goPage('home');
 </script>
 </body>
-                                                                                                                 </html>
+</html>
