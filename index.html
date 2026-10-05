@@ -139,4 +139,121 @@ const DEFAULT = {
   role:'admin', curDept:'zeek', curTxId:null, curStaffId:2,
   staff:[
     {id:1, name:'Kwabena Asare', position:'CEO', dept:'central', business:'Head Office', salary:15000, role:'CEO', phone:'0240000001'},
-    {id:2, name:'Ama - Boutique Attendant', position:'Boutique
+    {id:2, name:'Ama - Boutique Attendant', position:'Boutique Attendant', dept:'zytix', business:'Boutique', salary:3500, role:'STAFF', phone:'0240000002'},
+    {id:3, name:'Kofi Farm Manager', position:'Farm Manager', dept:'zeeda', business:'Farm', salary:4800, role:'DEPT LEAD', phone:'0240000003'}
+  ],
+  tx:[
+    {id:1, dept:'zytix', business:'Boutique', amt:2400, note:'Sales - 3 dresses', type:'income', by:'Ama', date:'TODAY 20:30'},
+    {id:2, dept:'zeeda', business:'Farm', amt:8200, note:'Feed purchase', type:'expense', by:'Admin', date:'YESTERDAY'}
+  ],
+  depts:{ zeek:{bal:1120000}, zeeda:{bal:384000}, zytix:{bal:612000}, zeene:{bal:751200}, central:{bal:120000} }
+};
+let DB;
+try{ DB = JSON.parse(localStorage.getItem('itk_v73') || 'null'); if(!DB ||!DB.depts || DB.depts.zik) throw 0; }catch(e){ DB = JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v73', JSON.stringify(DB)); }
+let editId=null, curType='income';
+function save(){ localStorage.setItem('itk_v73', JSON.stringify(DB)); }
+function fmt(n){ return 'GHS ' + Number(n||0).toLocaleString(); }
+function goPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('p-'+p)?.classList.add('active');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));
+  document.querySelector(`.navbtn[data-p="${p}"]`)?.classList.add('on');
+  if(p==='departments') renderDeptPage();
+  if(p==='home'){
+    let ah=document.getElementById('adminHome'), sh=document.getElementById('staffHome');
+    if(DB.role==='staff'){ ah.classList.add('hidden'); sh.classList.remove('hidden'); } else { ah.classList.remove('hidden'); sh.classList.add('hidden'); }
+  }
+  window.scrollTo(0,0);
+}
+function toggleRole(){
+  DB.role = DB.role==='admin'?'staff':'admin';
+  if(DB.role==='staff' &&!DB.curStaffId) DB.curStaffId = DB.staff[1]?.id || DB.staff[0]?.id;
+  const staff=DB.staff.find(s=>s.id===DB.curStaffId);
+  document.getElementById('roleLabel').innerText = DB.role==='admin'? 'ADMIN VIEW • FULL ACCESS' : 'STAFF VIEW • '+(staff?.business||'').toUpperCase()+' ONLY';
+  document.getElementById('roleBtn').innerText = DB.role==='admin'? 'STAFF VIEW':'ADMIN VIEW';
+  save(); goPage('home'); renderAll();
+}
+function switchDeptTab(dept, el){
+  DB.curDept = dept;
+  document.querySelectorAll('.dept-tab').forEach(b=>{ b.classList.remove('on'); b.className='dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400'; });
+  el.className='dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border';
+  renderDeptPage();
+}
+function renderDeptPage(){
+  const dept = DB.curDept || 'zeek';
+  const bal = DB.depts[dept]?.bal || 0;
+  const staffCount = DB.staff.filter(s=>s.dept===dept).length;
+  const labelMap = { zeek:'ZEEK CAPITAL', zeeda:'ZEEDA FEEDA', zytix:'ZYTIX LIFESTYLE', zeene:'ZEENE SHELTERS' };
+  document.getElementById('deptActiveCard').innerHTML = `
+    <div class="flex justify-between items-start">
+      <div><div class="font-bold text-[16px] tracking-widest">${labelMap[dept]}</div><div class="font-mono text-[10px] text-zinc-500 mt-1">${(BIZ[dept]||[]).length} businesses • ${staffCount} staff</div></div>
+      <div class="text-right"><div class="font-bold text-[15px]">${fmt(bal)}</div><div class="font-mono text-[8px] text-emerald-400 mt-1">● ACTIVE</div></div>
+    </div>
+  `;
+  const bizList = BIZ[dept] || [];
+  document.getElementById('deptBusinessList').innerHTML = bizList.map(b=>{
+    const d=BIZ_DETAILS[b]; const count=DB.staff.filter(s=>s.business===b).length;
+    const sales=DB.tx.filter(t=>t.business===b && t.type==='income').reduce((a,c)=>a+c.amt,0);
+    const expenses=DB.tx.filter(t=>t.business===b && t.type==='expense').reduce((a,c)=>a+c.amt,0);
+    return `
+      <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
+        <div class="flex justify-between"><div><div class="font-bold text-[13px] tracking-widest">${b.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${d.type} • ${d.loc}</div></div><div class="font-mono text-[8px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 h-fit">${d.status}</div></div>
+        <div class="font-mono text-[10px] text-zinc-400 mt-3">${d.desc}</div>
+        <div class="grid grid-cols-3 gap-2 mt-4">
+          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">STAFF</div><div class="font-bold text-[12px] mt-1">${count}</div></div>
+          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">SALES</div><div class="font-bold text-[11px] mt-1 text-emerald-400">+${sales.toLocaleString()}</div></div>
+          <div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">COST</div><div class="font-bold text-[11px] mt-1 text-red-400">-${expenses.toLocaleString()}</div></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+function updateBiz(){
+  const ds=document.getElementById('s-dept')?.value||'zytix', bs=document.getElementById('s-biz');
+  if(bs) bs.innerHTML=(BIZ[ds]||[]).map(b=>`<option>${b}</option>`).join('');
+  const dt=document.getElementById('txDept')?.value||'zytix', bt=document.getElementById('txBiz');
+  if(bt) bt.innerHTML=(BIZ[dt]||[]).map(b=>`<option>${b}</option>`).join('');
+}
+function openStaff(id=null){ editId=id; updateBiz();
+  if(id){ const s=DB.staff.find(x=>x.id===id); if(!s)return; document.getElementById('s-name').value=s.name; document.getElementById('s-pos').value=s.position; document.getElementById('s-dept').value=s.dept; updateBiz(); document.getElementById('s-biz').value=s.business; document.getElementById('s-salary').value=s.salary; document.getElementById('s-phone').value=s.phone||''; }
+  else { document.getElementById('s-name').value=''; document.getElementById('s-pos').value=''; document.getElementById('s-salary').value=''; document.getElementById('s-phone').value=''; updateBiz(); }
+  document.getElementById('staffSheet').classList.remove('hidden');
+}
+function closeStaff(){ document.getElementById('staffSheet').classList.add('hidden'); editId=null; }
+function saveStaff(){ const name=document.getElementById('s-name').value.trim(), pos=document.getElementById('s-pos').value.trim(), salary=parseFloat(document.getElementById('s-salary').value)||0; if(!name||!pos||!salary) return alert('Name, Position, Salary required'); const obj={name, position:pos, dept:document.getElementById('s-dept').value, business:document.getElementById('s-biz').value, salary, role:'STAFF', phone:document.getElementById('s-phone').value}; if(editId){ const i=DB.staff.findIndex(x=>x.id===editId); if(i>-1) DB.staff[i]={...DB.staff[i],...obj}; } else DB.staff.push({id:Date.now(),...obj}); save(); closeStaff(); renderAll(); }
+function openTx(t){ curType=t; document.getElementById('txTitle').innerText=t==='income'?'RECORD SALES / INCOME':t==='expense'?'RECORD EXPENSE':'TRANSFER'; const dSel=document.getElementById('txDept'); if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s){ dSel.value=s.dept; dSel.disabled=true; } } else dSel.disabled=false; updateBiz(); if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s) document.getElementById('txBiz').value=s.business; } document.getElementById('txAmt').value=''; document.getElementById('txNote').value=''; document.getElementById('txSheet').classList.remove('hidden'); }
+function closeTx(){ document.getElementById('txSheet').classList.add('hidden'); }
+function saveTx(){ const amt=parseFloat(document.getElementById('txAmt').value)||0; if(!amt) return alert('Enter amount'); const dept=document.getElementById('txDept').value, biz=document.getElementById('txBiz').value, note=document.getElementById('txNote').value.trim()||curType, by=DB.role==='staff'?DB.staff.find(s=>s.id===DB.curStaffId)?.name||'Staff':'Admin'; DB.tx.unshift({id:Date.now(), dept, business:biz, amt, note, type:curType, by, date:'TODAY '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}); if(curType==='income') DB.depts[dept].bal+=amt; else if(curType==='expense') DB.depts[dept].bal-=amt; save(); closeTx(); renderAll(); }
+function openTxDetail(id){ const t=DB.tx.find(x=>x.id===id); if(!t) return; DB.curTxId=id; document.getElementById('dtNote').innerText=t.note; document.getElementById('dtAmt').innerText=(t.type==='income'?'+ ':'- ')+fmt(t.amt); document.getElementById('dtAmt').className='text-[36px] font-black tracking-tighter mt-1 '+(t.type==='income'?'text-emerald-400':'text-red-400'); document.getElementById('dtDate').innerText=t.date+' • ID #'+t.id; document.getElementById('dtDept').innerText=t.dept.toUpperCase(); document.getElementById('dtBiz').innerText=t.business; document.getElementById('dtBy').innerText=t.by; document.getElementById('dtDesc').innerText=t.note; document.getElementById('dtTypeBadge').innerText=t.type.toUpperCase(); document.getElementById('dtTypeBadge').className='font-mono text-[10px] px-3 py-1.5 rounded-full '+(t.type==='income'?'bg-emerald-500/20 text-emerald-400':'bg-red-500/20 text-red-400'); document.getElementById('txDetailSheet').classList.remove('hidden'); }
+function closeTxDetail(){ document.getElementById('txDetailSheet').classList.add('hidden'); DB.curTxId=null; }
+function deleteTx(){ if(!DB.curTxId) return; if(!confirm('Delete? Balance will reverse.')) return; const idx=DB.tx.findIndex(x=>x.id===DB.curTxId); if(idx>-1){ const t=DB.tx[idx]; if(t.type==='income') DB.depts[t.dept].bal-=t.amt; else if(t.type==='expense') DB.depts[t.dept].bal+=t.amt; DB.tx.splice(idx,1); save(); closeTxDetail(); renderAll(); } }
+function renderAll(){
+  const cash=Object.values(DB.depts).reduce((a,b)=>a+(b.bal||0),0), payroll=DB.staff.reduce((s,x)=>s+(x.salary||0),0);
+  document.getElementById('netPos').innerText=fmt(cash);
+  document.getElementById('payrollSum').innerText='Monthly Payroll: '+fmt(payroll)+' • '+DB.staff.length+' staff';
+  document.getElementById('totalStaff').innerText=DB.staff.length; document.getElementById('totalPayroll').innerText=fmt(payroll); document.getElementById('avgSalary').innerText=fmt(Math.round(payroll/(DB.staff.length||1)));
+  document.getElementById('finGrid').innerHTML=`<div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">CASH</div><div class="font-bold text-[11px]">${cash.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[11px]">${payroll.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPTS</div><div class="font-bold text-[11px]">4</div></div>`;
+  const q=(document.getElementById('txSearch')?.value||'').toLowerCase();
+  let txF=DB.tx.filter(t=>(t.note||'').toLowerCase().includes(q)||(t.business||'').toLowerCase().includes(q));
+  document.getElementById('txList').innerHTML=txF.map(t=>`<div onclick="openTxDetail(${t.id})" class="cursor-pointer flex justify-between items-center bg-[#080808] border border-[#262626] rounded-xl p-3"><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[9px] text-zinc-500">${t.dept.toUpperCase()} • ${t.business} • by ${t.by} • ${t.date}</div></div><div class="text-right"><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':'text-red-500'}">${t.type==='income'?'+':'-'} ${Number(t.amt||0).toLocaleString()}</div></div></div>`).join('')||`<div class="font-mono text-[10px] text-zinc-600">No transactions</div>`;
+
+  let groups={zeek:[],zeeda:[],zytix:[],zeene:[],central:[]}; const sq=(document.getElementById('staffSearch')?.value||'').toLowerCase();
+  DB.staff.filter(s=>s.name.toLowerCase().includes(sq)||s.position.toLowerCase().includes(sq)).forEach(s=>{ if(groups[s.dept]) groups[s.dept].push(s); });
+  let catHtml='';
+  for(let key of ['zeek','zeeda','zytix','zeene','central']){
+    const label=key==='central'?'ADMIN / CENTRAL':key.toUpperCase(), list=groups[key]||[]; if(list.length===0) continue;
+    catHtml+=`<div><div class="flex items-center gap-2 mb-3"><div class="h-[1px] flex-1 bg-[#262626]"></div><span class="font-mono text-[10px] tracking-widest text-zinc-400">${label} • ${list.length}</span><div class="h-[1px] flex-1 bg-[#262626]"></div></div><div class="space-y-3">${list.map(s=>`<div class="bg-[#121212] border border-[#262626] rounded-2xl p-4 flex justify-between"><div class="flex gap-3"><div class="w-10 h-10 bg-white text-black rounded-xl flex items-center justify-center font-bold text-[11px]">${s.name.slice(0,2).toUpperCase()}</div><div><div class="font-bold text-[13px]">${s.name}</div><div class="font-mono text-[10px] text-zinc-400">${s.position}</div><div class="font-mono text-[9px] text-zinc-500">${s.business}</div></div></div><div class="text-right"><div class="font-bold text-[12px]">GHS ${Number(s.salary||0).toLocaleString()}</div><button onclick="openStaff(${s.id})" class="mt-1 text-[9px] bg-[#1A1A1A] border border-[#262626] px-2 py-1 rounded-full">EDIT</button></div></div>`).join('')}</div></div>`;
+  }
+  document.getElementById('teamCategorized').innerHTML=catHtml||`<div class="font-mono text-[11px] text-zinc-500">No staff</div>`;
+  let assetHtml=''; for(let dept in BIZ){ if(dept==='central') continue; BIZ[dept].forEach(biz=>{ const d=BIZ_DETAILS[biz]; const staffCount=DB.staff.filter(s=>s.business===biz).length; const totalIn=DB.tx.filter(t=>t.business===biz && t.type==='income').reduce((a,b)=>a+b.amt,0); const totalOut=DB.tx.filter(t=>t.business===biz && t.type==='expense').reduce((a,b)=>a+b.amt,0); assetHtml+=`<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between"><div><div class="font-bold text-[13px] tracking-widest">${biz.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${dept.toUpperCase()} • ${d.type}</div></div><div class="font-mono text-[9px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400">${d.status}</div></div><div class="font-mono text-[11px] text-zinc-400 mt-3">${d.desc}</div><div class="grid grid-cols-3 gap-2 mt-4"><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">STAFF</div><div class="font-bold text-[12px] mt-1">${staffCount}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">IN</div><div class="font-bold text-[11px] mt-1 text-emerald-400">+${totalIn.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-2.5"><div class="font-mono text-[7px] text-zinc-500">OUT</div><div class="font-bold text-[11px] mt-1 text-red-400">-${totalOut.toLocaleString()}</div></div></div></div>`; }); } document.getElementById('assetsList').innerHTML=assetHtml;
+
+  if(DB.role==='staff'){
+    const s=DB.staff.find(x=>x.id===DB.curStaffId)||DB.staff[0];
+    if(s){ document.getElementById('staffBizName').innerText=s.dept.toUpperCase()+' • '+s.business.toUpperCase(); document.getElementById('staffNameLabel').innerText='Logged as '+s.name+' • '+s.position; document.getElementById('staffBal').innerText=fmt(DB.depts[s.dept]?.bal||0); const myTx=DB.tx.filter(t=>t.dept===s.dept && t.business===s.business); document.getElementById('staffTxList').innerHTML=myTx.slice(0,20).map(t=>`<div onclick="openTxDetail(${t.id})" class="flex justify-between bg-[#080808] border border-[#262626] rounded-xl p-3"><span class="text-[11px]">${t.note}</span><span class="font-bold text-[11px]">${fmt(t.amt)}</span></div>`).join('')||`<div class="text-[11px] text-zinc-500">No records</div>`; }
+  }
+  renderDeptPage();
+}
+updateBiz(); renderAll(); goPage('home');
+</script>
+</body>
+                                                                                                                 </html>
