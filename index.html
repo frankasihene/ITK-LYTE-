@@ -3,7 +3,7 @@
 <head>
 <link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><meta name="theme-color" content="#FF3D0F">
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>ITK LYTE V10 - BUSINESS</title>
+<title>ITK LYTE V10.1 - STANDOUT DEPT CARD</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>body{background:#080808;color:#eee;font-family:'Space Grotesk'}.page{display:none}.page.active{display:block}.navbtn{opacity:.45}.navbtn.on{opacity:1}.hide::-webkit-scrollbar{display:none}.dept-tab.on,.staff-tab.on{background:#fff;color:#000}select{appearance:none}</style>
@@ -12,7 +12,7 @@
 
 <div id="loginPage" class="fixed inset-0 z-[100] bg-[#080808] flex flex-col items-center justify-center px-8 max-w-[430px] mx-auto">
 <div class="w-full">
-<div class="flex flex-col items-center mb-8"><img src="logo.png" class="w-20 h-20 bg-white rounded-2xl p-2 mb-4"/><div class="font-bold tracking-widest text-[18px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[10px] text-zinc-500">V10 • BUSINESS</div></div>
+<div class="flex flex-col items-center mb-8"><img src="logo.png" class="w-20 h-20 bg-white rounded-2xl p-2 mb-4"/><div class="font-bold tracking-widest text-[18px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[10px] text-zinc-500">V10.1 • STANDOUT DEPT</div></div>
 <div class="bg-[#121212] border border-[#262626] rounded-3xl p-6">
 <div class="font-bold text-[14px]">LOGIN</div><div class="font-mono text-[10px] text-zinc-500 mb-5">Role = admin or staff • Password = password</div>
 <div class="space-y-4">
@@ -51,7 +51,8 @@
 <button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZYTIX</button>
 <button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEENE</button>
 </div>
-<div id="deptActiveCard" class="mt-4"></div><div id="deptBusinessList" class="mt-4 space-y-3"></div>
+<div id="deptActiveCard" class="mt-4"></div>
+<div id="deptBusinessList" class="mt-4 space-y-3"></div>
 </div>
 
 <div id="p-team" class="page px-5 pt-5">
@@ -69,18 +70,15 @@
 <div class="mt-4 grid grid-cols-3 gap-2"><div class="bg-[#121212] border rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">INCOME</div><div class="font-bold text-[13px] text-emerald-400" id="auditIncome">GHS 0</div></div><div class="bg-[#121212] border rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">EXPENSE</div><div class="font-bold text-[13px] text-red-400" id="auditExpense">GHS 0</div></div><div class="bg-white text-black rounded-2xl p-3"><div class="font-mono text-[8px]">NET</div><div class="font-bold text-[13px]" id="auditNet">GHS 0</div></div></div>
 <div class="mt-4 bg-[#121212] border rounded-3xl p-4 flex justify-between"><div class="font-mono text-[9px] text-zinc-500" id="auditCount">0 tx</div><input id="auditSearch" oninput="renderAudit()" placeholder="Search..." class="bg-[#080808] border rounded-full px-3 py-1.5 text-[10px] w-32"/></div>
 <div id="auditList" class="mt-3 space-y-2"></div>
-
 <div class="mt-6 bg-[#121212] border border-[#262626] rounded-3xl p-4">
 <div class="flex justify-between"><div class="font-bold text-[11px] tracking-widest">TRANSACTIONS CARD</div><div class="font-mono text-[9px] text-zinc-500" id="auditTxCount">0 txns</div></div>
 <div class="grid grid-cols-3 gap-2 mt-3"><div class="bg-[#080808] border rounded-xl p-2"><div class="font-mono text-[7px] text-zinc-500">INCOME</div><div class="font-bold text-[11px] text-emerald-400" id="auditTxIncome">GHS 0</div></div><div class="bg-[#080808] border rounded-xl p-2"><div class="font-mono text-[7px] text-zinc-500">EXPENSE</div><div class="font-bold text-[11px] text-red-400" id="auditTxExpense">GHS 0</div></div><div class="bg-white text-black rounded-xl p-2"><div class="font-mono text-[7px]">NET</div><div class="font-bold text-[11px]" id="auditTxNet">GHS 0</div></div></div>
 <div id="auditTransactionsList" class="mt-3 space-y-2 max-h-[240px] overflow-y-auto"></div>
 </div>
-
 <div class="mt-6 bg-[#121212] border border-[#262626] rounded-3xl p-4">
 <div class="flex justify-between items-center"><div><div class="font-bold text-[11px] tracking-widest">📦 ARCHIVE CARD</div><div class="font-mono text-[9px] text-zinc-500">Archived staff</div></div><div class="font-mono text-[10px] bg-[#080808] border px-3 py-1 rounded-full" id="auditArchiveCount">0 archived</div></div>
 <div id="archivedStaffList" class="mt-4 space-y-2"></div>
 </div>
-
 <div class="mt-6 bg-[#0F3D6E]/20 border border-[#0F3D6E]/30 rounded-3xl p-4">
 <div class="font-bold text-[11px]">⚙️ SETTINGS CARD</div>
 <div class="mt-3 grid grid-cols-2 gap-2"><button onclick="resetZero()" class="bg-[#FF3D0F]/20 border border-[#FF3D0F]/30 text-[#FF3D0F] rounded-xl py-3 text-[10px] font-bold">RESET TO ZERO</button><button onclick="localStorage.clear();location.reload()" class="bg-[#121212] border rounded-xl py-3 text-[10px] font-bold">CLEAR CACHE</button></div>
@@ -115,6 +113,7 @@ function updateRoleUI(){let isStaff=DB.role==='staff';document.getElementById('r
 function getMonthTx(){let now=new Date();return DB.tx.filter(t=>{let d=new Date(t.ts);return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();});}
 function renderStaffHome(){let now=new Date();let monthTx=getMonthTx();let incomeTx=monthTx.filter(t=>t.type==='income');let total=incomeTx.reduce((a,b)=>a+b.amt,0);document.getElementById('staffMonthRevenue').innerText=fmt(total);document.getElementById('staffMonthDetail').innerText=now.toLocaleString('default',{month:'long'})+' '+now.getFullYear()+' • '+incomeTx.length+' income';let byBiz={};incomeTx.forEach(t=>{let k=t.business||'General';byBiz[k]=(byBiz[k]||0)+t.amt;});document.getElementById('staffJobRevenueList').innerHTML=Object.keys(byBiz).length? Object.entries(byBiz).map(([biz,amt])=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[12px]">${biz}</div><div class="font-mono text-[8px] text-zinc-500">This month</div></div><div class="font-bold text-[12px] text-emerald-400">${fmt(amt)}</div></div>`).join('') : `<div class="font-mono text-[10px] text-zinc-600 p-3 text-center">No income yet</div>`;document.getElementById('staffRecentList').innerHTML=monthTx.slice(0,10).map(t=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[11px]">${t.note} • ${t.business}</div><div class="font-mono text-[8px] text-zinc-500">${t.dept.toUpperCase()} • ${new Date(t.ts).toLocaleDateString()}</div></div><div class="font-bold text-[11px] ${t.type==='income'?'text-emerald-400':'text-red-400'}">${t.type==='income'?'+': '-'}${t.amt}</div></div>`).join('')||`<div class="font-mono text-[9px] text-zinc-600 text-center p-3">No transactions</div>`;}
 function goPage(p){if(DB.role==='staff' && p!=='home'){alert('Staff HOME only');return;}document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));document.querySelector(`[data-p="${p}"]`).classList.add('on');if(p==='departments')renderDeptPage();if(p==='audit')renderAudit();if(p==='team')renderTeam();}
+
 function renderDeptPage(){
  let d=DB.curDept||'zeek';
  let bizCount=(DB.biz[d]||[]).length;
@@ -122,8 +121,38 @@ function renderDeptPage(){
  let deptTx=DB.tx.filter(t=>t.dept===d);
  let income=deptTx.filter(t=>t.type==='income').reduce((a,b)=>a+b.amt,0);
  let staffCount=DB.staff.filter(s=>s.dept===d).length;
- document.getElementById('deptActiveCard').innerHTML=`<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between"><div><div class="font-bold text-[16px]">${DEPT_FULL[d]}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${bizCount} businesses • ${staffCount} staff • ${deptTx.length} txns</div></div><div class="text-right"><div class="font-mono text-[8px] text-zinc-500">BALANCE</div><div class="font-bold text-[15px]">${fmt(deptBal)}</div><div class="font-mono text-[8px] text-emerald-400 mt-1">INCOME ${fmt(income)}</div></div></div></div>`;
- document.getElementById('deptBusinessList').innerHTML=(DB.biz[d]||[]).map(b=>{let bTx=DB.tx.filter(t=>t.business===b && t.dept===d);let bIncome=bTx.filter(t=>t.type==='income').reduce((a,c)=>a+c.amt,0);let bExpense=bTx.filter(t=>t.type==='expense').reduce((a,c)=>a+c.amt,0);return `<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="bg-[#121212] border border-[#262626] rounded-3xl p-5 flex justify-between items-center"><div class="flex-1"><div class="font-bold text-[15px]">${b}</div><div class="flex gap-2 mt-2"><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full">${bTx.length} TXNS</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-emerald-400">${fmt(bIncome)} IN</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-red-400">${fmt(bExpense)} OUT</span></div></div><div class="font-mono text-[10px] bg-[#080808] border px-3 py-1.5 rounded-full">EDIT →</div></div>`;}).join('');
+ // STANDOUT DEPARTMENT CARD - DIFFERENT FROM BUSINESSES
+ document.getElementById('deptActiveCard').innerHTML=`
+ <div class="relative overflow-hidden bg-white text-black rounded-[28px] p-6 shadow-[0_10px_30px_rgba(255,255,255,0.15)] border-2 border-white">
+   <div class="absolute top-0 right-0 w-24 h-24 bg-[#FF3D0F] rounded-full blur-[30px] opacity-20 -mr-8 -mt-8"></div>
+   <div class="absolute bottom-0 left-0 w-20 h-20 bg-[#0F3D6E] rounded-full blur-[25px] opacity-20 -ml-6 -mb-6"></div>
+   <div class="relative z-10">
+     <div class="flex justify-between items-start">
+       <div>
+         <div class="inline-flex items-center gap-2 bg-black text-white text-[8px] font-mono tracking-widest px-2.5 py-1 rounded-full">DEPARTMENT • ${d.toUpperCase()}</div>
+         <div class="font-bold text-[22px] tracking-tight mt-3 leading-none">${DEPT_FULL[d]}</div>
+         <div class="flex gap-2 mt-3">
+           <span class="bg-black text-white text-[9px] font-mono px-2.5 py-1 rounded-full">${bizCount} BUSINESSES</span>
+           <span class="bg-[#121212] text-white text-[9px] font-mono px-2.5 py-1 rounded-full">${staffCount} STAFF</span>
+           <span class="bg-[#121212] text-white text-[9px] font-mono px-2.5 py-1 rounded-full">${deptTx.length} TXNS</span>
+         </div>
+       </div>
+       <div class="text-right">
+         <div class="font-mono text-[8px] tracking-widest text-zinc-500">BALANCE</div>
+         <div class="font-bold text-[20px] tracking-tight">${fmt(deptBal)}</div>
+         <div class="mt-2 bg-[#FF3D0F] text-white font-mono text-[8px] px-3 py-1 rounded-full inline-block">INCOME ${fmt(income)}</div>
+       </div>
+     </div>
+   </div>
+ </div>`;
+
+ document.getElementById('deptBusinessList').innerHTML=(DB.biz[d]||[]).map(b=>{
+   let bTx=DB.tx.filter(t=>t.business===b && t.dept===d);
+   let bIncome=bTx.filter(t=>t.type==='income').reduce((a,c)=>a+c.amt,0);
+   let bExpense=bTx.filter(t=>t.type==='expense').reduce((a,c)=>a+c.amt,0);
+   return `<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="bg-[#121212] border border-[#262626] rounded-3xl p-5 flex justify-between items-center">
+     <div class="flex-1"><div class="font-bold text-[15px]">${b}</div><div class="flex gap-2 mt-2"><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full">${bTx.length} TXNS</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-emerald-400">${fmt(bIncome)} IN</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-red-400">${fmt(bExpense)} OUT</span></div></div><div class="font-mono text-[10px] bg-[#080808] border px-3 py-1.5 rounded-full">EDIT →</div></div>`;
+ }).join('');
 }
 function updateBiz(){let dept=document.getElementById('txDept')?.value||'zeek';document.getElementById('txBiz').innerHTML=(DB.biz[dept]||[]).map(b=>`<option>${b}</option>`).join('');}
 function openBizSheet(b=null){editBizOriginal=b;document.getElementById('bizSheetTitle').innerText=b?'Edit: '+b:'Add Business';document.getElementById('b-name').value=b||'';document.getElementById('b-dept').value=DB.curDept;document.getElementById('bizSheet').classList.remove('hidden');}
@@ -172,4 +201,4 @@ function resetZero(){if(confirm('Reset?') && confirm('Confirm again?')){DB=JSON.
 checkLoginState();updateBiz();renderAll();
 </script>
 </body>
-</html>
+ </html>
