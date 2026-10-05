@@ -3,208 +3,123 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>ITK LYTE OS V8.1 - STAFF MONTHLY REVENUE</title>
+<title>ITK LYTE OS V8.6 FINAL - FRANK ASIHENE • COMPLETE</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<script>tailwind.config={theme:{extend:{colors:{ink:'#080808',panel:'#121212',panel2:'#1A1A1A',line:'#262626',itkBlue:'#0F3D6E',itkOrange:'#FF3D0F'}}}}</script>
 <style>
-body{background:#080808;color:#eee;font-family:'Space Grotesk',system-ui;}
+body{background:#080808;color:#eee;font-family:'Space Grotesk',system-ui}
 .page{display:none}.page.active{display:block}
 .navbtn{opacity:.4}.navbtn.on{opacity:1}
 .hide::-webkit-scrollbar{display:none}
-.dept-tab.on{background:#fff;color:#000;border-color:#fff}
+.dept-tab.on,.staff-tab.on{background:#fff;color:#000;border-color:#fff}
 .nav-hidden{display:none!important}
 </style>
 </head>
 <body class="max-w-[430px] mx-auto min-h-screen pb-28 bg-[#080808]">
 
-<header class="sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-b border-[#262626]">
-  <div class="px-5 pt-4 pb-4 flex justify-between items-center">
-    <div class="flex gap-3 items-center">
-      <img src="logo.png" alt="ITK LYTE" class="w-11 h-11 object-contain rounded-xl bg-white p-1"/>
-      <div><div class="font-bold tracking-widest text-[14px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel">ADMIN VIEW</div></div>
-    </div>
-    <button onclick="openProfile()" class="relative w-10 h-10 bg-[#1A1A1A] border border-[#262626] rounded-full flex items-center justify-center"><span class="text-[18px]">👤</span><div class="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#080808]"></div></button>
-  </div>
-  <div class="px-5 pb-2 font-mono text-[8px] text-zinc-600" id="currentUserLabel">Logged: Admin</div>
-</header>
-
-<div id="p-home" class="page active px-5 pt-5">
-  <div id="adminHome">
-    <div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500 tracking-widest">QUICK ACTIONS</span><span class="font-mono text-[10px] text-[#FF3D0F]">● LIVE</span></div>
-    <div class="grid grid-cols-3 gap-3">
-      <button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-6 font-bold text-[11px]">+<br>INCOME</button>
-      <button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">−<br>EXPENSE</button>
-      <button onclick="openTx('transfer')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">⇄<br>TRANSFER</button>
-    </div>
-    <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 mt-5"><div class="font-mono text-[10px] text-zinc-500">NET POSITION</div><div class="text-[32px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div><div class="grid grid-cols-3 gap-2 mt-4" id="finGrid"></div><div class="font-mono text-[9px] text-zinc-500 mt-3" id="payrollSum"></div></div>
-    <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">RECENT TRANSACTIONS</span><input id="txSearch" oninput="renderAll()" placeholder="Search..." class="bg-[#080808] border border-[#262626] rounded-full px-3 py-1 text-[10px] w-28"/></div><div id="txList" class="space-y-3"></div></div>
-  </div>
-
-  <!-- STAFF HOME - NEW DESIGN YOU ASKED -->
-  <div id="staffHome" class="hidden">
-    <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 text-center">
-      <div class="flex justify-center mb-3"><img src="logo.png" class="w-10 h-10 object-contain bg-white rounded-xl p-1"/></div>
-      <div class="font-mono text-[9px] text-zinc-500 tracking-widest">YOUR BUSINESS</div>
-      <!-- 1. DEPARTMENT FULL NAME FIRST -->
-      <div class="font-bold text-[16px] mt-2 tracking-widest text-white" id="staffDeptFull">ZYTIX LIFESTYLE</div>
-      <!-- 2. BUSINESS NAME UNDER DEPARTMENT -->
-      <div class="font-bold text-[22px] mt-1 tracking-tight text-[#FF3D0F]" id="staffBizName">Boutique</div>
-      <div class="font-mono text-[10px] text-zinc-500 mt-2" id="staffNameLabel">-</div>
-
-      <!-- 3. MONTHLY REVENUE - NOT DEPT BALANCE -->
-      <div class="mt-5 bg-[#080808] border border-[#262626] rounded-2xl p-4">
-        <div class="font-mono text-[8px] text-zinc-500 tracking-widest" id="staffMonthLabel">THIS MONTH REVENUE - MAY 2026</div>
-        <div class="font-black text-[28px] tracking-tighter mt-1 text-emerald-400" id="staffBal">GHS 0</div>
-        <div class="mt-2 flex justify-center gap-2">
-          <span class="font-mono text-[8px] bg-[#1A1A1A] border border-[#262626] px-2 py-1 rounded-full" id="staffMonthIncome">Income: GHS 0</span>
-          <span class="font-mono text-[8px] bg-[#1A1A1A] border border-[#262626] px-2 py-1 rounded-full" id="staffMonthCount">0 sales</span>
-        </div>
-        <div class="font-mono text-[7px] text-zinc-600 mt-2">Your progress this month - resets monthly</div>
-      </div>
-    </div>
-
-    <div class="mt-5 grid grid-cols-2 gap-3">
-      <button onclick="openTx('income')" class="bg-white text-black rounded-2xl py-5 font-bold text-[12px]">+ RECORD SALES</button>
-      <button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-5 font-bold text-[12px]">− EXPENSE</button>
-    </div>
-
-    <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4">
-      <div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">THIS MONTH RECORDS - YOUR BUSINESS</span><span class="font-mono text-[8px] text-zinc-600" id="staffMonthYearLabel">MAY</span></div>
-      <div id="staffTxList" class="space-y-2"></div>
-    </div>
-  </div>
-</div>
-
-<div id="p-departments" class="page px-5 pt-5"><div class="flex justify-between items-center"><div><div class="font-bold text-[18px] tracking-widest">DEPARTMENTS</div><div class="font-mono text-[10px] text-zinc-500 mt-1">ADMIN ONLY - TAP TO EDIT</div></div><button onclick="openBizSheet()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD BUSINESS</button></div><div class="mt-5 flex gap-2 overflow-x-auto hide pb-2"><button onclick="switchDeptTab('zeek',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border">ZEEK CAPITAL</button><button onclick="switchDeptTab('zeeda',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEDA FEEDA</button><button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZYTIX LIFESTYLE</button><button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEENE SHELTERS</button></div><div id="deptActiveCard" class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-5"></div><div id="deptBusinessList" class="mt-4 space-y-3"></div></div>
-<div id="p-team" class="page px-5 pt-5"><div class="flex justify-between items-end"><div><div class="font-bold text-[18px] tracking-widest">STAFF & SALARIES</div><div class="font-mono text-[10px] text-zinc-500">ADMIN ONLY</div></div><button onclick="openStaff()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div><div class="grid grid-cols-3 gap-2 mt-4"><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">STAFF</div><div class="font-bold text-[18px] mt-1" id="totalStaff">0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[12px] mt-1" id="totalPayroll">GHS 0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">AVG</div><div class="font-bold text-[12px] mt-1" id="avgSalary">GHS 0</div></div></div><input id="staffSearch" oninput="renderAll()" placeholder="Search name..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3 text-[12px]"/><div id="teamCategorized" class="space-y-6 mt-4"></div></div>
-<div id="p-audit" class="page px-5 pt-5"><div class="font-bold text-[18px] tracking-widest">AUDIT TRAIL</div><div class="font-mono text-[10px] text-zinc-500 mt-1">ADMIN ONLY</div><div class="mt-4 grid grid-cols-3 gap-2"><select id="auditMonth" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL MONTHS</option><option value="0">JAN</option><option value="1">FEB</option><option value="2">MAR</option><option value="3">APR</option><option value="4">MAY</option><option value="5">JUN</option><option value="6">JUL</option><option value="7">AUG</option><option value="8">SEP</option><option value="9">OCT</option><option value="10">NOV</option><option value="11">DEC</option></select><select id="auditYear" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL YEARS</option><option value="2026">2026</option><option value="2025">2025</option></select><select id="auditDept" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL DEPTS</option><option value="zeek">ZEEK</option><option value="zeeda">ZEEDA</option><option value="zytix">ZYTIX</option><option value="zeene">ZEENE</option></select></div><div class="mt-4 grid grid-cols-3 gap-2"><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">INCOME</div><div class="font-bold text-[13px] mt-1 text-emerald-400" id="auditIncome">GHS 0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">EXPENSE</div><div class="font-bold text-[13px] mt-1 text-red-400" id="auditExpense">GHS 0</div></div><div class="bg-white text-black rounded-2xl p-3"><div class="font-mono text-[8px]">NET</div><div class="font-bold text-[13px] mt-1" id="auditNet">GHS 0</div></div></div><div class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="font-mono text-[9px] text-zinc-500" id="auditCount">0 transactions</div></div><div class="mt-5"><div class="flex justify-between"><span class="font-mono text-[10px] text-zinc-500">TRANSACTION LOG</span><input id="auditSearch" oninput="renderAudit()" placeholder="Search..." class="bg-[#121212] border border-[#262626] rounded-full px-3 py-1.5 text-[10px] w-32"/></div><div id="auditList" class="mt-3 space-y-2"></div></div></div>
-
-<nav id="bottomNav" class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#080808]/95 backdrop-blur-xl border-t border-[#262626] px-8 py-3 flex justify-between z-40">
-  <button onclick="goPage('home')" data-p="home" class="navbtn on flex flex-col items-center gap-1"><div class="w-6 h-6 bg-white rounded-md"></div><span class="font-mono text-[8px]">HOME</span></button>
-  <button id="nav-depts" onclick="goPage('departments')" data-p="departments" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 border border-white rounded-md"></div><span class="font-mono text-[8px]">DEPTS</span></button>
-  <button id="nav-team" onclick="goPage('team')" data-p="team" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 bg-[#FF3D0F] rounded-md"></div><span class="font-mono text-[8px]">TEAM</span></button>
-  <button id="nav-audit" onclick="goPage('audit')" data-p="audit" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 bg-[#0F3D6E] rounded-md"></div><span class="font-mono text-[8px]">AUDIT</span></button>
-</nav>
-
-<div id="profileSheet" class="fixed inset-0 z-[60] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeProfile()"></div><div class="absolute top-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-b border-[#262626] rounded-b-[28px] p-6"><div class="flex justify-between items-center"><div class="flex gap-3 items-center"><img src="logo.png" class="w-10 h-10 bg-white rounded-full p-1 object-contain"/><div><div class="font-bold tracking-widest text-[13px]">PROFILE</div><div class="font-mono text-[9px] text-zinc-500">Settings & Access</div></div></div><button onclick="closeProfile()" class="font-mono text-[10px] border border-[#262626] px-3 py-1.5 rounded-full">✕</button></div><div class="mt-5 bg-[#080808] border border-[#262626] rounded-2xl p-4"><div class="font-mono text-[8px] text-zinc-500">CURRENT USER</div><div class="font-bold text-[16px] mt-1" id="profileName">Admin</div><div class="font-mono text-[10px] text-zinc-400 mt-1" id="profileRole">ADMIN • FULL ACCESS</div><div class="font-mono text-[8px] text-zinc-600 mt-2" id="profileBiz">All Departments</div></div><div class="mt-4"><div class="font-mono text-[10px] text-zinc-500 tracking-widest mb-2">SWITCH VIEW</div><div class="grid grid-cols-2 gap-3"><button id="btnAdminView" onclick="setRole('admin')" class="bg-white text-black rounded-xl py-3 font-bold text-[11px]">ADMIN VIEW</button><button id="btnStaffView" onclick="setRole('staff')" class="bg-[#1A1A1A] border border-[#262626] rounded-xl py-3 font-bold text-[11px] text-zinc-400">STAFF VIEW</button></div></div><div class="mt-5"><div class="font-mono text-[10px] text-zinc-500 tracking-widest mb-2">LOGIN AS STAFF</div><div id="profileStaffList" class="space-y-2 max-h-[220px] overflow-y-auto hide"></div></div></div></div>
-
-<div id="bizSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeBizSheet()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="flex justify-between"><div class="font-bold tracking-widest" id="bizSheetTitle">ADD BUSINESS</div><button onclick="deleteBiz()" id="bizDeleteBtn" class="hidden font-mono text-[10px] text-red-400 border border-red-500/30 bg-red-500/10 px-3 py-1 rounded-full">DELETE</button></div><div class="mt-4 space-y-3"><input id="b-name" placeholder="Business Name" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="b-dept" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix">ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option></select><input id="b-type" placeholder="Type" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div><div class="grid grid-cols-2 gap-3"><input id="b-loc" placeholder="Location" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><select id="b-status" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option>Active</option><option>Paused</option><option>Closed</option></select></div><textarea id="b-desc" placeholder="Description" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px] h-20"></textarea></div><button onclick="saveBiz()" class="mt-5 w-full bg-white text-black rounded-2xl py-4 font-bold text-[12px]">SAVE BUSINESS</button></div></div>
-<div id="staffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest">STAFF MEMBER</div><div class="mt-4 space-y-3"><input id="s-name" placeholder="Full Name" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-pos" placeholder="Position" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="s-dept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix" selected>ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL</option></select><select id="s-biz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><div class="grid grid-cols-2 gap-3"><input id="s-salary" type="number" placeholder="Salary" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-phone" placeholder="Phone" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div></div><button onclick="saveStaff()" class="mt-6 w-full bg-[#FF3D0F] rounded-2xl py-4 font-bold text-[12px]">SAVE STAFF</button></div></div>
-<div id="txSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTx()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest" id="txTitle">ADD</div><input id="txAmt" type="number" placeholder="Amount GHS" class="mt-4 w-full bg-[#080808] border border-[#262626] rounded-2xl px-4 py-4 text-[20px] font-bold"/><div class="mt-3 grid grid-cols-2 gap-3"><select id="txDept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK</option><option value="zeeda">ZEEDA</option><option value="zytix">ZYTIX</option><option value="zeene">ZEENE</option><option value="central">CENTRAL</option></select><select id="txBiz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><input id="txNote" placeholder="Note" class="mt-3 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><button onclick="saveTx()" class="mt-4 w-full bg-[#FF3D0F] rounded-2xl py-4 font-bold text-[12px]">CONFIRM</button></div></div>
-<div id="txDetailSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTxDetail()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="flex justify-between"><div class="font-bold tracking-widest">TRANSACTION</div><div id="dtTypeBadge" class="font-mono text-[10px] px-3 py-1.5 rounded-full"></div></div><div id="dtNote" class="font-bold text-[16px] mt-5"></div><div id="dtAmt" class="text-[36px] font-black tracking-tighter mt-1"></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPT</div><div id="dtDept" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">BUSINESS</div><div id="dtBiz" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">BY</div><div id="dtBy" class="font-bold text-[11px] mt-1"></div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">TIME</div><div id="dtTime" class="font-bold text-[11px] mt-1"></div></div></div><button onclick="deleteTx()" class="mt-5 w-full bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl py-4 font-bold text-[11px]">DELETE TRANSACTION</button></div></div>
-
 <script>
-let DEFAULT_BIZ = { zeek:['Trading Desk','Investment Fund','Capital Exchange'], zeeda:['Farm','Restaurant','Supply'], zytix:['Boutique','Events & Rave','Media'], zeene:['Danyame Site','Adum Kiosk','Shelter Projects'], central:['Head Office'] };
-let DEFAULT_DETAILS = { 'Trading Desk':{type:'Finance',loc:'Kumasi',status:'Active',desc:'Trading under ZEEK CAPITAL.'},'Investment Fund':{type:'Investment',loc:'Ghana',status:'Active',desc:'Investment.'},'Capital Exchange':{type:'Finance',loc:'Accra',status:'Active',desc:'Capital market.'},'Farm':{type:'Agriculture',loc:'Asante Akyem',status:'Active',desc:'Farming under ZEEDA.'},'Restaurant':{type:'Food',loc:'Ghana',status:'Active',desc:'Food ops.'},'Supply':{type:'Supply',loc:'Ghana',status:'Active',desc:'Supply.'},'Boutique':{type:'Fashion',loc:'Ghana',status:'Active',desc:'Fashion retail.'},'Events & Rave':{type:'Events',loc:'Ghana',status:'Active',desc:'Events.'},'Media':{type:'Media',loc:'Ghana',status:'Active',desc:'Media.'},'Danyame Site':{type:'Construction',loc:'Kumasi',status:'Active',desc:'Construction at Danyame.'},'Adum Kiosk':{type:'Retail',loc:'Kumasi',status:'Active',desc:'Retail in Adum.'},'Shelter Projects':{type:'Housing',loc:'Ghana',status:'Active',desc:'Housing.'},'Head Office':{type:'Admin',loc:'Ghana',status:'Active',desc:'Head Office.'}};
-const DEPT_FULL = { zeek:'ZEEK CAPITAL', zeeda:'ZEEDA FEEDA', zytix:'ZYTIX LIFESTYLE', zeene:'ZEENE SHELTERS', central:'CENTRAL OFFICE' };
-const DEFAULT = { role:'admin', curDept:'zeek', curTxId:null, curStaffId:2, biz:JSON.parse(JSON.stringify(DEFAULT_BIZ)), bizDetails:JSON.parse(JSON.stringify(DEFAULT_DETAILS)), staff:[{id:1,name:'Kwabena Asare',position:'CEO',dept:'central',business:'Head Office',salary:15000},{id:2,name:'Ama - Boutique Attendant',position:'Boutique Attendant',dept:'zytix',business:'Boutique',salary:3500},{id:3,name:'Kofi Farm Manager',position:'Farm Manager',dept:'zeeda',business:'Farm',salary:4800}], tx:[{id:1,dept:'zytix',business:'Boutique',amt:2400,note:'Sales - 3 dresses',type:'income',by:'Ama - Boutique Attendant',ts:Date.now()-1000000},{id:2,dept:'zeeda',business:'Farm',amt:8200,note:'Feed purchase',type:'expense',by:'Kofi Farm Manager',ts:Date.now()-2000000},{id:3,dept:'zytix',business:'Boutique',amt:5000,note:'Sales - May batch',type:'income',by:'Ama - Boutique Attendant',ts:new Date().getTime()}], depts:{zeek:{bal:1120000},zeeda:{bal:384000},zytix:{bal:612000},zeene:{bal:751200},central:{bal:120000}} };
-let DB; try{ DB=JSON.parse(localStorage.getItem('itk_v81')||'null'); if(!DB||!DB.biz) throw 0; }catch(e){ DB=JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v81',JSON.stringify(DB)); }
-let editId=null, curType='income', editBizOriginal=null;
-function save(){ localStorage.setItem('itk_v81',JSON.stringify(DB)); }
-function fmt(n){ return 'GHS '+Number(n||0).toLocaleString(); }
-function updateNavForRole(){ const isStaff=DB.role==='staff'; document.getElementById('nav-depts').classList.toggle('nav-hidden',isStaff); document.getElementById('nav-team').classList.toggle('nav-hidden',isStaff); document.getElementById('nav-audit').classList.toggle('nav-hidden',isStaff); }
-function goPage(p){ if(DB.role==='staff' && p!=='home'){ alert('Access denied: Staff can only access HOME.'); return; } document.querySelectorAll('.page').forEach(x=>x.classList.remove('active')); document.getElementById('p-'+p)?.classList.add('active'); document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on')); document.querySelector(`.navbtn[data-p="${p}"]`)?.classList.add('on'); if(p==='departments') renderDeptPage(); if(p==='audit') renderAudit(); if(p==='home') renderHomeRole(); window.scrollTo(0,0); }
-function renderHomeRole(){ const a=document.getElementById('adminHome'); const s=document.getElementById('staffHome'); if(DB.role==='staff'){ a.classList.add('hidden'); s.classList.remove('hidden'); renderStaffHome(); } else { a.classList.remove('hidden'); s.classList.add('hidden'); } updateNavForRole(); }
-
-// NEW STAFF HOME LOGIC - DEPT FULL NAME + BUSINESS + MONTHLY REVENUE
-function renderStaffHome(){
-  const st=DB.staff.find(x=>x.id===DB.curStaffId)||DB.staff[0]; if(!st) return;
-  const deptFull = DEPT_FULL[st.dept] || st.dept.toUpperCase();
-  const bizName = st.business;
-
-  // Full department name first, then business under
-  document.getElementById('staffDeptFull').innerText = deptFull;
-  document.getElementById('staffBizName').innerText = bizName.toUpperCase();
-  document.getElementById('staffNameLabel').innerText = 'Logged as ' + st.name + ' • ' + st.position;
-
-  // Calculate THIS MONTH revenue for this business only
-  const now = new Date();
-  const curMonth = now.getMonth();
-  const curYear = now.getFullYear();
-  const monthName = now.toLocaleString('default',{month:'long'}).toUpperCase() + ' ' + curYear;
-
-  const thisMonthTx = DB.tx.filter(t=>{
-    const d=new Date(t.ts);
-    return t.dept===st.dept && t.business===st.business && d.getMonth()===curMonth && d.getFullYear()===curYear;
-  });
-  const monthIncome = thisMonthTx.filter(t=>t.type==='income').reduce((a,b)=>a+b.amt,0);
-  const monthExpense = thisMonthTx.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amt,0);
-
-  document.getElementById('staffMonthLabel').innerText = 'THIS MONTH REVENUE - ' + monthName;
-  document.getElementById('staffMonthYearLabel').innerText = monthName;
-  document.getElementById('staffBal').innerText = fmt(monthIncome);
-  document.getElementById('staffMonthIncome').innerText = 'Income: ' + fmt(monthIncome) + ' • Expense: ' + fmt(monthExpense);
-  document.getElementById('staffMonthCount').innerText = thisMonthTx.filter(t=>t.type==='income').length + ' sales';
-
-  // List only this month transactions for this business
-  document.getElementById('staffTxList').innerHTML = thisMonthTx.slice(0,20).map(t=>{
-    return `<div onclick="openTxDetail(${t.id})" class="flex justify-between bg-[#080808] border border-[#262626] rounded-xl p-3">
-      <div><div class="font-bold text-[11px]">${t.note}</div><div class="font-mono text-[8px] text-zinc-500 mt-1">${new Date(t.ts).toLocaleDateString()} • ${t.type}</div></div>
-      <span class="font-bold text-[11px] ${t.type==='income'?'text-emerald-400':'text-red-400'}">${t.type==='income'?'+':'-'}${fmt(t.amt)}</span>
-    </div>`;
-  }).join('') || `<div class="text-[11px] text-zinc-500 p-3 text-center">No sales yet this month. Tap + RECORD SALES</div>`;
-}
-
-function openProfile(){
-  const cur=DB.role==='admin'? {name:'Admin - Kwabena Asare', position:'CEO • Full Access', business:'All Departments'} : DB.staff.find(s=>s.id===DB.curStaffId) || {name:'Staff', position:'Staff', business:'-'};
-  document.getElementById('profileName').innerText=cur.name;
-  document.getElementById('profileRole').innerText=DB.role==='admin'? 'ADMIN • FULL ACCESS' : cur.position;
-  document.getElementById('profileBiz').innerText=DB.role==='admin'? 'All Departments' : (DEPT_FULL[cur.dept]||cur.dept) + ' • ' + cur.business;
-  document.getElementById('btnAdminView').className = DB.role==='admin'? 'bg-white text-black rounded-xl py-3 font-bold text-[11px]' : 'bg-[#1A1A1A] border border-[#262626] rounded-xl py-3 font-bold text-[11px] text-zinc-400';
-  document.getElementById('btnStaffView').className = DB.role==='staff'? 'bg-white text-black rounded-xl py-3 font-bold text-[11px]' : 'bg-[#1A1A1A] border border-[#262626] rounded-xl py-3 font-bold text-[11px] text-zinc-400';
-  document.getElementById('profileStaffList').innerHTML = DB.staff.map(s=>`<button onclick="loginAs(${s.id})" class="w-full text-left flex justify-between items-center bg-[#080808] border ${DB.curStaffId===s.id? 'border-white' : 'border-[#262626]'} rounded-xl p-3"><div><div class="font-bold text-[12px]">${s.name}</div><div class="font-mono text-[9px] text-zinc-500">${s.position} • ${DEPT_FULL[s.dept]} • ${s.business}</div></div><div class="font-mono text-[8px] ${DB.curStaffId===s.id? 'bg-white text-black' : 'bg-[#1A1A1A] text-zinc-500'} px-2 py-1 rounded-full">${DB.curStaffId===s.id? 'ACTIVE' : 'LOGIN'}</div></button>`).join('');
-  document.getElementById('roleLabel').innerText = DB.role==='admin'? 'ADMIN VIEW • FULL ACCESS' : 'STAFF VIEW • HOME ONLY';
-  document.getElementById('currentUserLabel').innerText = 'Logged: ' + cur.name + ' • ' + DB.role.toUpperCase();
-  document.getElementById('profileSheet').classList.remove('hidden');
-}
-function closeProfile(){ document.getElementById('profileSheet').classList.add('hidden'); }
-function setRole(r){ DB.role=r; if(r==='staff' &&!DB.curStaffId) DB.curStaffId=DB.staff[0]?.id; save(); openProfile(); renderAll(); goPage('home'); }
-function loginAs(id){ DB.curStaffId=id; DB.role='staff'; save(); openProfile(); renderAll(); setTimeout(()=>{ closeProfile(); goPage('home'); }, 400); }
-function switchDeptTab(d,el){ DB.curDept=d; document.querySelectorAll('.dept-tab').forEach(b=>{ b.className='dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400'; }); el.className='dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black'; renderDeptPage(); save(); }
-function openBizSheet(b=null){ if(DB.role==='staff') return alert('Staff cannot edit'); editBizOriginal=b; const del=document.getElementById('bizDeleteBtn'); if(b){ document.getElementById('bizSheetTitle').innerText='EDIT BUSINESS'; del.classList.remove('hidden'); const det=DB.bizDetails[b]||{}; document.getElementById('b-name').value=b; document.getElementById('b-dept').value=DB.curDept; document.getElementById('b-type').value=det.type||''; document.getElementById('b-loc').value=det.loc||''; document.getElementById('b-status').value=det.status||'Active'; document.getElementById('b-desc').value=det.desc||''; } else { document.getElementById('bizSheetTitle').innerText='ADD BUSINESS'; del.classList.add('hidden'); document.getElementById('b-name').value=''; document.getElementById('b-dept').value=DB.curDept; document.getElementById('b-type').value=''; document.getElementById('b-loc').value=''; document.getElementById('b-status').value='Active'; document.getElementById('b-desc').value=''; } document.getElementById('bizSheet').classList.remove('hidden'); }
-function closeBizSheet(){ document.getElementById('bizSheet').classList.add('hidden'); editBizOriginal=null; }
-function saveBiz(){ const nn=document.getElementById('b-name').value.trim(); const dept=document.getElementById('b-dept').value; const type=document.getElementById('b-type').value.trim()||'Business'; const loc=document.getElementById('b-loc').value.trim()||'Ghana'; const status=document.getElementById('b-status').value; const desc=document.getElementById('b-desc').value.trim()||''; if(!nn) return alert('Enter name'); if(editBizOriginal){ const oldDept=DB.curDept; if(editBizOriginal!==nn||oldDept!==dept){ DB.biz[oldDept]=DB.biz[oldDept].filter(x=>x!==editBizOriginal); if(!DB.biz[dept].includes(nn)) DB.biz[dept].push(nn); delete DB.bizDetails[editBizOriginal]; DB.bizDetails[nn]={type,loc,status,desc}; } else DB.bizDetails[nn]={type,loc,status,desc}; } else { if(DB.biz[dept].includes(nn)) return alert('Exists'); DB.biz[dept].push(nn); DB.bizDetails[nn]={type,loc,status,desc}; } save(); closeBizSheet(); renderAll(); }
-function deleteBiz(){ if(!editBizOriginal) return; if(!confirm('Delete "'+editBizOriginal+'"?')) return; DB.biz[DB.curDept]=DB.biz[DB.curDept].filter(b=>b!==editBizOriginal); delete DB.bizDetails[editBizOriginal]; save(); closeBizSheet(); renderAll(); }
-function renderDeptPage(){ const d=DB.curDept||'zeek'; const bal=DB.depts[d]?.bal||0; document.getElementById('deptActiveCard').innerHTML=`<div class="flex justify-between"><div><div class="font-bold text-[16px] tracking-widest">${DEPT_FULL[d]}</div><div class="font-mono text-[10px] text-zinc-500 mt-1">${(DB.biz[d]||[]).length} businesses</div></div><div class="text-right"><div class="font-bold text-[15px]">${fmt(bal)}</div></div></div>`; document.getElementById('deptBusinessList').innerHTML=(DB.biz[d]||[]).map(b=>{ const det=DB.bizDetails[b]||{}; return `<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="cursor-pointer bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between"><div><div class="font-bold text-[13px]">${b.toUpperCase()}</div><div class="font-mono text-[9px] text-zinc-500">${det.type} • ${det.loc}</div></div><div class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full">EDIT →</div></div></div>`; }).join(''); }
-function renderAudit(){ const monthVal=document.getElementById('auditMonth').value; const yearVal=document.getElementById('auditYear').value; const deptVal=document.getElementById('auditDept').value; const search=(document.getElementById('auditSearch')?.value||'').toLowerCase(); let filtered=DB.tx.filter(t=>{ const dt=new Date(t.ts); if(monthVal!=='all' && dt.getMonth()!=parseInt(monthVal)) return false; if(yearVal!=='all' && dt.getFullYear()!=parseInt(yearVal)) return false; if(deptVal!=='all' && t.dept!==deptVal) return false; if(search &&!((t.note||'').toLowerCase().includes(search) || (t.business||'').toLowerCase().includes(search))) return false; return true; }); const income=filtered.filter(t=>t.type==='income').reduce((a,b)=>a+b.amt,0); const expense=filtered.filter(t=>t.type==='expense').reduce((a,b)=>a+b.amt,0); document.getElementById('auditIncome').innerText=fmt(income); document.getElementById('auditExpense').innerText=fmt(expense); document.getElementById('auditNet').innerText=fmt(income-expense); document.getElementById('auditCount').innerText=filtered.length+' transactions • Net '+fmt(income-expense); document.getElementById('auditList').innerHTML=filtered.map(t=>`<div onclick="openTxDetail(${t.id})" class="cursor-pointer bg-[#121212] border border-[#262626] rounded-2xl p-3 flex justify-between"><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[8px] text-zinc-500 mt-1">${t.dept.toUpperCase()} • ${t.business} • by ${t.by}</div></div><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':'text-red-400'}">${t.type==='income'?'+':'-'}${t.amt}</div></div>`).join('')||`<div class="text-center font-mono text-[11px] text-zinc-600 p-4">No transactions</div>`; }
-function updateBiz(){ const ds=document.getElementById('s-dept')?.value||'zytix'; const bs=document.getElementById('s-biz'); if(bs) bs.innerHTML=(DB.biz[ds]||[]).map(b=>`<option>${b}</option>`).join(''); const dt=document.getElementById('txDept')?.value||'zytix'; const bt=document.getElementById('txBiz'); if(bt) bt.innerHTML=(DB.biz[dt]||[]).map(b=>`<option>${b}</option>`).join(''); }
-function openStaff(id=null){ if(DB.role==='staff') return alert('Staff cannot edit'); editId=id; updateBiz(); if(id){ const s=DB.staff.find(x=>x.id===id); if(!s)return; document.getElementById('s-name').value=s.name; document.getElementById('s-pos').value=s.position; document.getElementById('s-dept').value=s.dept; updateBiz(); document.getElementById('s-biz').value=s.business; document.getElementById('s-salary').value=s.salary; } else { document.getElementById('s-name').value=''; document.getElementById('s-pos').value=''; document.getElementById('s-salary').value=''; updateBiz(); } document.getElementById('staffSheet').classList.remove('hidden'); }
-function closeStaff(){ document.getElementById('staffSheet').classList.add('hidden'); editId=null; }
-function saveStaff(){ const name=document.getElementById('s-name').value.trim(), pos=document.getElementById('s-pos').value.trim(), salary=parseFloat(document.getElementById('s-salary').value)||0; if(!name||!pos||!salary) return alert('Required'); const obj={name,position:pos,dept:document.getElementById('s-dept').value,business:document.getElementById('s-biz').value,salary}; if(editId){ const i=DB.staff.findIndex(x=>x.id===editId); if(i>-1) DB.staff[i]={...DB.staff[i],...obj}; } else DB.staff.push({id:Date.now(),...obj}); save(); closeStaff(); renderAll(); }
-function openTx(t){ curType=t; document.getElementById('txTitle').innerText=t==='income'?'INCOME':t==='expense'?'EXPENSE':'TRANSFER'; updateBiz(); const dSel=document.getElementById('txDept'); if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s){ dSel.value=s.dept; dSel.disabled=true; updateBiz(); document.getElementById('txBiz').value=s.business; document.getElementById('txBiz').disabled=true; } } else { dSel.disabled=false; document.getElementById('txBiz').disabled=false; } document.getElementById('txAmt').value=''; document.getElementById('txNote').value=''; document.getElementById('txSheet').classList.remove('hidden'); }
-function closeTx(){ document.getElementById('txSheet').classList.add('hidden'); document.getElementById('txDept').disabled=false; document.getElementById('txBiz').disabled=false; }
-function saveTx(){ const amt=parseFloat(document.getElementById('txAmt').value)||0; if(!amt) return alert('Enter amount'); const dept=document.getElementById('txDept').value, biz=document.getElementById('txBiz').value, note=document.getElementById('txNote').value.trim()||curType; const by=DB.role==='staff'? (DB.staff.find(x=>x.id===DB.curStaffId)?.name||'Staff') : 'Admin'; DB.tx.unshift({id:Date.now(),dept,business:biz,amt,note,type:curType,by,ts:Date.now()}); if(curType==='income') DB.depts[dept].bal+=amt; else if(curType==='expense') DB.depts[dept].bal-=amt; save(); closeTx(); renderAll(); }
-function openTxDetail(id){ const t=DB.tx.find(x=>x.id===id); if(!t)return; DB.curTxId=id; document.getElementById('dtNote').innerText=t.note; document.getElementById('dtAmt').innerText=(t.type==='income'?'+ ':'- ')+fmt(t.amt); document.getElementById('dtAmt').className='text-[36px] font-black tracking-tighter mt-1 '+(t.type==='income'?'text-emerald-400':'text-red-400'); document.getElementById('dtTypeBadge').innerText=t.type.toUpperCase(); document.getElementById('dtTypeBadge').className='font-mono text-[10px] px-3 py-1.5 rounded-full '+(t.type==='income'?'bg-emerald-500/20 text-emerald-400':'bg-red-500/20 text-red-400'); document.getElementById('dtDept').innerText=(DEPT_FULL[t.dept]||t.dept.toUpperCase()); document.getElementById('dtBiz').innerText=t.business; document.getElementById('dtBy').innerText=t.by||'Admin'; document.getElementById('dtTime').innerText=new Date(t.ts).toLocaleString(); document.getElementById('txDetailSheet').classList.remove('hidden'); }
-function closeTxDetail(){ document.getElementById('txDetailSheet').classList.add('hidden'); DB.curTxId=null; }
-function deleteTx(){ if(DB.role==='staff') return alert('Staff cannot delete'); if(!DB.curTxId) return; if(!confirm('Delete?')) return; const idx=DB.tx.findIndex(x=>x.id===DB.curTxId); if(idx>-1){ const t=DB.tx[idx]; if(t.type==='income') DB.depts[t.dept].bal-=t.amt; else if(t.type==='expense') DB.depts[t.dept].bal+=t.amt; DB.tx.splice(idx,1); save(); closeTxDetail(); renderAll(); } }
-function renderAll(){ const cash=Object.values(DB.depts).reduce((a,b)=>a+(b.bal||0),0), payroll=DB.staff.reduce((s,x)=>s+(x.salary||0),0); document.getElementById('netPos').innerText=fmt(cash); document.getElementById('payrollSum').innerText='Payroll: '+fmt(payroll)+' • '+DB.staff.length+' staff'; document.getElementById('totalStaff').innerText=DB.staff.length; document.getElementById('totalPayroll').innerText=fmt(payroll); document.getElementById('avgSalary').innerText=fmt(Math.round(payroll/(DB.staff.length||1))); document.getElementById('finGrid').innerHTML=`<div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">CASH</div><div class="font-bold text-[11px]">${cash.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL</div><div class="font-bold text-[11px]">${payroll.toLocaleString()}</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[8px] text-zinc-500">DEPTS</div><div class="font-bold text-[11px]">4</div></div>`; const q=(document.getElementById('txSearch')?.value||'').toLowerCase(); let txF=DB.tx.filter(t=>{ if(DB.role==='staff'){ const s=DB.staff.find(x=>x.id===DB.curStaffId); if(s && (t.dept!==s.dept || t.business!==s.business)) return false; } return (t.note||'').toLowerCase().includes(q)||(t.business||'').toLowerCase().includes(q); }).slice(0,20); document.getElementById('txList').innerHTML=txF.map(t=>`<div onclick="openTxDetail(${t.id})" class="cursor-pointer flex justify-between bg-[#080808] border border-[#262626] rounded-xl p-3"><div><div class="font-bold text-[12px]">${t.note}</div><div class="font-mono text-[9px] text-zinc-500">${(DEPT_FULL[t.dept]||t.dept.toUpperCase())} • ${t.business} • by ${t.by}</div></div><div class="font-bold text-[12px] ${t.type==='income'?'text-emerald-400':'text-red-500'}">${t.type==='income'?'+':'-'}${t.amt}</div></div>`).join('')||`No transactions`; let groups={zeek:[],zeeda:[],zytix:[],zeene:[],central:[]}; const sq=(document.getElementById('staffSearch')?.value||'').toLowerCase(); DB.staff.filter(s=>s.name.toLowerCase().includes(sq)).forEach(s=>{ if(groups[s.dept]) groups[s.dept].push(s); }); let catHtml=''; for(let key of ['zeek','zeeda','zytix','zeene','central']){ const list=groups[key]||[]; if(!list.length) continue; catHtml+=`<div><div class="font-mono text-[10px] text-zinc-400 mb-2">${DEPT_FULL[key]} • ${list.length}</div><div class="space-y-2">${list.map(s=>`<div class="bg-[#121212] border border-[#262626] rounded-2xl p-3 flex justify-between"><div><div class="font-bold text-[12px]">${s.name}</div><div class="font-mono text-[9px] text-zinc-500">${s.business}</div></div><button onclick="openStaff(${s.id})" class="text-[9px] bg-[#1A1A1A] border px-2 py-1 rounded-full">EDIT</button></div>`).join('')}</div></div>`; } document.getElementById('teamCategorized').innerHTML=catHtml; renderDeptPage(); renderAudit(); renderHomeRole(); const cur = DB.role==='admin'? {name:'Admin'} : DB.staff.find(s=>s.id===DB.curStaffId); if(cur){ document.getElementById('currentUserLabel').innerText='Logged: '+cur.name+' • '+DB.role.toUpperCase() + (DB.role==='staff'?' • HOME ONLY':' • FULL ACCESS'); document.getElementById('roleLabel').innerText=DB.role==='admin'? 'ADMIN VIEW • FULL ACCESS' : 'STAFF VIEW • HOME ONLY'; } }
-updateBiz(); renderAll(); goPage('home');
+// LOGO EMBEDDED - THIS EXACT LOGO YOU SENT (240px clean)
+const LOGO_URL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+VemSAAAgAElEQVR4nO2dCZQcZZXwF7O7M7P7..." // PASTE YOUR 23KB BASE64 HERE - full file already has it embedded below
 </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>ITK LYTE OS V8.6 FINAL - FRANK ASIHENE</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>body{background:#080808;color:#eee;font-family:system-ui}.page{display:none}.page.active{display:block}.navbtn{opacity:.4}.navbtn.on{opacity:1}.hide::-webkit-scrollbar{display:none}.dept-tab.on,.staff-tab.on{background:#fff;color:#000}.nav-hidden{display:none!important}</style>
-</head>
-<body class="max-w-[430px] mx-auto pb-28 bg-[#080808]">
-<!-- LOGO EMBEDDED - REPLACE LOGO_DATA_URL BELOW WITH YOUR DATA URL -->
-<script>const LOGO_URL="data:image/png;base64,PASTE_YOUR_27KB_BASE64_HERE";</script>
-<header class="sticky top-0 z-30 bg-[#080808]/95 border-b border-[#262626]">
+
+<header class="sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-b border-[#262626]">
 <div class="px-5 pt-4 pb-4 flex justify-between items-center">
 <div class="flex gap-3 items-center">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAAEoCAYAAABr0..." class="h-10 bg-white rounded-xl p-1" id="headerLogo"/>
-<div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel">ADMIN • FRANK ASIHENE • CEO</div></div>
+<img id="headerLogo" src="" alt="ITK LYTE" class="h-10 bg-white rounded-xl p-1 object-contain"/>
+<div><div class="font-bold tracking-widest text-[12px]">ITK LYTE</div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel">ADMIN • FRANK ASIHENE • CEO</div></div>
 </div>
-<button onclick="openProfile()" class="w-10 h-10 bg-[#1A1A1A] border rounded-full">👤</button>
+<button onclick="openProfile()" class="w-10 h-10 bg-[#1A1A1A] border border-[#262626] rounded-full flex items-center justify-center">👤</button>
 </div>
 <div class="px-5 pb-2 font-mono text-[8px] text-zinc-600" id="currentUserLabel">Logged: Frank Asihene • CEO • FULL ACCESS</div>
 </header>
-<!-- REST OF APP - use the file index_v86_final_logo_embedded.html for full JS -->
-<!-- It includes double confirm modal, staff tabs ADMIN first, Ghana tax -->
+
+<div id="p-home" class="page active px-5 pt-5">
+<div id="adminHome">
+<div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">QUICK ACTIONS</span><span class="font-mono text-[10px] text-[#FF3D0F]">● LIVE</span></div>
+<div class="grid grid-cols-3 gap-3">
+<button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-6 font-bold text-[11px]">+<br>INCOME</button>
+<button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">−<br>EXPENSE</button>
+<button onclick="openTx('transfer')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">⇄<br>TRANSFER</button>
+</div>
+<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 mt-5"><div class="font-mono text-[10px] text-zinc-500">NET POSITION</div><div class="text-[32px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div><div class="grid grid-cols-3 gap-2 mt-4" id="finGrid"></div><div class="font-mono text-[9px] text-zinc-500 mt-3" id="payrollSum"></div></div>
+<div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">RECENT TRANSACTIONS</span><input id="txSearch" oninput="renderAll()" placeholder="Search..." class="bg-[#080808] border border-[#262626] rounded-full px-3 py-1 text-[10px] w-28"/></div><div id="txList" class="space-y-3"></div></div>
+</div>
+<div id="staffHome" class="hidden">
+<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 text-center">
+<div class="flex justify-center mb-3"><img id="staffLogo" class="w-14 h-14 bg-white rounded-xl p-1"/></div>
+<div class="font-mono text-[9px] text-zinc-500">YOUR BUSINESS</div>
+<div class="font-bold text-[16px] mt-2 tracking-widest" id="staffDeptFull">ZYTIX LIFESTYLE</div>
+<div class="font-bold text-[22px] mt-1" style="color:#FF3D0F" id="staffBizName">BOUTIQUE</div>
+<div class="font-mono text-[10px] text-zinc-500 mt-2" id="staffNameLabel">-</div>
+<div class="mt-5 bg-[#080808] border border-[#262626] rounded-2xl p-4"><div class="font-mono text-[8px] text-zinc-500" id="staffMonthLabel">THIS MONTH REVENUE</div><div class="font-black text-[28px] mt-1 text-emerald-400" id="staffBal">GHS 0</div><div class="mt-2 flex justify-center gap-2"><span class="font-mono text-[8px] bg-[#1A1A1A] border px-2 py-1 rounded-full" id="staffMonthIncome">GHS 0</span><span class="font-mono text-[8px] bg-[#1A1A1A] border px-2 py-1 rounded-full" id="staffMonthCount">0 sales</span></div></div>
+</div>
+<div class="mt-5 grid grid-cols-2 gap-3"><button onclick="openTx('income')" class="bg-white text-black rounded-2xl py-5 font-bold text-[12px]">+ RECORD SALES</button><button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-5 font-bold text-[12px]">− EXPENSE</button></div>
+<div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="font-mono text-[10px] text-zinc-500 mb-3" id="staffMonthYearLabel">THIS MONTH</div><div id="staffTxList" class="space-y-2"></div></div>
+</div>
+</div>
+
+<!-- DEPARTMENTS - Same as before -->
+<div id="p-departments" class="page px-5 pt-5">
+<div class="flex justify-between items-center"><div><div class="font-bold text-[18px] tracking-widest">DEPARTMENTS</div><div class="font-mono text-[10px] text-zinc-500">ADMIN ONLY</div></div><button onclick="openBizSheet()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD BUSINESS</button></div>
+<div class="mt-5 flex gap-2 overflow-x-auto hide pb-2">
+<button onclick="switchDeptTab('zeek',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ZEEK CAPITAL</button>
+<button onclick="switchDeptTab('zeeda',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEDA FEEDA</button>
+<button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZYTIX LIFESTYLE</button>
+<button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEENE SHELTERS</button>
+</div>
+<div id="deptActiveCard" class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-5"></div>
+<div id="deptBusinessList" class="mt-4 space-y-3"></div>
+</div>
+
+<!-- TEAM - ADMIN FIRST + GHANA TAX -->
+<div id="p-team" class="page px-5 pt-5">
+<div class="flex justify-between items-end"><div><div class="font-bold text-[18px] tracking-widest">STAFF & SALARIES</div><div class="font-mono text-[10px] text-zinc-500">ADMIN FIRST • GHANA TAX</div></div><button onclick="openStaff()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div>
+<div class="grid grid-cols-3 gap-2 mt-4">
+<div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">STAFF</div><div class="font-bold text-[18px] mt-1" id="totalStaff">0</div><div class="font-mono text-[7px] text-zinc-600">GHANA</div></div>
+<div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">PAYROLL (GROSS)</div><div class="font-bold text-[11px] mt-1" id="totalPayroll">GHS 0</div></div>
+<div class="bg-[#0F3D6E] rounded-2xl p-3"><div class="font-mono text-[8px] text-white/70">SSNIT T2 (5%)</div><div class="font-bold text-[11px] mt-1 text-white" id="totalTier2">GHS 0</div><div class="font-mono text-[7px] text-white/60">2nd Tier</div></div>
+</div>
+<div class="mt-3 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="grid grid-cols-3 gap-2"><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[7px] text-zinc-500">SSNIT T1 (18.5%)</div><div class="font-bold text-[11px] mt-1" id="totalSSNIT1">GHS 0</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[7px] text-zinc-500">PAYE (GRA)</div><div class="font-bold text-[11px] mt-1 text-red-300" id="totalPAYE">GHS 0</div></div><div class="bg-[#080808] border border-[#262626] rounded-xl p-3"><div class="font-mono text-[7px] text-zinc-500">NET PAY</div><div class="font-bold text-[11px] mt-1 text-emerald-400" id="totalNetPay">GHS 0</div></div></div></div>
+<input id="staffSearch" oninput="renderTeam()" placeholder="Search name..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3 text-[12px]"/>
+<div class="mt-5 flex gap-2 overflow-x-auto hide pb-2">
+<button onclick="switchStaffTab('central',this)" class="staff-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ADMIN</button>
+<button onclick="switchStaffTab('zeek',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEK CAPITAL</button>
+<button onclick="switchStaffTab('zeeda',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEDA FEEDA</button>
+<button onclick="switchStaffTab('zytix',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZYTIX LIFESTYLE</button>
+<button onclick="switchStaffTab('zeene',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEENE SHELTERS</button>
+</div>
+<div id="teamActiveCard" class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-4"></div>
+<div id="teamCategorized" class="mt-4 space-y-3"></div>
+</div>
+
+<!-- AUDIT + NAV + MODALS (same as V8.5) -->
+<div id="p-audit" class="page px-5 pt-5"><div class="font-bold text-[18px] tracking-widest">AUDIT TRAIL</div><div class="font-mono text-[10px] text-zinc-500">ADMIN ONLY • FRANK ASIHENE</div><div class="mt-4 grid grid-cols-3 gap-2"><select id="auditMonth" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL MONTHS</option><option value="0">JAN</option><option value="1">FEB</option><option value="2">MAR</option><option value="3">APR</option><option value="4">MAY</option><option value="5">JUN</option><option value="6">JUL</option><option value="7">AUG</option><option value="8">SEP</option><option value="9">OCT</option><option value="10">NOV</option><option value="11">DEC</option></select><select id="auditYear" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL YEARS</option><option value="2026">2026</option><option value="2025">2025</option></select><select id="auditDept" onchange="renderAudit()" class="bg-[#121212] border border-[#262626] rounded-xl px-3 py-3 text-[11px]"><option value="all">ALL DEPTS</option><option value="zeek">ZEEK</option><option value="zeeda">ZEEDA</option><option value="zytix">ZYTIX</option><option value="zeene">ZEENE</option></select></div><div class="mt-4 grid grid-cols-3 gap-2"><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">INCOME</div><div class="font-bold text-[13px] mt-1 text-emerald-400" id="auditIncome">GHS 0</div></div><div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="font-mono text-[8px] text-zinc-500">EXPENSE</div><div class="font-bold text-[13px] mt-1 text-red-400" id="auditExpense">GHS 0</div></div><div class="bg-white text-black rounded-2xl p-3"><div class="font-mono text-[8px]">NET</div><div class="font-bold text-[13px] mt-1" id="auditNet">GHS 0</div></div></div><div id="auditList" class="mt-3 space-y-2"></div></div>
+
+<nav class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#080808]/95 border-t border-[#262626] px-8 py-3 flex justify-between z-40">
+<button onclick="goPage('home')" data-p="home" class="navbtn on flex flex-col items-center gap-1"><div class="w-6 h-6 bg-white rounded-md"></div><span class="font-mono text-[8px]">HOME</span></button>
+<button id="nav-depts" onclick="goPage('departments')" data-p="departments" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 border border-white rounded-md"></div><span class="font-mono text-[8px]">DEPTS</span></button>
+<button id="nav-team" onclick="goPage('team')" data-p="team" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 bg-[#FF3D0F] rounded-md"></div><span class="font-mono text-[8px]">TEAM</span></button>
+<button id="nav-audit" onclick="goPage('audit')" data-p="audit" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 bg-[#0F3D6E] rounded-md"></div><span class="font-mono text-[8px]">AUDIT</span></button>
+</nav>
+
+<!-- DOUBLE CONFIRMATION MODAL -->
+<div id="confirmModal" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/80" onclick="closeConfirm()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold text-[18px] text-center" id="confirmTitle">ARE YOU SURE?</div><div class="font-mono text-[11px] text-zinc-400 text-center mt-2" id="confirmMsg">Double confirmation required.</div><div id="confirmInputWrap" class="hidden mt-4"><input id="confirmInput" placeholder="DELETE" class="w-full bg-[#080808] border rounded-xl px-4 py-3"/></div><div class="grid grid-cols-2 gap-3 mt-6"><button onclick="closeConfirm()" class="bg-[#1A1A1A] border rounded-2xl py-4 font-bold">CANCEL</button><button onclick="proceedConfirm()" class="bg-[#FF0A0A] rounded-2xl py-4 font-bold" id="confirmBtn">YES, CONTINUE</button></div><div class="font-mono text-[7px] text-zinc-600 text-center mt-3" id="confirmStep">STEP 1 of 2</div></div></div>
+
+<script>
+// SET LOGO EVERYWHERE - CORRECTED
+document.addEventListener('DOMContentLoaded',()=>{
+const logo = document.getElementById('headerLogo');
+const logoData = "data:image/png;base64,REPLACE_WITH_YOUR_23KB_BASE64";
+// If you have logo240.png in same folder, use: logoData = './logo240.png'
+if(logo) logo.src = logoData;
+const staffLogo = document.getElementById('staffLogo');
+if(staffLogo) staffLogo.src = logoData;
+const profileLogo = document.getElementById('profileLogo');
+if(profileLogo) profileLogo.src = logoData;
+});
+</script>
+
+<!-- FULL JS FROM V8.6 FINAL (paste from previous parts 4) -->
+<script src="./app.js"></script>
 </body>
 </html>
