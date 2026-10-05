@@ -21,9 +21,11 @@
 <div class="relative"><input id="loginPass" type="password" placeholder="Type password here" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3.5 pr-12 text-[13px] outline-none focus:border-white" onkeydown="if(event.key==='Enter')doLogin()"/><button onclick="toggleEye()" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center text-zinc-400 hover:text-white"><span id="eyeIcon">👁️</span></button></div>
 <div class="font-mono text-[8px] text-zinc-600 mt-2">Temporal password: <span class="text-white">password</span> • All lower case</div>
 </div>
-<div id="loginError" class="hidden font-mono text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl p-3"></div>
-<button onclick="doLogin()" class="w-full bg-white text-black rounded-2xl py-4 font-bold text-[12px] tracking-widest">LOGIN →</button>
-</div>
+<select id="loginRole" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3.5 text-[13px] pr-10 font-bold outline-none focus:border-white">
+<option value="">-- Choose Role --</option>
+<option value="admin">admin</option>
+<option value="staff">staff</option>
+</select>
 </div>
 </div>
 </div>
