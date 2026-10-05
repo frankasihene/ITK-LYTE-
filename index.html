@@ -1,123 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><meta name="theme-color" content="#FF3D0F">
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>ITK LYTE V9.9 SECTIONED</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITK LYTE - V8.5 Ghana Payroll</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>body{background:#0A0A0A;color:#eee;font-family:'Space Grotesk'}.page{display:none}.page.active{display:block}.navbtn{opacity:.4}.navbtn.on{opacity:1}.hide::-webkit-scrollbar{display:none}</style>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+body{background:#050505;color:white;font-family:Inter,sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.hide::-webkit-scrollbar{display:none}.hide{-ms-overflow-style:none;scrollbar-width:none}
+.page{display:none}.page.on{display:block}
+</style>
 </head>
-<body class="max-w-[430px] mx-auto min-h-screen pb-28 bg-[#0A0A0A]">
-
-<div id="loginPage" class="fixed inset-0 z-[100] bg-[#080808] flex flex-col items-center justify-center px-8 max-w-[430px] mx-auto">
-<div class="w-full"><div class="flex flex-col items-center mb-8"><img src="logo.png" class="w-20 h-20 bg-white rounded-2xl p-2 mb-4"/><div class="font-bold tracking-widest text-[18px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[10px] text-zinc-500">V9.9 • SECTIONED TEAM</div></div>
-<div class="bg-[#121212] border border-[#262626] rounded-3xl p-6">
-<div class="space-y-4"><div><div class="font-mono text-[9px] text-zinc-500 mb-2">SELECT ROLE ▼</div><div class="relative"><select id="loginRole" class="w-full bg-[#080808] border rounded-xl px-4 py-3.5 pr-10 font-bold"><option value="">-- Choose Role --</option><option value="admin">ADMIN • CEO Frank Asihene</option><option value="staff">STAFF</option></select><div class="absolute right-4 top-1/2 -translate-y-1/2">▼</div></div></div>
-<div><div class="font-mono text-[9px] text-zinc-500 mb-2">PASSWORD</div><div class="relative"><input id="loginPass" type="password" placeholder="password" class="w-full bg-[#080808] border rounded-xl px-4 py-3.5 pr-12" onkeydown="if(event.key==='Enter')doLogin()"/><button onclick="toggleEye()" class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8"><span id="eyeIcon">👁️</span></button></div></div>
-<div id="loginError" class="hidden font-mono text-[10px] text-red-400 bg-red-500/10 border rounded-xl p-3"></div>
-<button onclick="doLogin()" class="w-full bg-white text-black rounded-2xl py-4 font-bold text-[12px]">LOGIN →</button>
-</div></div></div></div>
-
-<div id="appContent" class="hidden">
-<header class="sticky top-0 z-30 bg-[#0A0A0A]/95 backdrop-blur-xl border-b border-[#1A1A1A]"><div class="px-5 pt-4 pb-4 flex justify-between items-center"><div class="flex gap-3 items-center"><img src="logo.png" class="w-11 h-11 bg-white rounded-xl p-1"/><div><div class="font-bold tracking-widest text-[14px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel"></div></div></div><button onclick="openProfile()" class="w-10 h-10 bg-[#1A1A1A] border rounded-full">👤</button></div></header>
-
-<div id="p-home" class="page active px-5 pt-5">
-<div id="adminActions" class="grid grid-cols-3 gap-3"><button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-6 font-bold text-[11px]">+<br>INCOME</button><button onclick="openTx('expense')" class="bg-[#121212] border rounded-2xl py-6 font-bold text-[11px]">−<br>EXPENSE</button><button onclick="openTx('transfer')" class="bg-[#121212] border rounded-2xl py-6 font-bold text-[11px]">⇄<br>TRANSFER</button></div>
-<div id="staffActions" class="hidden grid grid-cols-2 gap-3"><button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-8 font-bold">+ ADD INCOME</button><button onclick="openTx('expense')" class="bg-[#121212] border rounded-2xl py-8 font-bold">− ADD EXPENSE</button></div>
-<div class="mt-5 bg-[#121212] border rounded-3xl p-4"><div id="txList" class="space-y-3"></div></div>
+<body class="pb-24">
+<!-- HEADER -->
+<div class="flex justify-between items-center px-5 py-4 border-b border-[#1A1A1A] sticky top-0 bg-[#050505] z-20">
+  <div class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-white text-black flex items-center justify-center font-black rounded-xl">LYTE</div>
+    <div><div class="font-bold text-[13px] tracking-widest">ITK LYTE</div><div class="mono text-[9px] text-zinc-500">ADMIN • GHANA PAYROLL • V8.5</div></div>
+  </div>
+  <div class="bg-[#1A1A1A] border border-[#262626] px-3 py-1.5 rounded-full mono text-[10px]">ADMIN VIEW</div>
 </div>
 
-<!-- TEAM PAGE - NEW SECTIONED LAYOUT -->
+<!-- HOME -->
+<div id="p-home" class="page on px-5 pt-6">
+  <div class="font-bold text-[18px] tracking-widest">DASHBOARD</div>
+  <div class="mono text-[10px] text-zinc-500 mt-1">OVERVIEW • STAFF & PAYROLL</div>
+  <div class="grid grid-cols-2 gap-3 mt-6">
+    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-4"><div class="mono text-[8px] text-zinc-500">TOTAL STAFF</div><div id="homeStaff" class="font-bold text-[20px] mt-2">0</div></div>
+    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-4"><div class="mono text-[8px] text-zinc-500">PAYROLL (GROSS)</div><div id="homePay" class="font-bold text-[13px] mt-2">GHS 0</div></div>
+  </div>
+  <div class="mt-4 grid grid-cols-2 gap-3">
+    <div class="bg-[#0F3D6E] rounded-2xl p-4"><div class="mono text-[8px] text-white/70">TIER 2 (5%) TOTAL</div><div id="homeTier2" class="font-bold text-[13px] mt-2 text-white">GHS 0</div></div>
+    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-4"><div class="mono text-[8px] text-zinc-500">PAYE TAX TOTAL</div><div id="homePAYE" class="font-bold text-[13px] mt-2 text-red-300">GHS 0</div></div>
+  </div>
+</div>
+
+<!-- DEPARTMENTS -->
+<div id="p-departments" class="page px-5 pt-5">
+  <div class="flex justify-between items-end">
+    <div><div class="font-bold text-[18px] tracking-widest">DEPARTMENTS</div><div class="mono text-[10px] text-zinc-500">HORIZONTAL DEPTS • VERTICAL BUSINESSES</div></div>
+    <button onclick="addBusiness()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ BUSINESS</button>
+  </div>
+  <div class="mt-5 flex gap-2 overflow-x-auto hide pb-2" id="deptTabs"></div>
+  <div id="deptBusinessList" class="mt-4 space-y-3 pb-10"></div>
+</div>
+
+<!-- TEAM -->
 <div id="p-team" class="page px-5 pt-5">
-<div class="font-mono text-[10px] tracking-[0.2em] text-zinc-500 mb-2">TEAM STRUCTURE</div>
-
-<!-- SECTION 1: ADMIN -->
-<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
-<div class="flex justify-between items-center"><div><div class="font-black text-[15px] tracking-widest">ADMIN EXECUTIVES</div><div class="font-mono text-[9px] text-zinc-500">CEO • GM • HR • FINANCE - Vertical</div></div><button onclick="openAdminAdd()" class="w-9 h-9 bg-white text-black rounded-full font-bold text-[20px]">+</button></div>
-<div id="adminList" class="mt-4 space-y-3"></div>
+  <div class="flex justify-between items-end">
+    <div><div class="font-bold text-[18px] tracking-widest">STAFF & SALARIES</div><div class="mono text-[10px] text-zinc-500">LIST + POSITIONS + PAYROLL</div></div>
+    <button onclick="openStaff()" class="bg-white text-black px-5 py-2.5 rounded-full text-[12px] font-bold">+ ADD</button>
+  </div>
+  <div class="grid grid-cols-3 gap-2 mt-4">
+    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="mono text-[8px] text-zinc-500">STAFF</div><div class="font-bold text-[22px] mt-1" id="totalStaff">0</div><div class="mono text-[7px] text-zinc-600">GHANA</div></div>
+    <div class="bg-[#121212] border border-[#262626] rounded-2xl p-3"><div class="mono text-[8px] text-zinc-500">PAYROLL (GROSS)</div><div class="font-bold text-[11px] mt-2" id="totalPayroll">GHS 0</div></div>
+    <div class="bg-[#0F3D6E] rounded-2xl p-3"><div class="mono text-[8px] text-white/70">SSNIT TIER 2 (5%)</div><div class="font-bold text-[11px] mt-2 text-white" id="totalTier2">GHS 0</div><div class="mono text-[7px] text-white/60">2nd Tier</div></div>
+  </div>
+  <div class="mt-3 bg-[#121212] border border-[#262626] rounded-3xl p-3">
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-[#080808] border border-[#1A1A1A] rounded-xl p-3"><div class="mono text-[7px] text-zinc-500">SSNIT T1 (18.5%)</div><div class="font-bold text-[11px] mt-1" id="totalSSNIT1">GHS 0</div></div>
+      <div class="bg-[#080808] border border-[#1A1A1A] rounded-xl p-3"><div class="mono text-[7px] text-zinc-500">PAYE TAX (GRA)</div><div class="font-bold text-[11px] mt-1 text-red-300" id="totalPAYE">GHS 0</div></div>
+      <div class="bg-[#080808] border border-[#1A1A1A] rounded-xl p-3"><div class="mono text-[7px] text-zinc-500">NET PAY</div><div class="font-bold text-[11px] mt-1 text-emerald-400" id="totalNetPay">GHS 0</div></div>
+    </div>
+  </div>
+  <input id="staffSearch" oninput="renderTeam()" placeholder="Search name, position, business, phone..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3.5 text-[12px] mono outline-none"/>
+  <div class="mt-5 flex gap-2 overflow-x-auto hide pb-2" id="staffTabs">
+    <button onclick="switchStaffTab('central',this)" class="staff-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ADMIN</button>
+    <button onclick="switchStaffTab('zeek',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEK CAPITAL</button>
+    <button onclick="switchStaffTab('zeeda',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEEDA FEEDA</button>
+    <button onclick="switchStaffTab('zytix',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZYTIX LIFESTYLE</button>
+    <button onclick="switchStaffTab('zeene',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">ZEENE SHELTERS</button>
+  </div>
+  <div id="teamActiveCard" class="mt-4 bg-[#121212] border border-[#262626] rounded-3xl p-4"></div>
+  <div id="teamCategorized" class="mt-4 space-y-4 pb-10"></div>
 </div>
 
-<!-- SECTION 2: DEPARTMENTS HORIZONTAL -->
-<div class="mt-6">
-<div class="font-black text-[15px] tracking-widest">DEPARTMENTS</div><div class="font-mono text-[9px] text-zinc-500 mb-3">Horizontal • Tap to view businesses vertically below</div>
-<div class="flex gap-2 overflow-x-auto hide pb-2" id="deptHorizontal"></div>
-<!-- BUSINESSES VERTICAL UNDER SELECTED DEPT -->
-<div id="bizVertical" class="mt-4 space-y-3"></div>
+<!-- AUDIT -->
+<div id="p-audit" class="page px-5 pt-5">
+  <div class="flex justify-between items-end">
+    <div><div class="font-bold text-[18px] tracking-widest">AUDIT</div><div class="mono text-[10px] text-zinc-500">TRACE TRANSACTIONS • MONTHLY / YEARLY • OPEN RECEIPT</div></div>
+    <button onclick="openAudit()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD TXN</button>
+  </div>
+  <div class="flex gap-2 mt-5">
+    <button onclick="switchAudit('month',this)" class="audit-tab on flex-1 py-2.5 rounded-full text-[11px] font-bold bg-white text-black">MONTHLY</button>
+    <button onclick="switchAudit('year',this)" class="audit-tab flex-1 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400">YEARLY</button>
+  </div>
+  <input id="auditSearch" oninput="renderAudit()" placeholder="Search date, description..." class="mt-4 w-full bg-[#121212] border border-[#262626] rounded-full px-4 py-3 text-[12px] mono"/>
+  <div id="auditList" class="mt-4 space-y-2 pb-10"></div>
 </div>
 
+<!-- BOTTOM NAV -->
+<div class="fixed bottom-0 left-0 right-0 bg-[#080808] border-t border-[#1A1A1A] flex justify-around py-3 z-20">
+  <button onclick="switchPage('home',this)" class="nav on flex flex-col items-center gap-1"><div class="w-6 h-6 bg-white rounded-md"></div><div class="mono text-[8px] font-bold">HOME</div></button>
+  <button onclick="switchPage('departments',this)" class="nav flex flex-col items-center gap-1 opacity-50"><div class="w-6 h-6 bg-[#262626] rounded-md"></div><div class="mono text-[8px]">DEPTS</div></button>
+  <button onclick="switchPage('team',this)" class="nav flex flex-col items-center gap-1 opacity-50"><div class="w-6 h-6 bg-[#262626] rounded-md"></div><div class="mono text-[8px]">TEAM</div></button>
+  <button onclick="switchPage('audit',this)" class="nav flex flex-col items-center gap-1 opacity-50"><div class="w-6 h-6 bg-[#262626] rounded-md"></div><div class="mono text-[8px]">AUDIT</div></button>
 </div>
 
-<div id="p-departments" class="page px-5 pt-5"><div class="font-bold">DEPARTMENTS (OLD)</div><div id="deptBusinessList"></div></div>
-<div id="p-audit" class="page px-5 pt-5"><div id="auditList"></div></div>
+<!-- STAFF MODAL -->
+<div id="staffModal" class="fixed inset-0 bg-black/80 hidden z-30 p-5 flex items-end justify-center"><div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 w-full max-w-md">
+  <div class="font-bold tracking-widest">STAFF FORM</div><div class="mono text-[9px] text-zinc-500">NAME • DEPARTMENT • BUSINESS • PHONE • EDITABLE</div>
+  <input id="f_name" placeholder="Full Name" class="mt-4 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px] outline-none"/>
+  <div class="grid grid-cols-2 gap-2 mt-2">
+    <select id="f_dept" class="bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] outline-none"><option value="central">ADMIN • CENTRAL</option><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix">ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option></select>
+    <input id="f_business" placeholder="Business e.g. Trading Desk" class="bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] outline-none"/>
+  </div>
+  <div class="grid grid-cols-2 gap-2 mt-2">
+    <input id="f_position" placeholder="Position e.g. CEO" class="bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] outline-none"/>
+    <input id="f_phone" placeholder="Phone e.g. 0244 123 456" class="bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] outline-none"/>
+  </div>
+  <input id="f_salary" type="number" placeholder="Salary GHS - e.g. 15000" class="mt-2 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] outline-none"/>
+  <div class="flex gap-2 mt-5"><button onclick="closeStaff()" class="flex-1 bg-[#1A1A1A] border border-[#262626] rounded-full py-3 text-[11px] font-bold">CANCEL</button><button onclick="saveStaff()" class="flex-1 bg-white text-black rounded-full py-3 text-[11px] font-bold">SAVE STAFF</button></div>
+</div></div>
 
-<nav id="bottomNav" class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#0A0A0A] border-t border-[#1A1A1A] px-6 py-3 flex justify-between z-40">
-<button onclick="goPage('home')" data-p="home" class="navbtn on flex flex-col items-center gap-2"><div class="w-9 h-9 bg-[#3A3A3A] rounded-xl flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div><span class="font-mono text-[9px]">HOME</span></button>
-<button onclick="goPage('team')" data-p="team" class="navbtn flex flex-col items-center gap-2"><div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center text-black font-bold">T</div><span class="font-mono text-[9px]">TEAM</span></button>
-</nav>
-</div>
-
-<!-- ADMIN ADD/EDIT SHEET -->
-<div id="adminSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeAdminSheet()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t rounded-t-[28px] p-6"><div class="font-bold" id="adminSheetTitle">Add Admin Member</div><input id="adminName" placeholder="Full Name - e.g. Frank Asihene" class="mt-4 w-full bg-[#080808] border rounded-xl px-4 py-3"/><select id="adminRole" class="mt-3 w-full bg-[#080808] border rounded-xl px-4 py-3"><option value="CEO">CEO</option><option value="General Manager">General Manager</option><option value="HR Manager">HR Manager</option><option value="Finance Manager">Finance Manager</option></select><button onclick="saveAdmin()" class="mt-4 w-full bg-white text-black rounded-2xl py-4 font-bold">SAVE</button><button id="adminDeleteBtn" onclick="deleteAdmin()" class="mt-3 w-full bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl py-3 font-bold text-[11px] hidden">DELETE THIS MEMBER</button></div></div>
-
-<!-- BUSINESS STAFF ADD -->
-<div id="bizStaffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeBizStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t rounded-t-[28px] p-6"><div class="font-bold" id="bizStaffTitle">Add Staff to Business</div><div class="font-mono text-[9px] text-zinc-500" id="bizStaffSub"></div><input id="bizStaffName" placeholder="Staff Name" class="mt-4 w-full bg-[#080808] border rounded-xl px-4 py-3"/><input id="bizStaffPos" placeholder="Position" class="mt-3 w-full bg-[#080808] border rounded-xl px-4 py-3"/><button onclick="saveBizStaff()" class="mt-4 w-full bg-[#FF3D0F] rounded-2xl py-4 font-bold">ADD TO BUSINESS</button></div></div>
-
-<!-- 3 DOTS MENU -->
-<div id="dotsMenu" class="fixed inset-0 z-[70] hidden"><div class="absolute inset-0 bg-black/60" onclick="closeDots()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#1A1A1A] border-t rounded-t-[24px] p-4"><div class="font-bold text-center mb-3" id="dotsTitle">Options</div><button onclick="dotsEdit()" class="w-full bg-[#262626] rounded-xl py-3 font-bold text-[12px] mb-2">✏️ EDIT NAME / ROLE</button><button onclick="dotsDelete()" class="w-full bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl py-3 font-bold text-[12px]">🗑️ DELETE</button><button onclick="closeDots()" class="w-full mt-3 bg-[#080808] border rounded-xl py-3 font-bold text-[12px]">CANCEL</button></div></div>
-
-<div id="txSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTx()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t rounded-t-[28px] p-6"><input id="txAmt" type="number" placeholder="Amount GHS" class="w-full bg-[#080808] border rounded-2xl px-4 py-4 text-[20px] font-bold"/><input id="txNote" placeholder="Note" class="w-full bg-[#080808] border rounded-xl px-4 py-3 mt-3"/><button onclick="saveTx()" class="mt-4 w-full bg-[#FF3D0F] rounded-2xl py-4 font-bold">CONFIRM</button></div></div>
+<!-- AUDIT MODALS -->
+<div id="auditModal" class="fixed inset-0 bg-black/80 hidden z-30 p-5 flex items-end justify-center"><div class="bg-[#121212] border border-[#262626] rounded-3xl p-5 w-full max-w-md">
+  <div class="font-bold tracking-widest">ADD TRANSACTION</div>
+  <input id="a_date" type="date" class="mt-4 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px]"/>
+  <input id="a_desc" placeholder="Description" class="mt-2 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px]"/>
+  <input id="a_amount" type="number" placeholder="Amount (+ income / - expense)" class="mt-2 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px]"/>
+  <textarea id="a_receipt" placeholder="Receipt details - openable" class="mt-2 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[12px] h-20"></textarea>
+  <div class="flex gap-2 mt-4"><button onclick="closeAudit()" class="flex-1 bg-[#1A1A1A] border rounded-full py-3 text-[11px] font-bold">CANCEL</button><button onclick="saveAudit()" class="flex-1 bg-white text-black rounded-full py-3 text-[11px] font-bold">SAVE</button></div>
+</div></div>
+<div id="receiptModal" class="fixed inset-0 bg-black/90 hidden z-40 p-5 overflow-auto"><div class="bg-white text-black rounded-3xl p-6 max-w-md mx-auto mt-10"><div id="receiptContent"></div><button onclick="document.getElementById('receiptModal').classList.add('hidden')" class="mt-5 w-full bg-black text-white rounded-full py-3 text-[11px] font-bold">CLOSE RECEIPT</button></div></div>
 
 <script>
-const DEFAULT_ADMIN=[{id:1,name:'Frank Asihene',role:'CEO'},{id:2,name:'General Manager',role:'General Manager'},{id:3,name:'HR Manager',role:'HR Manager'},{id:4,name:'Finance Manager',role:'Finance Manager'}];
-let DEFAULT_BIZ={zeek:['Trading Desk','Investment Fund'],zeeda:['Farm','Restaurant','Supply'],zytix:['Boutique','Events & Rave','Media'],zeene:['Apartment','Hotel']};
-let DEFAULT={role:'admin',curDept:'zeek',adminTeam:JSON.parse(JSON.stringify(DEFAULT_ADMIN)),biz:JSON.parse(JSON.stringify(DEFAULT_BIZ)),bizStaff:{},tx:[],depts:{zeek:{bal:0},zeeda:{bal:0},zytix:{bal:0},zeene:{bal:0}}};
-let DB;try{DB=JSON.parse(localStorage.getItem('itk_v99_SECTIONED')||'null');if(!DB||!DB.adminTeam)throw 0}catch(e){DB=JSON.parse(JSON.stringify(DEFAULT));}
-let curType='income',dotsTarget=null,dotsType=null,curAdminEditId=null,curBizForStaff=null;
-
-function checkLoginState(){const logged=localStorage.getItem('itk_logged_in');const role=localStorage.getItem('itk_role');if(logged==='1'&&role){DB.role=role;document.getElementById('loginPage').classList.add('hidden');document.getElementById('appContent').classList.remove('hidden');updateRoleUI();}else{document.getElementById('loginPage').classList.remove('hidden');document.getElementById('appContent').classList.add('hidden');}}
-function toggleEye(){const i=document.getElementById('loginPass');const e=document.getElementById('eyeIcon');if(i.type==='password'){i.type='text';e.innerText='🙈';}else{i.type='password';e.innerText='👁️';}}
-function doLogin(){const role=document.getElementById('loginRole').value;const pass=document.getElementById('loginPass').value;const err=document.getElementById('loginError');if(!role){err.innerText='Select role ▼';err.classList.remove('hidden');return;}if(pass.toLowerCase()!=='password'){err.innerText='Type: password';err.classList.remove('hidden');return;}localStorage.setItem('itk_logged_in','1');localStorage.setItem('itk_role',role);DB.role=role;save();err.classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('appContent').classList.remove('hidden');updateRoleUI();renderAll();}
-function save(){localStorage.setItem('itk_v99_SECTIONED',JSON.stringify(DB));}
-function fmt(n){return 'GHS '+Number(n||0).toLocaleString();}
-function goPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));document.querySelector(`[data-p="${p}"]`)?.classList.add('on');if(p==='team')renderTeamSectioned();}
-
-function updateRoleUI(){const isStaff=DB.role==='staff';document.getElementById('roleLabel').innerText=isStaff?'STAFF VIEW':'ADMIN • CEO';}
-
-function renderTeamSectioned(){
-// ADMIN VERTICAL
-document.getElementById('adminList').innerHTML=DB.adminTeam.map(m=>`<div class="bg-[#0A0A0A] border border-[#1E1E1E] rounded-2xl p-4 flex justify-between items-center"><div class="flex gap-3 items-center"><div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-black font-black text-[11px]">${m.role.substring(0,3).toUpperCase()}</div><div><div class="font-bold text-[13px]">${m.name}</div><div class="font-mono text-[9px] text-zinc-500">${m.role.toUpperCase()}</div></div></div><button onclick="openDots('admin',${m.id})" class="w-8 h-8 bg-[#1A1A1A] border border-[#262626] rounded-full flex items-center justify-center">⋯</button></div>`).join('');
-
-// DEPTS HORIZONTAL
-const depts=[{id:'zeek',label:'ZEEK CAPITAL'},{id:'zeeda',label:'ZEEDA FEEDA'},{id:'zytix',label:'ZYTIX LIFESTYLE'},{id:'zeene',label:'ZEENE SHELTERS'}];
-document.getElementById('deptHorizontal').innerHTML=depts.map(d=>`<button onclick="switchDept('${d.id}')" class="shrink-0 px-5 py-3 rounded-full text-[11px] font-bold border ${DB.curDept===d.id?'bg-white text-black':'bg-[#1A1A1A] border-[#262626] text-zinc-400'}">${d.label}</button>`).join('');
-
-// BUSINESSES VERTICAL UNDER SELECTED DEPT
-const bizList=DB.biz[DB.curDept]||[];
-document.getElementById('bizVertical').innerHTML=bizList.map(b=>`<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="flex justify-between items-center"><div><div class="font-bold text-[14px]">${b}</div><div class="font-mono text-[9px] text-zinc-500">${(DB.bizStaff[b]||[]).length} staff • Tap + to add name</div></div><div class="flex gap-2"><button onclick="openBizStaffAdd('${b.replace(/'/g,"\\'")}')" class="w-8 h-8 bg-white text-black rounded-full font-bold">+</button><button onclick="openDots('biz','${b.replace(/'/g,"\\'")}')" class="w-8 h-8 bg-[#1A1A1A] border rounded-full">⋯</button></div></div><div class="mt-3 space-y-2">${(DB.bizStaff[b]||[]).map((s,idx)=>`<div class="bg-[#0A0A0A] border border-[#1E1E1E] rounded-xl p-3 flex justify-between"><div><div class="font-bold text-[12px]">${s.name}</div><div class="font-mono text-[8px] text-zinc-500">${s.pos}</div></div><button onclick="deleteBizStaff('${b.replace(/'/g,"\\'")}',${idx})" class="text-red-400 text-[11px]">✕</button></div>`).join('')||'<div class="font-mono text-[9px] text-zinc-600 p-2">No names yet - tap + to add</div>'}</div></div>`).join('');
+let DB = JSON.parse(localStorage.getItem('itk_v85_full')) || 'null') || {
+ staff:[
+  {id:1,name:'Frank Asihene',position:'CEO',dept:'central',business:'Head Office',phone:'0244 000 001',salary:15000},
+  {id:2,name:'Ama - Boutique Attendant',position:'Boutique Attendant',dept:'zytix',business:'Boutique',phone:'0244 000 002',salary:3500},
+  {id:3,name:'Kofi Farm Manager',position:'Farm Manager',dept:'zeeda',business:'Farm',phone:'0244 000 003',salary:4800}
+ ],
+ departments:{central:['Head Office','Admin'],zeek:['Trading Desk','Investment Fund'],zeeda:['Feed Mill','Farm'],zytix:['Boutique','Lifestyle'],zeene:['Real Estate','Shelters']},
+ audits:[
+  {id:1,date:'2026-10-01',desc:'Boutique Sales',amount:2500,receipt:'Boutique sales - Ama - GHS 2500 - Receipt #001'},
+  {id:2,date:'2026-09-15',desc:'Farm Feed Purchase',amount:-1800,receipt:'Zeeda Feed Mill - Feed purchase - GHS 1800 - Supplier receipt'}
+ ]
+};
+function fmt(n){return 'GHS ' + Number(n).toLocaleString();}
+function ghanaPAYE(taxable){let tax=0; let brackets=[0,490,600,730,3896.67,19896.67,50496.67]; let rates=[0,0.05,0.10,0.175,0.25,0.30,0.35]; for(let i=0;i<brackets.length;i++){let up=brackets[i+1]||Infinity, low=brackets[i]; if(taxable>low){let amt=Math.min(taxable,up)-low; if(amt>0) tax+=amt*rates[i];}} return Math.round(tax);}
+function ghanaDeductions(salary){const emp=salary*0.055, tier2=salary*0.05, tier1Employer=salary*0.135, taxable=salary-emp; const paye=ghanaPAYE(taxable), net=salary-emp-paye; return {emp,tier2,tier1Employer,totalT1:emp+tier1Employer,paye,net,taxable};}
+let curStaffTab='central', curDeptTab='central', curAudit='month', editingStaff=null;
+function save(){localStorage.setItem('itk_v85_full',JSON.stringify(DB));}
+function switchPage(p,el){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
+ document.getElementById('p-'+p).classList.add('on');
+ document.querySelectorAll('.nav').forEach(x=>{x.classList.remove('on');x.classList.add('opacity-50');});
+ el.classList.add('on'); el.classList.remove('opacity-50');
+ if(p==='team') renderTeam(); if(p==='departments') renderDepts(); if(p==='audit') renderAudit(); if(p==='home') renderHome();
 }
-
-function switchDept(id){DB.curDept=id;save();renderTeamSectioned();}
-function openAdminAdd(){curAdminEditId=null;document.getElementById('adminSheetTitle').innerText='Add Admin Member';document.getElementById('adminName').value='';document.getElementById('adminRole').value='General Manager';document.getElementById('adminDeleteBtn').classList.add('hidden');document.getElementById('adminSheet').classList.remove('hidden');}
-function closeAdminSheet(){document.getElementById('adminSheet').classList.add('hidden');}
-function saveAdmin(){const name=document.getElementById('adminName').value.trim();const role=document.getElementById('adminRole').value;if(!name)return;if(curAdminEditId){const m=DB.adminTeam.find(x=>x.id===curAdminEditId);if(m){m.name=name;m.role=role;}}else{DB.adminTeam.push({id:Date.now(),name,role});}save();closeAdminSheet();renderTeamSectioned();}
-function deleteAdmin(){if(!curAdminEditId)return;if(!confirm('Delete this admin member?'))return;DB.adminTeam=DB.adminTeam.filter(x=>x.id!==curAdminEditId);save();closeAdminSheet();closeDots();renderTeamSectioned();}
-
-function openDots(type,id){dotsType=type;dotsTarget=id;document.getElementById('dotsTitle').innerText=type==='admin'?'Admin Member Options':'Business Options';document.getElementById('dotsMenu').classList.remove('hidden');}
-function closeDots(){document.getElementById('dotsMenu').classList.add('hidden');}
-function dotsEdit(){if(dotsType==='admin'){const m=DB.adminTeam.find(x=>x.id===dotsTarget);if(m){curAdminEditId=m.id;document.getElementById('adminSheetTitle').innerText='Edit: '+m.name;document.getElementById('adminName').value=m.name;document.getElementById('adminRole').value=m.role;document.getElementById('adminDeleteBtn').classList.remove('hidden');document.getElementById('adminSheet').classList.remove('hidden');}}else if(dotsType==='biz'){const oldName=dotsTarget;const newName=prompt('Rename business:',oldName);if(newName&&newName!==oldName){DB.biz[DB.curDept]=DB.biz[DB.curDept].map(b=>b===oldName?newName:b);if(DB.bizStaff[oldName]){DB.bizStaff[newName]=DB.bizStaff[oldName];delete DB.bizStaff[oldName];}save();renderTeamSectioned();}}closeDots();}
-function dotsDelete(){if(dotsType==='admin'){curAdminEditId=dotsTarget;deleteAdmin();}else if(dotsType==='biz'){if(confirm('Delete business "'+dotsTarget+'"?')){DB.biz[DB.curDept]=DB.biz[DB.curDept].filter(b=>b!==dotsTarget);delete DB.bizStaff[dotsTarget];save();renderTeamSectioned();closeDots();}}}
-
-function openBizStaffAdd(bizName){curBizForStaff=bizName;document.getElementById('bizStaffTitle').innerText='Add to '+bizName;document.getElementById('bizStaffSub').innerText=DB.curDept.toUpperCase()+' • '+bizName;document.getElementById('bizStaffName').value='';document.getElementById('bizStaffPos').value='';document.getElementById('bizStaffSheet').classList.remove('hidden');}
-function closeBizStaff(){document.getElementById('bizStaffSheet').classList.add('hidden');}
-function saveBizStaff(){const name=document.getElementById('bizStaffName').value.trim();const pos=document.getElementById('bizStaffPos').value.trim()||'Staff';if(!name)return;if(!DB.bizStaff[curBizForStaff])DB.bizStaff[curBizForStaff]=[];DB.bizStaff[curBizForStaff].push({name,pos});save();closeBizStaff();renderTeamSectioned();}
-function deleteBizStaff(biz,idx){if(!confirm('Delete this name?'))return;DB.bizStaff[biz].splice(idx,1);save();renderTeamSectioned();}
-
-function openTx(t){curType=t;document.getElementById('txSheet').classList.remove('hidden');}
-function closeTx(){document.getElementById('txSheet').classList.add('hidden');}
-function saveTx(){const amt=parseFloat(document.getElementById('txAmt').value)||0;if(!amt)return;const note=document.getElementById('txNote').value||curType;DB.tx.unshift({amt,note});save();closeTx();renderAll();}
-function renderAll(){document.getElementById('txList').innerHTML=DB.tx.slice(0,10).map(t=>`<div class="bg-[#0A0A0A] border rounded-xl p-3 flex justify-between"><div class="font-bold text-[12px]">${t.note}</div><div class="font-bold">${t.amt}</div></div>`).join('')||'<div class="text-zinc-600 text-[11px] p-4 text-center">No transactions</div>';renderTeamSectioned();}
-checkLoginState();renderAll();
-</script>
-</body>
-</html>
+function renderHome(){
+ document.getElementById('homeStaff').innerText=DB.staff.length;
+ let gross=DB.staff.reduce((a,b)=>a+b.salary,0);
+ document.getElementById('homePay').innerText=fmt(gross);
+ document.getElementById('homeTier2').innerText=fmt(gross*0.05);
+ document.getElementById('homePAYE').innerText=fmt(DB.staff.reduce((a,b)=>a+ghanaDeductions(b.salary).paye,0));
+}
+function renderDepts(){
+ const depts=['central','zeek','zeeda','zytix','zeene'];
+ const FULL={central:'ADMIN • CENTRAL',zeek:'ZEEK CAPITAL',zeeda:'ZEEDA FEEDA',zytix:'ZYTIX LIFESTYLE',zeene:'ZEENE SHELTERS'};
+ document.getElementById('deptTabs').innerHTML=depts.map(d=>`<button onclick="switchDeptTab('${d}',this)" class="dept-tab ${d===curDeptTab?'bg-white text-black border':'bg-[#1A1A1A] text-zinc-400 border border-[#262626]'} shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold">${FULL[d]}</button>`).join('');
+ document.getElementById('deptBusinessList').innerHTML=(DB.departments[curDeptTab]||[]).map(b=>{
+   const count = DB.staff.filter(s=>s.dept===curDeptTab && s.business===b).length;
+   return `<div class="bg-[#121212] border border-[#262626] rounded-2xl p-4 flex justify-between items-center"><div><div class="font-bold text-[13px]">${b}</div><div class="mono text-[9px] text-zinc-500">${FULL[curDeptTab]} • ${count} staff • editable</div></div><div class="text-[10px] bg-[#1A1A1A] border border-[#262626] px-3 py-1.5 rounded-full mono">BUSINESS</div></div>`;
+ }).join('');
+}
+function switchDeptTab(d,el){curDeptTab=d; renderDepts();}
+function addBusiness(){let name=prompt('Business name e.g. Trading Desk'); if(!name) return; if(!DB.departments[curDeptTab]) DB.departments[curDeptTab]=[]; DB.departments[curDeptTab].push(name); save(); renderDepts();}
+function switchStaffTab(dept,el){
+ curStaffTab=dept;
+ document.querySelectorAll('.staff-tab').forEach(b=>b.className='staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400');
+ el.className='staff-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black';
+ renderTeam();
+}
+function renderTeam(){
+ const DEPT_FULL={zeek:'ZEEK CAPITAL',zeeda:'ZEEDA FEEDA',zytix:'ZYTIX LIFESTYLE',zeene:'ZEENE SHELTERS',central:'ADMIN • CENTRAL OFFICE'};
+ const q=(document.getElementById('staffSearch')?.value||'').toLowerCase();
+ const filtered=DB.staff.filter(s=>s.dept===curStaffTab && (`${s.name} ${s.position} ${s.business} ${s.phone} ${s.dept}`.toLowerCase().includes(q)));
+ const byBusiness={}; filtered.forEach(s=>{if(!byBusiness[s.business]) byBusiness[s.business]=[]; byBusiness[s.business].push(s);});
+ let grossTab=filtered.reduce((a,b)=>a+b.salary,0);
+ let allGross=DB.staff.reduce((a,b)=>a+b.salary,0);
+ document.getElementById('totalStaff').innerText=DB.staff.length;
+ document.getElementById('totalPayroll').innerText=fmt(allGross);
+ document.getElementById('totalTier2').innerText=fmt(allGross*0.05);
+ document.getElementById('totalSSNIT1').innerText=fmt(DB.staff.reduce((a,b)=>a+ghanaDeductions(b.salary).totalT1,0));
+ document.getElementById('totalPAYE').innerText=fmt(DB.staff.reduce((a,b)=>a+ghanaDeductions(b.salary).paye,0));
+ document.getElementById('totalNetPay').innerText=fmt(DB.staff.reduce((a,b)=>a+ghanaDeductions(b.salary).net,0));
+ document.getElementById('teamActiveCard').innerHTML=`<div class="flex justify-between"><div><div class="font-bold text-[14px]">${DEPT_FULL[curStaffTab]}</div><div class="mono text-[9px] text-zinc-500 mt-1">${filtered.length} staff • ${Object.keys(byBusiness).length} businesses • GHANA PAYROLL</div></div><div class="text-right"><div class="font-bold text-[13px]">${fmt(grossTab)}</div><div class="mono text-[8px] text-zinc-500">Gross in this dept</div></div></div>`;
+ let html='';
+ for(let biz in byBusiness){
+   html+=`<div class="flex justify-between items-center mt-6"><div class="mono text-[10px] text-zinc-400 tracking-widest">${biz.toUpperCase()}</div><div class="mono text-[9px] text-zinc-600">${byBusiness[biz].length} staff</div></div>`;
+   byBusiness[biz].forEach(s=>{
+     let d=ghanaDeductions(s.salary);
+     let initials=s.name.split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
+     html+=`<div class="bg-[#121212] border border-[#262626] rounded-2xl p-4 mt-2">
+      <div class="flex justify-between items-start">
+        <div class="flex gap-3 items-center">
+          <div class="w-10 h-10 bg-white text-black rounded-xl flex items-center justify-center font-bold text-[11px]">${initials}</div>
+          <div>
+            <div class="font-bold text-[13px]">${s.name}</div>
+            <div class="mono text-[9px] text-zinc-500">${s.position} • ${s.business}</div>
+            <div class="mono text-[9px] text-zinc-400">${s.dept.toUpperCase()} • ${s.phone}</div>
+          </div>
+        </div>
+        <button onclick="openStaff(${s.id})" class="text-[9px] bg-[#1A1A1A] border border-[#262626] px-3 py-1.5 rounded-full mono">EDIT</button>
+      </div>
+      <div class="mt-3 grid grid-cols-4 gap-2">
+        <div class="bg-[#080808] border border-[#1A1A1A] rounded-lg p-2"><div class="mono text-[6px] text-zinc-500">GROSS</div><div class="font-bold text-[10px]">${s.salary.toLocaleString()}</div></div>
+        <div class="bg-[#080808] border border-[#1A1A1A] rounded-lg p-2"><div class="mono text-[6px] text-zinc-500">TIER2 5%</div><div class="font-bold text-[10px] text-blue-300">GHS ${d.tier2.toFixed(0)}</div></div>
+        <div class="bg-[#080808] border border-[#1A1A1A] rounded-lg p-2"><div class="mono text-[6px] text-zinc-500">PAYE TAX</div><div class="font-bold text-[10px] text-red-300">GHS ${d.paye}</div></div>
+        <div class="bg-[#080808] border border-[#1A1A1A] rounded-lg p-2"><div class="mono text-[6px] text-zinc-500">NET</div><div class="font-bold text-[10px] text-emerald-400">GHS ${d.net}</div></div>
+      </div>
+    </div>`;
+   });
+ }
+ document.getElementById('teamCategorized').innerHTML=html||`<div class="text-center mono text-[11px] text-zinc-600 p-6">No staff in ${DEPT_FULL[curStaffTab]}</div>`;
+ save(); renderHome();
+}
+function openStaff(id){
+ editingStaff = id? DB.staff.find(s=>s.id===id) : null;
+ document.getElementById('staffModal').classList.remove('hidden');
+ if(editingStaff){
+   f_name.value=editingStaff.name; f_dept.value=editingStaff.dept; f_business.value=editingStaff.business;
+   f_position.value=editingStaff.position; f_phone.value=editingStaff.phone; f_salary.value=editingStaff.salary;
+ } else { f_name.value=''; f_business.value=''; f_position.value=''; f_phone.value=''; f_salary.value=''; f_dept.value=curStaffTab; }
+}
+function closeStaff(){document.getElementById('staffModal').classList.add('hidden');}
+function saveStaff(){
+ const data={name:f_name.value.trim(),dept:f_dept.value,business:f_business.value.trim()||'General',position:f_position.value.trim()||'Staff',phone:f_phone.value.trim()||'N/A',salary:Number(f_salary.value)||0};
+ if(!data.name) return alert('Name required');
+ if(editingStaff){Object.assign(editingStaff,data);} else {data.id=Date.now(); DB.staff.push(data);}
+ closeStaff(); renderTeam();
+}
+function switchAudit(t,el){curAudit=t; document.querySelectorAll('.audit-tab').forEach(b=>{b.className='audit-tab flex-1 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border border-[#262626] text-zinc-400';}); el.className='audit-tab on flex-1 py-2.5 rounded-full text-[11px] font-bold bg-white text-black'; renderAudit();}
+function renderAudit(){
+ const q=(document.getElementById('auditSearch')?.value||'').toLowerCase();
+ let list=[...
