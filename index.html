@@ -3,7 +3,7 @@
 <head>
 <link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><meta name="theme-color" content="#FF3D0F">
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>ITK LYTE V9.8 - STAFF JOB REVENUE</title>
+<title>ITK LYTE V9.8 - BROAD CARDS</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>body{background:#080808;color:#eee;font-family:'Space Grotesk'}.page{display:none}.page.active{display:block}.navbtn{opacity:.45}.navbtn.on{opacity:1}.hide::-webkit-scrollbar{display:none}.dept-tab.on,.staff-tab.on{background:#fff;color:#000}select{appearance:none}</style>
@@ -12,7 +12,7 @@
 
 <div id="loginPage" class="fixed inset-0 z-[100] bg-[#080808] flex flex-col items-center justify-center px-8 max-w-[430px] mx-auto">
 <div class="w-full">
-<div class="flex flex-col items-center mb-8"><img src="logo.png" class="w-20 h-20 bg-white rounded-2xl p-2 mb-4"/><div class="font-bold tracking-widest text-[18px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[10px] text-zinc-500">V9.8 • STAFF JOB REVENUE</div></div>
+<div class="flex flex-col items-center mb-8"><img src="logo.png" class="w-20 h-20 bg-white rounded-2xl p-2 mb-4"/><div class="font-bold tracking-widest text-[18px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[10px] text-zinc-500">V9.8 • BROAD CARDS</div></div>
 <div class="bg-[#121212] border border-[#262626] rounded-3xl p-6">
 <div class="font-bold text-[14px]">LOGIN</div><div class="font-mono text-[10px] text-zinc-500 mb-5">Role = admin or staff • Password = password</div>
 <div class="space-y-4">
@@ -30,47 +30,27 @@
 <header class="sticky top-0 z-30 bg-[#080808]/95 backdrop-blur-xl border-b border-[#262626]"><div class="px-5 pt-4 pb-4 flex justify-between items-center"><div class="flex gap-3 items-center"><img src="logo.png" class="w-11 h-11 bg-white rounded-xl p-1"/><div><div class="font-bold tracking-widest text-[14px]"><span class="text-[#0F3D6E]">ITK</span> <span class="text-[#FF3D0F]">LYTE</span></div><div class="font-mono text-[9px] text-zinc-500" id="roleLabel"></div></div></div><button onclick="doLogout()" class="font-mono text-[8px] text-red-400 border border-red-500/20 px-2 py-1 rounded-full">LOGOUT</button></div></header>
 
 <div id="p-home" class="page active px-5 pt-5">
-<!-- ADMIN HOME -->
 <div id="adminActions" class="grid grid-cols-3 gap-3"><button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-6 font-bold text-[11px]">+<br>INCOME</button><button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">−<br>EXPENSE</button><button onclick="openTx('transfer')" class="bg-[#121212] border border-[#262626] rounded-2xl py-6 font-bold text-[11px]">⇄<br>TRANSFER</button></div>
-
-<!-- STAFF HOME - JOB REVENUE -->
 <div id="staffActions" class="hidden space-y-4">
-<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
-<div class="font-mono text-[10px] text-zinc-500">TOTAL REVENUE - CURRENT MONTH</div>
-<div class="text-[36px] font-bold tracking-tighter mt-2" id="staffMonthRevenue">GHS 0</div>
-<div class="font-mono text-[9px] text-zinc-500 mt-1" id="staffMonthDetail"></div>
+<div class="bg-[#121212] border border-[#262626] rounded-3xl p-5"><div class="font-mono text-[10px] text-zinc-500">TOTAL REVENUE - CURRENT MONTH</div><div class="text-[36px] font-bold tracking-tighter mt-2" id="staffMonthRevenue">GHS 0</div><div class="font-mono text-[9px] text-zinc-500 mt-1" id="staffMonthDetail"></div></div>
+<div class="bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="font-bold text-[11px] tracking-widest">REVENUE BY YOUR JOBS THIS MONTH</div><div id="staffJobRevenueList" class="mt-3 space-y-2"></div></div>
+<div class="grid grid-cols-2 gap-3"><button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-7 font-bold text-[12px]">+<br>ADD INCOME</button><button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-7 font-bold text-[12px]">−<br>ADD EXPENSE</button></div>
+<div class="bg-[#080808] border rounded-2xl p-4"><div class="font-mono text-[9px] text-zinc-500">MY RECENT INPUTS THIS MONTH</div><div id="staffRecentList" class="mt-3 space-y-2"></div></div>
 </div>
-
-<div class="bg-[#121212] border border-[#262626] rounded-3xl p-4">
-<div class="font-bold text-[11px] tracking-widest">REVENUE BY YOUR JOBS THIS MONTH</div>
-<div class="font-mono text-[9px] text-zinc-500 mt-1">Each business you work on • Income only • This month</div>
-<div id="staffJobRevenueList" class="mt-3 space-y-2"></div>
-</div>
-
-<div class="grid grid-cols-2 gap-3">
-<button onclick="openTx('income')" class="bg-[#FF3D0F] rounded-2xl py-7 font-bold text-[12px]">+<br>ADD INCOME</button>
-<button onclick="openTx('expense')" class="bg-[#121212] border border-[#262626] rounded-2xl py-7 font-bold text-[12px]">−<br>ADD EXPENSE</button>
-</div>
-
-<div class="bg-[#080808] border rounded-2xl p-4">
-<div class="font-mono text-[9px] text-zinc-500">MY RECENT INPUTS THIS MONTH</div>
-<div id="staffRecentList" class="mt-3 space-y-2"></div>
-</div>
-</div>
-
-<!-- ADMIN NET + RECENT (hidden for staff) -->
 <div id="adminExtra">
 <div id="adminNetCard" class="bg-[#121212] border border-[#262626] rounded-3xl p-5 mt-5"><div class="font-mono text-[10px] text-zinc-500">NET POSITION</div><div class="text-[34px] font-bold tracking-tighter mt-1" id="netPos">GHS 0</div><div class="grid grid-cols-2 gap-2 mt-4" id="finGrid"></div><div class="font-mono text-[9px] text-zinc-500 mt-3" id="payrollSum"></div></div>
 <div class="mt-5 bg-[#121212] border border-[#262626] rounded-3xl p-4"><div class="flex justify-between mb-3"><span class="font-mono text-[10px] text-zinc-500">RECENT TRANSACTIONS</span><input id="txSearch" oninput="renderAll()" placeholder="Search..." class="bg-[#080808] border rounded-full px-3 py-1 text-[10px] w-28"/></div><div id="txList" class="space-y-3"></div></div>
 </div>
 </div>
 
-<div id="p-departments" class="page px-5 pt-5"><div class="flex justify-between items-center"><div><div class="font-bold text-[18px]">DEPARTMENTS</div><div class="font-mono text-[10px] text-zinc-500">ADMIN ONLY • DOUBLE CONFIRM DELETE</div></div><button onclick="openBizSheet()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD BUSINESS</button></div><div class="mt-5 flex gap-2 overflow-x-auto hide pb-2"><button onclick="switchDeptTab('central',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ADMIN</button><button onclick="switchDeptTab('zeek',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEK</button><button onclick="switchDeptTab('zeeda',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEDA</button><button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZYTIX</button><button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEENE</button></div><div id="deptActiveCard" class="mt-4 bg-[#121212] border rounded-3xl p-5"></div><div id="deptBusinessList" class="mt-4 space-y-3"></div></div>
+<div id="p-departments" class="page px-5 pt-5"><div class="flex justify-between items-center"><div><div class="font-bold text-[18px]">DEPARTMENTS</div><div class="font-mono text-[10px] text-zinc-500">ADMIN ONLY • DOUBLE CONFIRM DELETE</div></div><button onclick="openBizSheet()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD BUSINESS</button></div><div class="mt-5 flex gap-2 overflow-x-auto hide pb-2"><button onclick="switchDeptTab('central',this)" class="dept-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ADMIN</button><button onclick="switchDeptTab('zeek',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEK</button><button onclick="switchDeptTab('zeeda',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEDA</button><button onclick="switchDeptTab('zytix',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZYTIX</button><button onclick="switchDeptTab('zeene',this)" class="dept-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEENE</button></div><div id="deptActiveCard" class="mt-4"></div><div id="deptBusinessList" class="mt-4 space-y-3"></div></div>
 
 <div id="p-team" class="page px-5 pt-5">
-<div class="flex justify-between items-end"><div><div class="font-bold text-[18px]">STAFF & SALARIES</div><div class="font-mono text-[9px] text-zinc-500">ADMIN • DELETE OR ARCHIVE</div></div><div class="flex gap-2"><button onclick="toggleArchive()" class="bg-[#1A1A1A] border px-3 py-2 rounded-full text-[10px] font-bold" id="archiveBtn">📦 ARCHIVES (0)</button><button onclick="openStaffForm()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div></div>
+<div class="flex justify-between items-end"><div><div class="font-bold text-[18px]">STAFF & SALARIES</div><div class="font-mono text-[9px] text-zinc-500">ADMIN • TAX + TIER2 • DELETE/ARCHIVE</div></div><div class="flex gap-2"><button onclick="toggleArchive()" class="bg-[#1A1A1A] border px-3 py-2 rounded-full text-[10px] font-bold" id="archiveBtn">📦 ARCHIVES (0)</button><button onclick="openStaffForm()" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-bold">+ ADD</button></div></div>
+<div class="grid grid-cols-3 gap-2 mt-4"><div class="bg-[#121212] border rounded-2xl p-3"><div class="font-mono text-[7px] text-zinc-500">STAFF</div><div class="font-bold text-[16px]" id="totalStaff">0</div></div><div class="bg-[#121212] border rounded-2xl p-3"><div class="font-mono text-[7px] text-zinc-500">GROSS</div><div class="font-bold text-[10px]" id="totalPayroll">GHS 0</div></div><div class="bg-[#0F3D6E] rounded-2xl p-3"><div class="font-mono text-[7px] text-white/70">TIER2 5% + TAX</div><div class="font-bold text-[10px] text-white" id="totalTier2">GHS 0</div></div></div>
 <input id="staffSearch" oninput="renderTeam()" placeholder="Search name, dept, business..." class="mt-3 w-full bg-[#121212] border rounded-full px-4 py-3 text-[11px] font-mono"/>
 <div class="mt-3 flex gap-2 overflow-x-auto hide pb-2"><button onclick="switchStaffTab('central',this)" class="staff-tab on shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold border bg-white text-black">ADMIN</button><button onclick="switchStaffTab('zeek',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEK</button><button onclick="switchStaffTab('zeeda',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEEDA</button><button onclick="switchStaffTab('zytix',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZYTIX</button><button onclick="switchStaffTab('zeene',this)" class="staff-tab shrink-0 px-4 py-2.5 rounded-full text-[11px] font-bold bg-[#1A1A1A] border">ZEENE</button></div>
+<div id="teamActiveCard" class="mt-3"></div>
 <div id="teamCategorized" class="mt-3 space-y-4 pb-4"></div>
 <div id="archiveList" class="hidden mt-6 border-t border-[#262626] pt-4"><div class="font-bold text-[12px]">📦 ARCHIVED STAFF</div><div id="archivedStaffList" class="mt-3 space-y-2"></div></div>
 </div>
@@ -92,50 +72,48 @@
 <script>
 let DEFAULT_BIZ={zeek:['Trading Desk','Investment Fund'],zeeda:['Farm','Restaurant','Supply'],zytix:['Boutique','Events & Rave','Media'],zeene:['Apartment','Hotel'],central:['Head Office','Admin Office','HR','Finance']};
 const DEPT_FULL={zeek:'ZEEK CAPITAL',zeeda:'ZEEDA FEEDA',zytix:'ZYTIX LIFESTYLE',zeene:'ZEENE SHELTERS',central:'ADMIN'};
-const DEFAULT={role:'admin',curDept:'central',biz:JSON.parse(JSON.stringify(DEFAULT_BIZ)),staff:[{id:1,name:'Frank Asihene',position:'CEO',dept:'central',business:'Head Office',phone:'0244 000 001',salary:15000},{id:2,name:'Kwame Mensah',position:'General Manager',dept:'central',business:'Admin Office',phone:'0244 000 010',salary:8000}],archivedStaff:[],tx:[],depts:{zeek:{bal:0},zeeda:{bal:0},zytix:{bal:0},zeene:{bal:0},central:{bal:0}},loginLogs:[]};
+const DEFAULT={role:'admin',curDept:'central',biz:JSON.parse(JSON.stringify(DEFAULT_BIZ)),staff:[{id:1,name:'Frank Asihene',position:'CEO',dept:'central',business:'Head Office',phone:'0244 000 001',salary:15000},{id:2,name:'Kwame Mensah',position:'General Manager',dept:'central',business:'Admin Office',phone:'0244 000 010',salary:8000}],archivedStaff:[],tx:[],depts:{zeek:{bal:0},zeeda:{bal:0},zytix:{bal:0},zeene:{bal:0},central:{bal:0}}};
 let DB;try{DB=JSON.parse(localStorage.getItem('itk_v98_FINAL')||'null');if(!DB||!DB.depts)throw 0;if(!DB.archivedStaff)DB.archivedStaff=[];}catch(e){DB=JSON.parse(JSON.stringify(DEFAULT));localStorage.setItem('itk_v98_FINAL',JSON.stringify(DB));}
 let editBizOriginal=null,curType='income',editingStaff=null,curStaffTab='central',showArchive=false;
 function save(){localStorage.setItem('itk_v98_FINAL',JSON.stringify(DB));}
 function fmt(n){return 'GHS '+Number(n||0).toLocaleString();}
 function toggleEye(){let i=document.getElementById('loginPass');i.type=i.type==='password'?'text':'password';}
 function checkLoginState(){let logged=localStorage.getItem('itk_logged_in');let role=localStorage.getItem('itk_role');if(logged==='1'&&role){DB.role=role;document.getElementById('loginPage').classList.add('hidden');document.getElementById('appContent').classList.remove('hidden');updateRoleUI();}else{document.getElementById('loginPage').classList.remove('hidden');document.getElementById('appContent').classList.add('hidden');}}
-function doLogin(){
-  let role=(document.getElementById('loginRole').value||'').trim().toLowerCase();
-  let pass=(document.getElementById('loginPass').value||'').trim().toLowerCase();
-  let err=document.getElementById('loginError');
-  if(!role){err.innerText='Choose admin or staff';err.classList.remove('hidden');return;}
-  if(pass!=='password'){err.innerText='Password is password';err.classList.remove('hidden');return;}
-  localStorage.setItem('itk_logged_in','1');localStorage.setItem('itk_role',role);DB.role=role;save();
-  err.classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('appContent').classList.remove('hidden');updateRoleUI();renderAll();
-}
+function doLogin(){let role=(document.getElementById('loginRole').value||'').trim().toLowerCase();let pass=(document.getElementById('loginPass').value||'').trim().toLowerCase();let err=document.getElementById('loginError');if(!role){err.innerText='Choose admin or staff';err.classList.remove('hidden');return;}if(pass!=='password'){err.innerText='Password is password';err.classList.remove('hidden');return;}localStorage.setItem('itk_logged_in','1');localStorage.setItem('itk_role',role);DB.role=role;save();err.classList.add('hidden');document.getElementById('loginPage').classList.add('hidden');document.getElementById('appContent').classList.remove('hidden');updateRoleUI();renderAll();}
 function doLogout(){localStorage.removeItem('itk_logged_in');localStorage.removeItem('itk_role');document.getElementById('loginRole').value='';document.getElementById('loginPass').value='';document.getElementById('loginPage').classList.remove('hidden');document.getElementById('appContent').classList.add('hidden');}
-function updateRoleUI(){
- let isStaff=DB.role==='staff';
- document.getElementById('roleLabel').innerText=isStaff?'STAFF • HOME ONLY':'ADMIN • CEO';
- document.getElementById('adminActions').classList.toggle('hidden',isStaff);
- document.getElementById('staffActions').classList.toggle('hidden',!isStaff);
- document.getElementById('adminExtra').classList.toggle('hidden',isStaff);
- document.getElementById('nav-depts').style.display=isStaff?'none':'flex';
- document.getElementById('nav-team').style.display=isStaff?'none':'flex';
- document.getElementById('nav-audit').style.display=isStaff?'none':'flex';
- if(isStaff) renderStaffHome();
-}
+function updateRoleUI(){let isStaff=DB.role==='staff';document.getElementById('roleLabel').innerText=isStaff?'STAFF • HOME ONLY':'ADMIN • CEO';document.getElementById('adminActions').classList.toggle('hidden',isStaff);document.getElementById('staffActions').classList.toggle('hidden',!isStaff);document.getElementById('adminExtra').classList.toggle('hidden',isStaff);document.getElementById('nav-depts').style.display=isStaff?'none':'flex';document.getElementById('nav-team').style.display=isStaff?'none':'flex';document.getElementById('nav-audit').style.display=isStaff?'none':'flex';if(isStaff)renderStaffHome();}
 function getMonthTx(){let now=new Date();return DB.tx.filter(t=>{let d=new Date(t.ts);return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear();});}
-function renderStaffHome(){
- let now=new Date();let monthTx=getMonthTx();
- let incomeTx=monthTx.filter(t=>t.type==='income');
- let total=incomeTx.reduce((a,b)=>a+b.amt,0);
- document.getElementById('staffMonthRevenue').innerText=fmt(total);
- document.getElementById('staffMonthDetail').innerText=now.toLocaleString('default',{month:'long'})+' '+now.getFullYear()+' • '+incomeTx.length+' income transactions this month';
- // breakdown by business (job)
- let byBiz={};incomeTx.forEach(t=>{let k=t.business||'General';byBiz[k]=(byBiz[k]||0)+t.amt;});
- let html=Object.keys(byBiz).length? Object.entries(byBiz).map(([biz,amt])=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[12px]">${biz}</div><div class="font-mono text-[8px] text-zinc-500">Income this month • This job</div></div><div class="font-bold text-[12px] text-emerald-400">${fmt(amt)}</div></div>`).join('') : `<div class="font-mono text-[10px] text-zinc-600 p-3 text-center">No income yet this month • Add income with button above</div>`;
- document.getElementById('staffJobRevenueList').innerHTML=html;
- // recent inputs this month (staff inputs)
- document.getElementById('staffRecentList').innerHTML=monthTx.slice(0,10).map(t=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[11px]">${t.note} • ${t.business}</div><div class="font-mono text-[8px] text-zinc-500">${t.dept.toUpperCase()} • ${new Date(t.ts).toLocaleDateString()}</div></div><div class="font-bold text-[11px] ${t.type==='income'?'text-emerald-400':'text-red-400'}">${t.type==='income'?'+': '-'}${t.amt}</div></div>`).join('')||`<div class="font-mono text-[9px] text-zinc-600 text-center p-3">No transactions yet</div>`;
-}
+function renderStaffHome(){let now=new Date();let monthTx=getMonthTx();let incomeTx=monthTx.filter(t=>t.type==='income');let total=incomeTx.reduce((a,b)=>a+b.amt,0);document.getElementById('staffMonthRevenue').innerText=fmt(total);document.getElementById('staffMonthDetail').innerText=now.toLocaleString('default',{month:'long'})+' '+now.getFullYear()+' • '+incomeTx.length+' income';let byBiz={};incomeTx.forEach(t=>{let k=t.business||'General';byBiz[k]=(byBiz[k]||0)+t.amt;});document.getElementById('staffJobRevenueList').innerHTML=Object.keys(byBiz).length? Object.entries(byBiz).map(([biz,amt])=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[12px]">${biz}</div><div class="font-mono text-[8px] text-zinc-500">This month • Job revenue</div></div><div class="font-bold text-[12px] text-emerald-400">${fmt(amt)}</div></div>`).join('') : `<div class="font-mono text-[10px] text-zinc-600 p-3 text-center">No income yet this month</div>`;document.getElementById('staffRecentList').innerHTML=monthTx.slice(0,10).map(t=>`<div class="flex justify-between bg-[#080808] border rounded-xl p-3"><div><div class="font-bold text-[11px]">${t.note} • ${t.business}</div><div class="font-mono text-[8px] text-zinc-500">${t.dept.toUpperCase()} • ${new Date(t.ts).toLocaleDateString()}</div></div><div class="font-bold text-[11px] ${t.type==='income'?'text-emerald-400':'text-red-400'}">${t.type==='income'?'+': '-'}${t.amt}</div></div>`).join('')||`<div class="font-mono text-[9px] text-zinc-600 text-center p-3">No transactions yet</div>`;}
 function goPage(p){if(DB.role==='staff' && p!=='home'){alert('Staff HOME only');return;}document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('p-'+p).classList.add('active');document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('on'));document.querySelector(`[data-p="${p}"]`).classList.add('on');if(p==='departments')renderDeptPage();if(p==='audit')renderAudit();if(p==='team')renderTeam();}
-function renderDeptPage(){let d=DB.curDept||'central';document.getElementById('deptActiveCard').innerHTML=`<div class="flex justify-between"><div><div class="font-bold">${DEPT_FULL[d]}</div><div class="font-mono text-[10px] text-zinc-500">${(DB.biz[d]||[]).length} businesses</div></div><div class="font-bold">${fmt(DB.depts[d]?.bal||0)}</div></div>`;document.getElementById('deptBusinessList').innerHTML=(DB.biz[d]||[]).map(b=>`<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="bg-[#121212] border rounded-3xl p-5 flex justify-between"><div><div class="font-bold text-[15px]">${b}</div><div class="font-mono text-[9px] text-zinc-500">${DEPT_FULL[d]}</div></div><div class="font-mono text-[10px] bg-[#080808] border px-3 py-1 rounded-full">EDIT / DELETE →</div></div>`).join('');}
+
+// BROADENED CARDS - NO REPEATED NAME BENEATH
+function renderDeptPage(){
+ let d=DB.curDept||'central';
+ let bizCount=(DB.biz[d]||[]).length;
+ let deptBal=DB.depts[d]?.bal||0;
+ let deptTx=DB.tx.filter(t=>t.dept===d);
+ let income=deptTx.filter(t=>t.type==='income').reduce((a,b)=>a+b.amt,0);
+ let staffCount=DB.staff.filter(s=>s.dept===d).length;
+
+ // broad card instead of small repeated name
+ document.getElementById('deptActiveCard').innerHTML=`
+ <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
+   <div class="flex justify-between items-start">
+     <div><div class="font-bold text-[16px] tracking-tight">${DEPT_FULL[d]}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${bizCount} businesses • ${staffCount} staff • ${deptTx.length} transactions</div></div>
+     <div class="text-right"><div class="font-mono text-[8px] text-zinc-500">BALANCE</div><div class="font-bold text-[15px]">${fmt(deptBal)}</div><div class="font-mono text-[8px] text-emerald-400 mt-1">INCOME ${fmt(income)}</div></div>
+   </div>
+ </div>`;
+
+ document.getElementById('deptBusinessList').innerHTML=(DB.biz[d]||[]).map(b=>{
+   let bTx=DB.tx.filter(t=>t.business===b && t.dept===d);
+   let bIncome=bTx.filter(t=>t.type==='income').reduce((a,c)=>a+c.amt,0);
+   let bExpense=bTx.filter(t=>t.type==='expense').reduce((a,c)=>a+c.amt,0);
+   return `<div onclick="openBizSheet('${b.replace(/'/g,"\\'")}')" class="bg-[#121212] border border-[#262626] rounded-3xl p-5 flex justify-between items-center">
+     <div class="flex-1"><div class="font-bold text-[15px]">${b}</div><div class="flex gap-2 mt-2"><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full">${bTx.length} TXNS</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-emerald-400">${fmt(bIncome)} IN</span><span class="font-mono text-[8px] bg-[#080808] border px-2 py-1 rounded-full text-red-400">${fmt(bExpense)} OUT</span></div></div>
+     <div class="font-mono text-[10px] bg-[#080808] border px-3 py-1.5 rounded-full">EDIT →</div>
+   </div>`;
+ }).join('');
+}
 function updateBiz(){document.getElementById('txBiz').innerHTML=(DB.biz[document.getElementById('txDept')?.value]||[]).map(b=>`<option>${b}</option>`).join('');}
 function openBizSheet(b=null){editBizOriginal=b;document.getElementById('bizSheetTitle').innerText=b?'Edit: '+b:'Add Business';document.getElementById('b-name').value=b||'';document.getElementById('b-dept').value=DB.curDept;document.getElementById('bizSheet').classList.remove('hidden');}
 function closeBizSheet(){document.getElementById('bizSheet').classList.add('hidden');}
@@ -149,9 +127,20 @@ function switchStaffTab(dept,el){curStaffTab=dept;document.querySelectorAll('.st
 function renderTeam(){
  let q=(document.getElementById('staffSearch')?.value||'').toLowerCase();
  let filtered=DB.staff.filter(s=>s.dept===curStaffTab && (`${s.name} ${s.business}`.toLowerCase().includes(q)));
+ let staffCount=filtered.length;
+ let totalGross=filtered.reduce((a,b)=>a+(b.salary||0),0);
  document.getElementById('archiveBtn').innerText=`📦 ARCHIVES (${DB.archivedStaff.length})`;
+ // broadened card - no repeated small name beneath
+ document.getElementById('teamActiveCard').innerHTML=`
+ <div class="bg-[#121212] border border-[#262626] rounded-3xl p-5">
+   <div class="flex justify-between items-start">
+     <div><div class="font-bold text-[16px]">${DEPT_FULL[curStaffTab]}</div><div class="font-mono text-[9px] text-zinc-500 mt-1">${staffCount} active staff • ${fmt(totalGross)} gross • ${[...new Set(filtered.map(s=>s.business))].length} businesses</div></div>
+     <div class="text-right"><div class="font-mono text-[8px] text-zinc-500">THIS DEPT</div><div class="font-bold text-[13px]">${staffCount} staff</div></div>
+   </div>
+ </div>`;
+
  let html='';filtered.forEach(s=>{html+=`<div class="bg-[#121212] border rounded-2xl p-3 flex justify-between items-center"><div><div class="font-bold text-[12px]">${s.name}</div><div class="font-mono text-[8px] text-zinc-500">${s.dept.toUpperCase()} • ${s.business} • ${s.phone}</div></div><div class="flex gap-1"><button onclick="openStaffForm(${s.id})" class="bg-[#1A1A1A] border rounded-full px-2 py-1 text-[7px]">EDIT</button><button onclick="archiveStaff(${s.id})" class="bg-[#0F3D6E] rounded-full px-2 py-1 text-[7px] text-white">ARCHIVE</button><button onclick="deleteStaff(${s.id})" class="bg-red-500/20 border border-red-500/30 text-red-400 rounded-full px-2 py-1 text-[7px]">DELETE</button></div></div>`;});
- document.getElementById('teamCategorized').innerHTML=html||'<div class="text-center p-6 font-mono text-[11px] text-zinc-600">No staff</div>';renderArchive();
+ document.getElementById('teamCategorized').innerHTML=html||'<div class="text-center p-6 font-mono text-[11px] text-zinc-600">No staff in this dept</div>';renderArchive();
 }
 function deleteStaff(id){let s=DB.staff.find(x=>x.id===id);if(!s)return;if(!confirm(`Delete ${s.name}?`))return;if(!confirm(`Confirm again?`))return;DB.staff=DB.staff.filter(x=>x.id!==id);save();renderTeam();renderAll();}
 function archiveStaff(id){let s=DB.staff.find(x=>x.id===id);if(!s)return;if(!confirm(`Archive ${s.name}?`))return;DB.archivedStaff.push({...s,archivedAt:Date.now()});DB.staff=DB.staff.filter(x=>x.id!==id);save();renderTeam();renderAll();}
@@ -167,4 +156,4 @@ function renderAll(){let cash=Object.values(DB.depts).reduce((a,b)=>a+(b.bal||0)
 checkLoginState();updateBiz();renderAll();
 </script>
 </body>
-                                                                                                                                                                                                                                                                                                                                          </html>
+</html>
