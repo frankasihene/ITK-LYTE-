@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/><title>ITK LYTE OS V7.1 FIXED</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -51,9 +52,9 @@
 <div id="staffList" class="space-y-3 mt-4"></div>
 </div>
 
-<div id="p-wallet" class="page px-5 pt-5"><div class="font-bold text-lg">WALLET</div><div class="mt-4 font-mono text-[11px] text-zinc-500">Bank & MoMo accounts here. Use TRANSFER in Quick Actions.</div><div id="walletList" class="space-y-3 mt-4"></div></div>
-<div id="p-assets" class="page px-5 pt-5"><div class="flex justify-between"><div class="font-bold text-lg">ASSETS</div><button onclick="openTx('asset')" class="bg-white text-black px-3 py-1 rounded-full text-[11px]">+ ADD</button></div><div id="assetList" class="mt-4"></div></div>
-<div id="p-projects" class="page px-5 pt-5"><div class="flex justify-between"><div class="font-bold text-lg">PROJECTS</div><button onclick="openTx('project')" class="bg-white text-black px-3 py-1 rounded-full text-[11px]">+ ADD</button></div><div id="projList" class="mt-4"></div></div>
+<div id="p-wallet" class="page px-5 pt-5"><div class="font-bold text-lg">WALLET</div><div class="mt-4 font-mono text-[11px] text-zinc-500">Bank & MoMo accounts. Use TRANSFER.</div></div>
+<div id="p-assets" class="page px-5 pt-5"><div class="font-bold text-lg">ASSETS</div></div>
+<div id="p-projects" class="page px-5 pt-5"><div class="font-bold text-lg">PROJECTS</div></div>
 
 <nav class="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#080808]/95 backdrop-blur-xl border-t border-[#262626] px-6 py-3 flex justify-between z-40">
 <button onclick="goPage('home')" data-p="home" class="navbtn on flex flex-col items-center gap-1"><div class="w-6 h-6 bg-white rounded-md"></div><span class="font-mono text-[8px]">HOME</span></button>
@@ -63,8 +64,7 @@
 <button onclick="goPage('projects')" data-p="projects" class="navbtn flex flex-col items-center gap-1"><div class="w-6 h-6 border border-zinc-600 rounded-md"></div><span class="font-mono text-[8px]">PROJECTS</span></button>
 </nav>
 
-<div id="staffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6 max-h-[92vh] overflow-y-auto"><div class="w-10 h-1 bg-zinc-700 rounded-full mx-auto mb-4"></div><div class="font-bold tracking-widest">STAFF MEMBER</div><div class="mt-4 space-y-3"><input id="s-name" placeholder="Full Name e.g. Ama Boutique" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-pos" placeholder="Position e.g. Boutique Attendant" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="s-dept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix" selected>ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL</option></select><select id="s-biz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><div class="grid grid-cols-2 gap-3"><input id="s-salary" type="number" placeholder="Salary / month" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-phone" placeholder="Phone" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div></div><button onclick="saveStaff()" class="mt-6 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">SAVE STAFF</button><button onclick="closeStaff()" class="mt-2 w-full bg-[#080808] border border-[#262626] rounded-2xl py-3 text-[11px]">CANCEL</button></div></div>
-
+<div id="staffSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeStaff()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest">STAFF MEMBER</div><div class="mt-4 space-y-3"><input id="s-name" placeholder="Full Name" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-pos" placeholder="Position e.g. Boutique Attendant" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><div class="grid grid-cols-2 gap-3"><select id="s-dept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK CAPITAL</option><option value="zeeda">ZEEDA FEEDA</option><option value="zytix" selected>ZYTIX LIFESTYLE</option><option value="zeene">ZEENE SHELTERS</option><option value="central">CENTRAL</option></select><select id="s-biz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><div class="grid grid-cols-2 gap-3"><input id="s-salary" type="number" placeholder="Salary / month" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><input id="s-phone" placeholder="Phone" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/></div></div><button onclick="saveStaff()" class="mt-6 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">SAVE STAFF</button></div></div>
 <div id="txSheet" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/80" onclick="closeTx()"></div><div class="absolute bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#121212] border-t border-[#262626] rounded-t-[28px] p-6"><div class="font-bold tracking-widest" id="txTitle">ADD</div><input id="txAmt" type="number" placeholder="Amount GHS" class="mt-4 w-full bg-[#080808] border border-[#262626] rounded-2xl px-4 py-4 text-[20px] font-bold"/><div class="mt-3 grid grid-cols-2 gap-3"><select id="txDept" onchange="updateBiz()" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"><option value="zeek">ZEEK</option><option value="zeeda">ZEEDA</option><option value="zytix">ZYTIX</option><option value="zeene">ZEENE</option><option value="central">CENTRAL</option></select><select id="txBiz" class="w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"></select></div><input id="txNote" placeholder="Note e.g. Sales after closing - 5 dresses" class="mt-3 w-full bg-[#080808] border border-[#262626] rounded-xl px-4 py-3 text-[13px]"/><button onclick="saveTx()" class="mt-4 w-full bg-[#FF0A0A] rounded-2xl py-4 font-bold text-[12px]">CONFIRM</button></div></div>
 
 <script>
@@ -77,10 +77,7 @@ const DEFAULT={role:'admin',curDept:'all',curStaffId:2,staff:[
 {id:1,dept:'zytix',business:'Boutique',amt:2400,note:'Sales after closing - 3 dresses',type:'income',by:'Ama',date:'TODAY 20:30'},
 {id:2,dept:'zeeda',business:'Farm',amt:8200,note:'Feed purchase',type:'expense',by:'Admin',date:'YESTERDAY'}
 ],depts:{zeek:{bal:1120000},zeeda:{bal:384000},zytix:{bal:612000},zeene:{bal:751200},central:{bal:120000}}};
-
-let DB;
-try{DB=JSON.parse(localStorage.getItem('itk_v71')||'null'); if(!DB||!DB.depts||!DB.staff) throw 'reset';}catch(e){DB=JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v71',JSON.stringify(DB));}
-
+let DB;try{DB=JSON.parse(localStorage.getItem('itk_v71')||'null'); if(!DB||!DB.depts) throw 0;}catch(e){DB=JSON.parse(JSON.stringify(DEFAULT)); localStorage.setItem('itk_v71',JSON.stringify(DB));}
 let editId=null,curType='income';
 function save(){localStorage.setItem('itk_v71',JSON.stringify(DB))}
 function fmt(n){return 'GHS '+Number(n||0).toLocaleString()}
